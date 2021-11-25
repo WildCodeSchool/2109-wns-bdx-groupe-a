@@ -10,10 +10,10 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 import { ApolloServer } from 'apollo-server';
 import dotenv from 'dotenv';
 import { buildSchema } from 'type-graphql';
+import { createConnection, getConnectionOptions } from 'typeorm';
 import 'reflect-metadata';
 import UserResolver from './resolvers/User.resolver.js';
 import User from './models/User.model.js';
-import { createConnection, getConnectionOptions } from 'typeorm';
 dotenv.config();
 const ServerRun = () => __awaiter(void 0, void 0, void 0, function* () {
     // connection database
