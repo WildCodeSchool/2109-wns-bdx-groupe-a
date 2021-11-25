@@ -1,35 +1,30 @@
-var __makeTemplateObject = (this && this.__makeTemplateObject) || function (cooked, raw) {
-    if (Object.defineProperty) { Object.defineProperty(cooked, "raw", { value: raw }); } else { cooked.raw = raw; }
-    return cooked;
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
 };
-import { ApolloServer, gql } from 'apollo-server';
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-var typeDefs = gql(templateObject_1 || (templateObject_1 = __makeTemplateObject(["\n  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.\n\n  # This \"Book\" type defines the queryable fields for every book in our data source.\n  type Book {\n    title: String\n    author: String\n  }\n\n  # The \"Query\" type is special: it lists all of the available queries that\n  # clients can execute, along with the return type for each. In this\n  # case, the \"books\" query returns an array of zero or more Books (defined above).\n  type Query {\n    books: [Book]\n  }\n"], ["\n  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.\n\n  # This \"Book\" type defines the queryable fields for every book in our data source.\n  type Book {\n    title: String\n    author: String\n  }\n\n  # The \"Query\" type is special: it lists all of the available queries that\n  # clients can execute, along with the return type for each. In this\n  # case, the \"books\" query returns an array of zero or more Books (defined above).\n  type Query {\n    books: [Book]\n  }\n"])));
-var books = [
-    {
-        title: 'The Awakening',
-        author: 'Kate Chopin',
-    },
-    {
-        title: 'City of Glass',
-        author: 'Paul Auster',
-    },
-];
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
-var resolvers = {
-    Query: {
-        books: function () { return books; },
-    },
-};
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-var server = new ApolloServer({ typeDefs: typeDefs, resolvers: resolvers });
-// The `listen` method launches a web server.
-server.listen().then(function (_a) {
-    var url = _a.url;
-    console.log("\uD83D\uDE80  Server ready at ".concat(url));
+import { ApolloServer } from 'apollo-server';
+import dotenv from 'dotenv';
+import { buildSchema } from 'type-graphql';
+import 'reflect-metadata';
+import UserResolver from './resolvers/User.resolver.js';
+import User from './models/User.model.js';
+import { createConnection, getConnectionOptions } from 'typeorm';
+dotenv.config();
+const ServerRun = () => __awaiter(void 0, void 0, void 0, function* () {
+    // connection database
+    const connectionOptions = yield getConnectionOptions();
+    yield createConnection(Object.assign(Object.assign({}, connectionOptions), { entities: [User], synchronize: true, logging: true }));
+    console.log('Connected to database');
+    const schema = yield buildSchema({ resolvers: [UserResolver] });
+    const server = new ApolloServer({ schema });
+    // The `listen` method launches a web server.
+    server.listen(process.env.PORT).then(({ url }) => {
+        console.log(`🚀  Server ready at ${url}`);
+    });
 });
-var templateObject_1;
+ServerRun();

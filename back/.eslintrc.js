@@ -3,18 +3,15 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: [
-    'airbnb-base', 'airbnb-typescript/base', 'prettier'],
+  extends: ['airbnb-base', 'airbnb-typescript/base', 'prettier'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 13,
+    ecmaVersion: 12,
     sourceType: 'module',
     project: './tsconfig.json',
     tsconfigRootDir: __dirname,
   },
-  plugins: [
-    '@typescript-eslint', 'prettier',
-  ],
+  plugins: ['@typescript-eslint', 'prettier'],
   rules: {
     'class-methods-use-this': 0,
   },
