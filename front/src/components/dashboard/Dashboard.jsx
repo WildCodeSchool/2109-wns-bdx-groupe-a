@@ -1,29 +1,14 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import TodoColumn from './TodoColumn';
+import Column from './Column';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
 
-import { COLUMNS_INFOS } from './dashboard.constants';
-import InProgressColumn from './InProgressColumn';
-import TestColumn from './TestColumn';
-import CompletedColumn from './CompletedColumn';
-import { useEffect, useState } from 'react';
-
-export const TICKET_DATA = [
-  {
-    name: 'Premier ticket',
-    description: 'ceci est le premier ticket'
-  },
-  {
-    name: 'Second ticket',
-    description: 'ceci est le second ticket'
-  }
-];
+import { COLUMNS_INFOS, COLUMNS_TICKETS } from './dashboard.constants';
+import { useState } from 'react';
 
 const Dashboard = () => {
-  const [ticketList, setNewTicketList] = useState(TICKET_DATA);
+  const [tickets, setTickets] = useState(COLUMNS_TICKETS);
 
-  const { todo, inProgress, test, done } = COLUMNS_INFOS;
   return (
     <div className='h-full flex flex-col'>
       {/* Top nav*/}
@@ -32,17 +17,17 @@ const Dashboard = () => {
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
         <LeftMenu />
+
         {/* Main area */}
-        <>
-          <TodoColumn
-            title={todo.title}
-            ticketsList={ticketList}
-            setNewTicketList={setNewTicketList}
+        {tickets.map(({ columnId, title, ticket }) => (
+          <Column
+            key={columnId}
+            columnId={columnId}
+            title={title}
+            ticket={ticket}
+            // tickets={tickets}
           />
-          <InProgressColumn title={inProgress.title} />
-          <TestColumn title={test.title} />
-          <CompletedColumn title={done.title} />
-        </>
+        ))}
       </div>
     </div>
   );
