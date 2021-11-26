@@ -9,8 +9,21 @@ class User extends BaseEntity {
   id!: String;
 
   @Column({ type: 'varchar', length: 255 })
-  @Field({ nullable: true })
+  @Field()
   name?: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  @Field()
+  email?: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  @Field()
+  password?: string;
+
+  @Column({ type: 'varchar', length: 255 })
+  @Field({ nullable: true })
+  // nullable: true (optionnel:true(peut être null))
+  role?: string;
 }
 
 export default User;
