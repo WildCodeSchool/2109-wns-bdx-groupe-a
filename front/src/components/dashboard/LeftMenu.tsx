@@ -1,6 +1,6 @@
 import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
 
-function classNames(...classes) {
+function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 

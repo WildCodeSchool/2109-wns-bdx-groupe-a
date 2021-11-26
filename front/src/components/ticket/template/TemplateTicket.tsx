@@ -1,6 +1,9 @@
 import AddButton from '../AddButton/AddButton';
-
-const TemplateTicket = ({ name, description }) => {
+type Props = {
+  name: string;
+  description: string;
+};
+const TemplateTicket = ({ name, description }: Props) => {
   return (
     <div className='bg-blue w-full p-8 flex justify-center font-sans'>
       <div className='rounded bg-grey-light w-64 p-2'>

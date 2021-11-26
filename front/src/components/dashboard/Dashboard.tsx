@@ -3,7 +3,7 @@ import Column from './Column';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
 
-import { COLUMNS_INFOS, COLUMNS_TICKETS } from './dashboard.constants';
+import { COLUMNS_TICKETS } from './dashboard.constants';
 import { useState } from 'react';
 
 const Dashboard = () => {

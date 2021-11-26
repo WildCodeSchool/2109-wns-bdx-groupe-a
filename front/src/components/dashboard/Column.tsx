@@ -1,8 +1,10 @@
 import TemplateTicket from '../ticket/template/TemplateTicket';
 
-const TodoColumn = ({ title, columnId, ticket }) => {
-  console.log({ ticket });
-
+type Props = {
+  title: string;
+  ticket: [];
+};
+const Column = ({ title, ticket }: Props) => {
   return (
     <>
       <main className='min-w-0 flex-1 border-gray-200 lg:flex mr-8 ml-8'>
@@ -20,4 +22,4 @@ const TodoColumn = ({ title, columnId, ticket }) => {
   );
 };
 
-export default TodoColumn;
+export default Column;
