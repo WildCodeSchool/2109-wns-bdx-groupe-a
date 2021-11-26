@@ -39,9 +39,17 @@ export const USER_NAVIGATION = [
   { name: 'Sign out', href: '#' }
 ];
 
-export const COLUMNS_INFOS = [
-  { title: 'À faire', description: 'Les cartes à faire' },
-  { title: 'En cours', description: 'Les cartes en cours' },
-  { title: 'En test', description: 'Les cartes en tests' },
-  { title: 'Terminé', description: 'Les cartes en terminées' }
-];
+export const COLUMNS_INFOS = {
+  todo: {
+    title: 'À faire'
+  },
+  inProgress: {
+    title: 'En cours'
+  },
+  test: {
+    title: 'En test'
+  },
+  done: {
+    title: 'Terminé'
+  }
+};
