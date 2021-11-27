@@ -14,13 +14,17 @@ import { createConnection, getConnectionOptions } from 'typeorm';
 import 'reflect-metadata';
 import UserResolver from './resolvers/User.resolver.js';
 import User from './models/User.model.js';
+import Project from './models/Project.model.js';
+import ProjectResolver from './resolvers/Project.resolver.js';
+import TaskResolver from './resolvers/Task.resolver.js';
+import Task from './models/Task.model.js';
 dotenv.config();
 const ServerRun = () => __awaiter(void 0, void 0, void 0, function* () {
     // connection database
     const connectionOptions = yield getConnectionOptions();
-    yield createConnection(Object.assign(Object.assign({}, connectionOptions), { entities: [User], synchronize: true, logging: true }));
+    yield createConnection(Object.assign(Object.assign({}, connectionOptions), { entities: [User, Project, Task], synchronize: true, logging: true }));
     console.log('Connected to database');
-    const schema = yield buildSchema({ resolvers: [UserResolver] });
+    const schema = yield buildSchema({ resolvers: [UserResolver, ProjectResolver, TaskResolver] });
     const server = new ApolloServer({ schema });
     // The `listen` method launches a web server.
     server.listen(process.env.PORT).then(({ url }) => {
