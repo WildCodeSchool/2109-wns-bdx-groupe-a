@@ -2,7 +2,10 @@ import TemplateTicket from '../ticket/template/TemplateTicket';
 
 type Props = {
   title: string;
-  ticket: [];
+  ticket: {
+    name: string;
+    description: string;
+  }[];
 };
 const Column = ({ title, ticket }: Props) => {
   return (

@@ -35,7 +35,9 @@ const Header = () => {
           <select
             id='inbox-select'
             className='rounded-md border-0 bg-none pl-3 pr-8 text-base font-medium text-gray-900 focus:ring-2 focus:ring-indigo-600'
-            defaultValue={SIDE_BAR_NAVIGATION.find((item) => item.current).name}
+            defaultValue={
+              SIDE_BAR_NAVIGATION.find((item) => item.current)!.name
+            }
           >
             {SIDE_BAR_NAVIGATION.map((item) => (
               <option key={item.name}>{item.name}</option>

@@ -7,7 +7,7 @@ import { COLUMNS_TICKETS } from './dashboard.constants';
 import { useState } from 'react';
 
 const Dashboard = () => {
-  const [tickets, setTickets] = useState(COLUMNS_TICKETS);
+  const [columns, setColumns] = useState(COLUMNS_TICKETS);
 
   return (
     <div className='h-full flex flex-col'>
@@ -19,14 +19,8 @@ const Dashboard = () => {
         <LeftMenu />
 
         {/* Main area */}
-        {tickets.map(({ columnId, title, ticket }) => (
-          <Column
-            key={columnId}
-            columnId={columnId}
-            title={title}
-            ticket={ticket}
-            // tickets={tickets}
-          />
+        {columns.map(({ columnId, title, ticket }) => (
+          <Column key={columnId} title={title} ticket={ticket} />
         ))}
       </div>
     </div>
