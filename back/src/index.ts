@@ -5,6 +5,12 @@ import { createConnection, getConnectionOptions } from 'typeorm';
 import 'reflect-metadata';
 import UserResolver from './resolvers/User.resolver.js';
 import User from './models/User.model.js';
+import Project from './models/Project.model.js';
+import ProjectResolver from './resolvers/Project.resolver.js';
+import TaskResolver from './resolvers/Task.resolver.js';
+import Task from './models/Task.model.js';
+import Comment from './models/Comment.model.js';
+import CommentResolver from './resolvers/Comment.resolver.js';
 
 dotenv.config();
 
@@ -14,14 +20,14 @@ const ServerRun = async () => {
 
   await createConnection({
     ...connectionOptions,
-    entities: [User],
+    entities: [User, Project, Task, Comment],
     synchronize: true,
     logging: true,
   });
 
   console.log('Connected to database');
 
-  const schema = await buildSchema({ resolvers: [UserResolver] });
+  const schema = await buildSchema({ resolvers: [UserResolver, ProjectResolver, TaskResolver, CommentResolver] });
   const server = new ApolloServer({ schema });
 
   // The `listen` method launches a web server.
