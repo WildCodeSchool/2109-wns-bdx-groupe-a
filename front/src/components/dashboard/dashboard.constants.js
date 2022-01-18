@@ -39,9 +39,45 @@ export const USER_NAVIGATION = [
   { name: 'Sign out', href: '#' }
 ];
 
-export const COLUMNS_INFOS = [
-  { title: 'À faire', description: 'Les cartes à faire' },
-  { title: 'En cours', description: 'Les cartes en cours' },
-  { title: 'En test', description: 'Les cartes en tests' },
-  { title: 'Terminé', description: 'Les cartes en terminées' }
+// export const COLUMNS_INFOS = [
+//   { columnId: 1, title: 'À faire', description: 'Les cartes à faire' },
+//   { columnId: 2, title: 'En cours', description: 'Les cartes en cours' },
+//   { columnId: 3, title: 'En test', description: 'Les cartes en tests' },
+//   { columnId: 4, title: 'Terminé', description: 'Les cartes en terminées' }
+// ];
+
+export const COLUMNS_TICKETS = [
+  {
+    columnId: 1,
+    title: 'À faire',
+    ticket: [
+      { name: 'Premier ticket', description: 'Ceci est le premier ticket' },
+      { name: 'Deuxieme Ticket', description: 'Ceci est le deuxieme ticket' }
+    ]
+  },
+  {
+    columnId: 2,
+    title: 'En cours',
+    ticket: [
+      { name: 'Troisième ticket', description: 'Ceci est le troisièmeticket' }
+    ]
+  },
+  {
+    columnId: 3,
+    title: 'En test',
+    ticket: [
+      { name: 'Quatrieme ticket', description: 'Ceci est le Quatrieme ticket' }
+    ]
+  },
+  {
+    columnId: 4,
+    title: 'Terminé',
+    ticket: [
+      { name: '7', description: 'test 1' },
+      { name: '9', description: 'test 12' },
+      { name: '11', description: 'test 231' },
+      { name: '12', description: 'test 1342' },
+      { name: '12', description: 'test 12453' }
+    ]
+  }
 ];
