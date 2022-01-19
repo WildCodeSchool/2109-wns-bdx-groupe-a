@@ -1,0 +1,29 @@
+services:
+  back: 
+    build: ./back
+    depends_on:
+      - db
+    ports: 
+      - 3050:3000
+    command: npm run dev
+    volumes:
+      - ./back/src/:/app/src/
+      - ./back/node_modules/
+
+  front:
+    build: ./front
+    ports: 
+     - 8080:3000
+    command: npm start
+    volumes:
+      - ./front/src/:/app/src/
+      - ./front/node_modules
+
+  db: 
+    image: mysql
+    ports: 
+     - 3306:3306
+    volumes:
+     - ./init:/docker-entrypoint-initdb.d         
+    environment: 
+      MYSQL_ROOT_PASSWORD: root
