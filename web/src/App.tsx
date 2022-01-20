@@ -1,9 +1,9 @@
-import Dashboard from './components/dashboard/Dashboard';
+import Connection from './components/connection/Connection';
 
 function App() {
   return (
     <div className='h-screen'>
-      <Dashboard />
+      <Connection />
     </div>
   );
 }
