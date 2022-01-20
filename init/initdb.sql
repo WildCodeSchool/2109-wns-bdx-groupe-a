@@ -1,1 +1,1 @@
-CREATE DATABASE task_api
+CREATE DATABASE trello
