@@ -18,7 +18,7 @@ const TemplateTicket = ({ name, description }: Props) => {
           </svg>
         </div>
         <div className='text-sm mt-2'>
-          <div className='bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter'></div>
+          <div className='bg-gray p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter'></div>
 
           <div className='bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter'>
             {description}
