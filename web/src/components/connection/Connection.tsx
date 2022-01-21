@@ -1,7 +1,34 @@
-import { LockClosedIcon } from '@heroicons/react/solid';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
+import { LockClosedIcon } from '@heroicons/react/solid';
+import SignUp from '../signup/SignUp';
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
 
 const Connection = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  useEffect(() => {
+    if (isModalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isModalOpen]);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
   return (
     <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
       <div className='max-w-md w-full space-y-8'>
@@ -16,14 +43,23 @@ const Connection = () => {
           </h2>
           <p className='mt-2 text-center text-sm text-gray-600'>
             Or{' '}
-            <a
-              href='#'
+            <button
+              onClick={openModal}
               className='font-medium text-indigo-600 hover:text-indigo-500'
             >
-              start your 14-day free trial
-            </a>
+              Sign Up
+            </button>
           </p>
         </div>
+        <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel='Item Modal'
+          ariaHideApp={false}
+        >
+          <SignUp onClose={closeModal} />
+        </Modal>
         <form className='mt-8 space-y-6' action='#' method='POST'>
           <input type='hidden' name='remember' defaultValue='true' />
           <div className='rounded-md shadow-sm -space-y-px'>
