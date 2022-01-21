@@ -1,8 +1,9 @@
-version: '3.8'
+version: "3.8"
 
 services:
   db:
     image: mysql:8.0
+    platform: linux/x86_64
     restart: always
     ports:
       - 3306:3306
