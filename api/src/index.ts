@@ -1,49 +1,40 @@
-const { ApolloServer, gql } = require('apollo-server');
+import { UserResolver } from "./resolvers/UserResolver";
+import { ApolloServer } from "apollo-server";
+import { buildSchema } from "type-graphql";
+import { createConnection } from 'typeorm';
+import User from "./models/User";
+import "reflect-metadata"
 
-// A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
-const typeDefs = gql`
-  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+const dotenv = require('dotenv');
 
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+dotenv.config();
+
+async function main() {
+  if( !process.env.DATABASE_URL ){
+    throw Error("DATABASE_URL must be set in environment.");
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
-  type Query {
-    books: [Book]
-  }
-`;
 
-const books = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin'
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster'
-  }
-];
+  await createConnection({
+    type: "mysql",
+    url: process.env.DATABASE_URL,
+    entities: [User],
+    synchronize: true, 
+    logging: true
+  });
+  
+  console.log("Connected to database");
+  
+  const schema = await buildSchema({ 
+    resolvers: [UserResolver]
+  });
 
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
-const resolvers = {
-  Query: {
-    books: () => books
-  }
-};
+  const server = new ApolloServer({ schema })
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
-const server = new ApolloServer({ typeDefs, resolvers });
 
-// The `listen` method launches a web server.
-server.listen().then(({ url }: { url: string }) => {
-  console.log(`🚀  Server ready at ${url}`);
-});
+  await server.listen(4000)
+  console.log("Server has started on localhost:4000 !");
+
+}
+
+main()
