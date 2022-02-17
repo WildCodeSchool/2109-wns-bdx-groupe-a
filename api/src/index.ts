@@ -1,31 +1,25 @@
-import "reflect-metadata"
-import { ApolloServer } from "apollo-server";
 import { UserResolver } from "./resolvers/UserResolver";
+import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
+import { createConnection } from 'typeorm';
 import User from "./models/User";
+import "reflect-metadata"
 
 const dotenv = require('dotenv');
-
-const { createConnection } = require('typeorm');
-
 
 dotenv.config();
 
 async function main() {
-  if( !process.env){
+  if( !process.env.DATABASE_URL ){
     throw Error("DATABASE_URL must be set in environment.");
   }
 
 
   await createConnection({
-    type: 'mysql',
-    host: process.env.TYPEORM_HOST,
-    port: process.env.TYPEORM_PORT,
-    username: process.env.TYPEORM_USERNAME,
-    password: process.env.TYPEORM_PASSWORD,
-    database: process.env.TYPEORM_DATABASE,
+    type: "mysql",
+    url: process.env.DATABASE_URL,
     entities: [User],
-    synchronise: true, 
+    synchronize: true, 
     logging: true
   });
   
