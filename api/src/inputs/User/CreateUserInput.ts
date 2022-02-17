@@ -1,21 +1,19 @@
-import { InputType } from "type-graphql";
-import { PrimaryGeneratedColumn, Column } from "typeorm";
+import { ArgsType, Field } from "type-graphql";
 
 
-@InputType()
-export class CreateUserInput {
-    @PrimaryGeneratedColumn()
-    id! : number;
-
-    @Column()
+@ArgsType()
+class CreateUserInput {
+    @Field()
     name!: string;
 
-    @Column()
+    @Field()
     email! : string;
 
-    @Column()
+    @Field()
     password!:  string; 
 
-    @Column()
+    @Field()
     role!: string;
 }
+
+export default CreateUserInput
