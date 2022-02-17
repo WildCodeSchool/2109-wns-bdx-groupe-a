@@ -1,9 +1,11 @@
-import { UserResolver } from "./resolvers/UserResolver";
-import { ApolloServer } from "apollo-server";
-import { buildSchema } from "type-graphql";
-import { createConnection } from 'typeorm';
-import User from "./models/User";
+
 import "reflect-metadata"
+import { createConnection } from 'typeorm';
+
+import getApolloServer from './apollo-server'
+import getDatabaseConnection from "./database-connection";
+
+import User from "./models/User";
 
 const dotenv = require('dotenv');
 
@@ -14,27 +16,13 @@ async function main() {
     throw Error("DATABASE_URL must be set in environment.");
   }
 
-
-  await createConnection({
-    type: "mysql",
-    url: process.env.DATABASE_URL,
-    entities: [User],
-    synchronize: true, 
-    logging: true
-  });
-  
+  await getDatabaseConnection(process.env.DATABASE_URL);
   console.log("Connected to database");
-  
-  const schema = await buildSchema({ 
-    resolvers: [UserResolver]
-  });
 
-  const server = new ApolloServer({ schema })
-
+  const server = await getApolloServer();
 
   await server.listen(4000)
   console.log("Server has started on localhost:4000 !");
-
-}
+  }
 
 main()
