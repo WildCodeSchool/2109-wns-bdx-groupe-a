@@ -11,7 +11,7 @@ class CreateCommentInput {
     content! : string; 
     
     @Field()
-    date! : string;
+    date! : Date;
 }
 
 export default CreateCommentInput

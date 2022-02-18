@@ -20,7 +20,7 @@ class Comment extends BaseEntity {
 
   @Column({ type: 'date' })
   @Field()
-  date!: string;
+  date!: Date;
 
   @ManyToOne(() => Project, project => project.comments)
     project!: Project;

@@ -1,3 +1,4 @@
+
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import Task from "./Task";
@@ -24,11 +25,11 @@ class Project extends BaseEntity {
 
   @Column({ type: 'date' })
   @Field()
-  start_date?: string;
+  start_date?: Date;
 
   @Column({ type: 'date' })
   @Field()
-  end_date?: string;
+  end_date?: Date;
 
   @OneToMany(() => Task, task => task.project)
     tasks!: Task[];

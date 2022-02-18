@@ -3,6 +3,7 @@ import { Field, ID, ObjectType } from "type-graphql";
 import User from './User'
 import Project from "./Project";
 
+
 @Entity()
 @ObjectType()
 class Task extends BaseEntity {
