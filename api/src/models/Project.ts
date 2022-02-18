@@ -1,5 +1,5 @@
-import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Field, ID, ObjectType } from 'type-graphql';
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 @ObjectType()
@@ -22,11 +22,11 @@ class Project extends BaseEntity {
 
   @Column({ type: 'date' })
   @Field()
-  start_date?: string;
+  start_date?: Date;
 
   @Column({ type: 'date' })
   @Field()
-  end_date?: string;
+  end_date?: Date;
 }
 
 export default Project;

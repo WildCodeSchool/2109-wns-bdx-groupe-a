@@ -10,6 +10,7 @@ describe('UserResolver', () => {
   beforeAll(async () => {
     server = await getApolloServer();
   });
+
   beforeEach(() => getDatabaseTestConnection());
   afterEach(() => getConnection().close());
 
