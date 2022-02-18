@@ -9,6 +9,7 @@ import User from "./models/User";
 import Task from "./models/Task";
 import Project from "./models/Project";
 import { ProjectResolver } from './resolvers/ProjectResolver';
+import Comment from "./models/Comment";
 
 const dotenv = require('dotenv');
 
