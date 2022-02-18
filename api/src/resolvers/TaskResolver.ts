@@ -33,6 +33,7 @@ export class TaskResolver {
         return newTask;
     }
 
+    
     @Mutation(() => Task)
     async updateTask(@Args() { id, title, description, attachment, progress_state} : UpdateTaskInput){
         const taskRepository = getCustomRepository(TaskRepository);
