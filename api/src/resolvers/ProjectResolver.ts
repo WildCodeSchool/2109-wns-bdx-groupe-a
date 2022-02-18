@@ -10,7 +10,7 @@ import CreateProjectInput from "../inputs/Project/CreateProjectInput";
 
 
 @Resolver()
-export class UserResolver {
+export class ProjectResolver {
     @Query(() => [Project]) 
     project() {
         return Project.find()
