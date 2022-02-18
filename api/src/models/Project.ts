@@ -1,5 +1,8 @@
-import { Field, ID, ObjectType } from 'type-graphql';
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+import { Field, ID, ObjectType } from "type-graphql";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import Task from "./Task";
+import Comment from "./Comment";
 
 @Entity()
 @ObjectType()
@@ -27,6 +30,12 @@ class Project extends BaseEntity {
   @Column({ type: 'date' })
   @Field()
   end_date?: Date;
+
+  @OneToMany(() => Task, task => task.project)
+    tasks!: Task[];
+
+  @OneToMany(() => Comment, comment => comment.project)
+    comments!: Comment[];  
 }
 
 export default Project;

@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany, JoinTable, ManyToMany } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
+import Comment from "./Comment";
+import Project from "./Project";
 //import { EncryptionTransformer } from 'typeorm-encrypted';
 
 
@@ -31,6 +33,13 @@ class User extends BaseEntity {
     @Field()
     @Column({type: 'varchar', length: 255}) 
     role!: string;
+
+    @ManyToMany(() => Project)
+    @JoinTable()
+    projects!: Project[];
+
+    @OneToMany(() => Comment, comment => comment.user)
+    comments!: Comment[]; 
 }
 
 export default User;
