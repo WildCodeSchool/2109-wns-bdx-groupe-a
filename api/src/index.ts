@@ -1,9 +1,14 @@
+import "reflect-metadata"
+import { CommentResolver } from './resolvers/CommentResolver';
+import { TaskResolver } from './resolvers/TaskResolver';
 import { UserResolver } from "./resolvers/UserResolver";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { createConnection } from 'typeorm';
 import User from "./models/User";
-import "reflect-metadata"
+import Task from "./models/Task";
+import Project from "./models/Project";
+import { ProjectResolver } from './resolvers/ProjectResolver';
 
 const dotenv = require('dotenv');
 
@@ -18,7 +23,7 @@ async function main() {
   await createConnection({
     type: "mysql",
     url: process.env.DATABASE_URL,
-    entities: [User],
+    entities: [User, Task, Project, Comment],
     synchronize: true, 
     logging: true
   });
@@ -26,7 +31,7 @@ async function main() {
   console.log("Connected to database");
   
   const schema = await buildSchema({ 
-    resolvers: [UserResolver]
+    resolvers: [UserResolver, TaskResolver, ProjectResolver, CommentResolver]
   });
 
   const server = new ApolloServer({ schema })
