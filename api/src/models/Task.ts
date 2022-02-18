@@ -1,5 +1,7 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
+import User from './User'
+import Project from "./Project";
 
 @Entity()
 @ObjectType()
@@ -23,6 +25,13 @@ class Task extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   @Field()
   progress_state?: string;
+
+  @ManyToMany(() => User)
+    @JoinTable()
+    users!: User[];
+
+    @ManyToOne(() => Project, project => project.tasks)
+    project!: Project;
 }
 
 export default Task;
