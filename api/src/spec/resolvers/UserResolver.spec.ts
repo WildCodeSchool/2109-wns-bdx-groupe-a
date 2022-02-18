@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server';
 import { getConnection } from 'typeorm';
 import getApolloServer from '../../apollo-server';
-import getDatabaseConnection from '../db-connection';
 import User from '../../models/User';
+import getDatabaseTestConnection from '../db-test-connection';
 
 describe('UserResolver', () => {
   let server: ApolloServer;
@@ -10,7 +10,7 @@ describe('UserResolver', () => {
   beforeAll(async () => {
     server = await getApolloServer();
   });
-  beforeEach(() => getDatabaseConnection(':memory:'));
+  beforeEach(() => getDatabaseTestConnection());
   afterEach(() => getConnection().close());
 
   describe('mutation createUser', () => {
