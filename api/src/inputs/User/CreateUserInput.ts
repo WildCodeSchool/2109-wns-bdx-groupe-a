@@ -4,7 +4,10 @@ import { ArgsType, Field } from "type-graphql";
 @ArgsType()
 class CreateUserInput {
     @Field()
-    name!: string;
+    firstName!: string;
+
+    @Field()
+    lastName!: string;
 
     @Field()
     email! : string;

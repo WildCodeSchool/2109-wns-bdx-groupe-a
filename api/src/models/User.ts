@@ -14,7 +14,11 @@ class User extends BaseEntity {
 
     @Column({type: 'varchar', length: 255})
     @Field()
-    name!: string; 
+    firstName!: string; 
+
+    @Column({type: 'varchar', length: 255})
+    @Field()
+    lastName!: string; 
 
     @Column({type: 'varchar', length: 255})
     @Field()
