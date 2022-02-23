@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+      target: ci
+    depends_on:
+      - db_test
+    environment:
+      - DATABASE_TEST_URL=mysql://root:root@db_test:3306/trello_test
+
+  db_test:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: root
