@@ -6,7 +6,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build web, run CI checks
-        run: ./ci-web.sh
       - name: Build API, run CI checks
         run: ./ci-api.sh
