@@ -21,6 +21,7 @@ export class CommentResolver {
         newComment.title = title;
         newComment.content = content;
         newComment.date = date;
+        console.log();
 
         await commentRepository.save(newComment);
         return newComment;
