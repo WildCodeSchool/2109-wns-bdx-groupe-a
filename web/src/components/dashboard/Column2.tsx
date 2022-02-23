@@ -15,7 +15,7 @@ type Props = {
   };
 };
 const Column = ({ props }: Props) => {
-  const { todo, settodo } = props;
+  const { inprogress, setinprogress } = props;
   return (
     <>
       <main className='min-w-0 flex-1 border-gray-200 lg:flex mr-12 ml-12 mt-12'>
@@ -24,14 +24,14 @@ const Column = ({ props }: Props) => {
           className='min-w-0 flex-1 h-full flex flex-col overflow-y-auto lg:order-last border border-gray-100 bg-gray-100 rounded-t-lg'
         >
           <h1 className='flex justify-center border-b bg-indigo-600 rounded-t-lg text-white'>
-            A faire
+            En traitement
           </h1>
           <ReactSortable
-            list={todo}
-            setList={settodo}
+            list={inprogress}
+            setList={setinprogress}
             group={{ name: 'group-1', put: true }}
           >
-            {todo.map((task, idx) => (
+            {inprogress.map((task, idx) => (
               <TemplateTicket
                 key={idx}
                 id={task.id}

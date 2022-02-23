@@ -46,70 +46,17 @@ export const USER_NAVIGATION = [
 //   { columnId: 4, title: 'Terminé', description: 'Les cartes en terminées' }
 // ];
 
-export const COLUMNS_TICKETS = [
+export const COLUMNS_TITLES = [
   {
-    columnId: 1,
-    title: 'À faire',
-    ticket: [
-      { name: 'Premier ticket', description: '' },
-      {
-        name: 'Deuxieme Ticket',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      }
-    ]
+    title: 'A faire'
   },
   {
-    columnId: 2,
-    title: 'En cours',
-    ticket: [
-      {
-        name: 'Troisième ticket',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      }
-    ]
+    title: 'En traitement'
   },
   {
-    columnId: 3,
-    title: 'En test',
-    ticket: [
-      {
-        name: 'Quatrieme ticket',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      }
-    ]
+    title: 'PR en cours'
   },
   {
-    columnId: 4,
-    title: 'Terminé',
-    ticket: [
-      {
-        name: '7',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis. '
-      },
-      {
-        name: '9',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      },
-      {
-        name: '11',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      },
-      {
-        name: '12',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      },
-      {
-        name: '12',
-        description:
-          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eros tellus, tincidunt ut ex quis, dapibus lobortis metus. Aliquam id odio venenatis, efficitur erat eu, tincidunt sapien. Nulla efficitur, massa et varius eleifend, purus justo cursus risus, sed malesuada eros augue semper augue. Nulla et mi sagittis, pretium lacus quis.'
-      }
-    ]
+    title: 'Validé'
   }
 ];
