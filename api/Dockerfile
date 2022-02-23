@@ -10,4 +10,4 @@ FROM common as development
 CMD npm start
 
 FROM common as ci
-CMD npm run lint && npm test
+CMD npm test

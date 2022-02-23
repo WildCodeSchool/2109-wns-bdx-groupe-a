@@ -8,7 +8,7 @@ import Comment from './models/Comment';
 
 dotenv.config();
 
-const getDatabaseConnection = async (url: string, logging = false) => {
+const getDatabaseConnection = async (url: string) => {
   await createConnection({
     type: 'mysql',
     url: process.env.DATABASE_URL,
