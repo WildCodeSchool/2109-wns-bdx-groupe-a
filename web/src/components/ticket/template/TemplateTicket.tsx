@@ -2,8 +2,9 @@ import AddButton from '../addButton/AddButton';
 type Props = {
   name: string;
   description: string;
+  id: string;
 };
-const TemplateTicket = ({ name, description }: Props) => {
+const TemplateTicket = ({ name, description, id }: Props) => {
   return (
     <div className='bg-blue w-full p-2 flex justify-center font-sans '>
       <div className='rounded bg-grey-light w-64 p-2 '>
@@ -20,7 +21,7 @@ const TemplateTicket = ({ name, description }: Props) => {
               </svg>
             </div>
             <hr className='mt-2 mb-2 border-indigo-500' />
-            {description}
+            id: {id}
             <div className='flex justify-end mt-2'>
               <AddButton />
             </div>

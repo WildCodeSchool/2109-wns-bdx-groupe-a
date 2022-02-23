@@ -18,9 +18,9 @@ const Column = ({ title, ticket }: Props) => {
           <h1 className='flex justify-center border-b bg-indigo-600 rounded-t-lg text-white'>
             {title}
           </h1>
-          {ticket.map(({ name, description }) => (
+          {/* {ticket.map(({ name, description }) => (
             <TemplateTicket name={name} description={description} />
-          ))}
+          ))} */}
         </section>
       </main>
     </>
