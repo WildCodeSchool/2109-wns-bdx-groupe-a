@@ -13,7 +13,6 @@ const getDatabaseConnection = async (url: string) => {
     type: 'mysql',
     url: process.env.DATABASE_URL,
     entities: [User, Task, Project, Comment],
-    dropSchema: true,
     synchronize: true,
     logging: true
   });

@@ -7,4 +7,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build API, run CI checks
-        run: cd api && npm i && npm test
+        run: ./ci-api.sh
