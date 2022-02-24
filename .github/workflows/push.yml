@@ -2,10 +2,9 @@ name: CI checks
 on: push
 
 jobs:
-  test-client:
+  ci:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Goto client and run tests
-        run: cd api && npm i && npm test
+      - uses: actions/checkout@v2
+      - name: Build API, run CI checks
+        run: ./ci-api.sh
