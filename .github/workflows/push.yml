@@ -6,6 +6,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out code
-        uses: actions/checkout@v2gi
+        uses: actions/checkout@v2
       - name: Goto client and run tests
         run: cd api && npm i && npm test
