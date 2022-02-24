@@ -8,7 +8,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build the Docker image
-        run: docker-compose -f docker-compose.yml up --build
+        run: docker-compose build
+
+      - name: up mysql
+        run: docker-compose up -d
 
       - name: unit test
-        run: cd ./api && docker-compose exec api npm run test:watch
+        run: npm test
