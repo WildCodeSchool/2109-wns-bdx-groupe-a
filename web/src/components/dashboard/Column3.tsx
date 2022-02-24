@@ -1,5 +1,6 @@
 import TemplateTicket from '../ticket/template/TemplateTicket';
 import { ReactSortable } from 'react-sortablejs';
+import { gql, useQuery, useMutation } from '@apollo/client';
 
 type Props = {
   // title: string;
@@ -15,6 +16,19 @@ type Props = {
   };
 };
 const Column = ({ props }: Props) => {
+  const TASK_PROGRESS_STATE = gql`
+    mutation ($updateTaskId: String!, $progressState: String) {
+      updateTask(id: $updateTaskId, progress_state: $progressState) {
+        title
+        description
+        attachment
+        id
+        progress_state
+      }
+    }
+  `;
+  const [changeProgressState, { data, loading, error }] =
+    useMutation(TASK_PROGRESS_STATE);
   const { ideas, setideas } = props;
   return (
     <>
@@ -24,7 +38,7 @@ const Column = ({ props }: Props) => {
           className='min-w-0 flex-1 h-full flex flex-col overflow-y-auto lg:order-last border border-gray-100 bg-gray-100 rounded-t-lg'
         >
           <h1 className='flex justify-center border-b bg-indigo-600 rounded-t-lg text-white'>
-            PR en cours
+            En traitement
           </h1>
           <ReactSortable
             list={ideas}
@@ -32,12 +46,15 @@ const Column = ({ props }: Props) => {
             group={{ name: 'group-1', put: true }}
           >
             {ideas.map((task, idx) => (
-              <TemplateTicket
-                key={idx}
-                id={task.id}
-                name={task.title}
-                description={task.description}
-              />
+              <>
+                <TemplateTicket
+                  key={idx}
+                  id={task.id}
+                  name={task.title}
+                  description={task.description}
+                  progressState='3'
+                />
+              </>
             ))}
           </ReactSortable>
         </section>

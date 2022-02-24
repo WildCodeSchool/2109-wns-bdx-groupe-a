@@ -37,6 +37,7 @@ const Column = ({ props }: Props) => {
                 id={task.id}
                 name={task.title}
                 description={task.description}
+                progressState='1'
               />
             ))}
           </ReactSortable>

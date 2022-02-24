@@ -16,6 +16,7 @@ type Props = {
 };
 const Column = ({ props }: Props) => {
   const { todo, settodo } = props;
+
   return (
     <>
       <main className='min-w-0 flex-1 border-gray-200 lg:flex mr-12 ml-12 mt-12'>
@@ -32,12 +33,15 @@ const Column = ({ props }: Props) => {
             group={{ name: 'group-1', put: true }}
           >
             {todo.map((task, idx) => (
-              <TemplateTicket
-                key={idx}
-                id={task.id}
-                name={task.title}
-                description={task.description}
-              />
+              <>
+                <TemplateTicket
+                  key={idx}
+                  id={task.id}
+                  name={task.title}
+                  description={task.description}
+                  progressState='2'
+                />
+              </>
             ))}
           </ReactSortable>
         </section>

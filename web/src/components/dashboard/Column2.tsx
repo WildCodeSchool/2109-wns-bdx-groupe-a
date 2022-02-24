@@ -24,7 +24,7 @@ const Column = ({ props }: Props) => {
           className='min-w-0 flex-1 h-full flex flex-col overflow-y-auto lg:order-last border border-gray-100 bg-gray-100 rounded-t-lg'
         >
           <h1 className='flex justify-center border-b bg-indigo-600 rounded-t-lg text-white'>
-            En traitement
+            PR en cours
           </h1>
           <ReactSortable
             list={inprogress}
@@ -37,6 +37,7 @@ const Column = ({ props }: Props) => {
                 id={task.id}
                 name={task.title}
                 description={task.description}
+                progressState='4'
               />
             ))}
           </ReactSortable>

@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import Column from './Column';
 import Column2 from './Column2';
 import Column3 from './Column3';
@@ -32,6 +32,8 @@ const GET_TASKS = gql`
   }
 `;
 
+
+
 const Dashboard = () => {
   const [tasks, setTasks] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,6 +56,8 @@ const Dashboard = () => {
   const [todo, settodo] = useState<any[]>([]);
   const [inprogress, setinprogress] = useState<any[]>([]);
   const [published, setpublished] = useState<any[]>([]);
+
+  
 
   const getTasks = async (tasks: any[]) => {
     // For todos
@@ -78,6 +82,8 @@ const Dashboard = () => {
     setpublished(getCloneArray(published));
   };
 
+  console.log(data);
+
   const props = {
     ideas,
     todo,
@@ -101,8 +107,8 @@ const Dashboard = () => {
         {/* Main area */}
 
         <Column props={props} />
-        <Column2 props={props} />
         <Column3 props={props} />
+        <Column2 props={props} />
         <Column4 props={props} />
       </div>
     </div>
