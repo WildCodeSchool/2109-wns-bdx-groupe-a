@@ -14,4 +14,4 @@ jobs:
         run: docker-compose up -d
 
       - name: unit test
-        run: docker-compose exec api npm run test:watch
+        run: docker-compose exec -T api npm run test:watch
