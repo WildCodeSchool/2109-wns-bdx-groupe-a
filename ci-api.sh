@@ -1,1 +1,0 @@
-docker compose -f docker-compose.ci.api.yml up --build --exit-code-from api

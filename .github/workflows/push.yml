@@ -13,5 +13,5 @@ jobs:
       - name: up mysql
         run: docker-compose up -d
 
-      - name: unit test
+      - name: unit back test
         run: docker-compose exec -T api npm run test
