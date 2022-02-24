@@ -1,6 +1,6 @@
 name: CI checks
 on: push
-s
+
 jobs:
   test-client:
     runs-on: ubuntu-latest
