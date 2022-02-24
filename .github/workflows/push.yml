@@ -7,4 +7,4 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build API, run CI checks
-        run: ./ci-api.sh
+        run: cd api && npm i && docker-compose exec api npm run test:watch

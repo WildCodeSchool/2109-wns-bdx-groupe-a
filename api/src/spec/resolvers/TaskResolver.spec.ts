@@ -27,25 +27,25 @@ describe('UserResolver', () => {
     }
     `;
 
-    // it('creates and returns task', async () => {
-    //   const result = await server.executeOperation({
-    //     query: CREATE_TASK,
-    //     variables: {
-    //       title: 'Premiere tache',
-    //       attachment: '',
-    //       progressState: 'IN PROGRESS',
-    //       description: 'En cours'
-    //     }
-    //   });
+    it('creates and returns task', async () => {
+      const result = await server.executeOperation({
+        query: CREATE_TASK,
+        variables: {
+          title: 'Premiere tache',
+          attachment: '',
+          progressState: 'IN PROGRESS',
+          description: 'En cours'
+        }
+      });
 
-    //   expect(result.errors).toBeUndefined();
-    //   expect(result.data?.createTask).toEqual({
-    //     title: 'Premiere tache',
-    //     attachment: '',
-    //     progress_state: 'IN PROGRESS',
-    //     description: 'En cours'
-    //   });
-    // });
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.createTask).toEqual({
+        title: 'Premiere tache',
+        attachment: '',
+        progress_state: 'IN PROGRESS',
+        description: 'En cours'
+      });
+    });
   });
 
   describe('mutation updateTaskt', () => {
@@ -62,24 +62,24 @@ describe('UserResolver', () => {
     } 
     `;
 
-    // it('update a task', async () => {
-    //   const result = await server.executeOperation({
-    //     query: UPDATE_TASK,
-    //     variables: {
-    //       updateTaskId: '1',
-    //       title: 'Premiere tache update'
-    //     }
-    //   });
+    it('update a task', async () => {
+      const result = await server.executeOperation({
+        query: UPDATE_TASK,
+        variables: {
+          updateTaskId: '1',
+          title: 'Premiere tache update'
+        }
+      });
 
-    //   expect(result.errors).toBeUndefined();
-    //   expect(result.data?.updateTask).toEqual({
-    //     id: '1',
-    //     title: 'Premiere tache update',
-    //     attachment: '',
-    //     progress_state: 'IN PROGRESS',
-    //     description: 'En cours'
-    //   });
-    // });
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.updateTask).toEqual({
+        id: '1',
+        title: 'Premiere tache update',
+        attachment: '',
+        progress_state: 'IN PROGRESS',
+        description: 'En cours'
+      });
+    });
   });
   describe('query getTaskByTitle', () => {
     const QUERY_TASK_BY_TITLE = `
@@ -96,30 +96,32 @@ describe('UserResolver', () => {
     `;
 
     it('query a task by title', async () => {
-      // const result = await server.executeOperation({
-      //   query: QUERY_TASK_BY_TITLE,
-      //   variables: {
-      //     title: 'Premiere tache update'
-      //   }
-      // });
-      // expect(result.errors).toBeUndefined();
-      // expect(result.data?.getTaskByTitle).toEqual({
-      //   id: '1',
-      //   title: 'Premiere tache update',
-      //   attachment: '',
-      //   progress_state: 'IN PROGRESS',
-      //   description: 'En cours'
-      // });
+      const result = await server.executeOperation({
+        query: QUERY_TASK_BY_TITLE,
+        variables: {
+          title: 'Premiere tache update'
+        }
+      });
+
+      expect(result.errors).toBeUndefined();
+      expect(result.data?.getTaskByTitle).toEqual({
+        id: '1',
+        title: 'Premiere tache update',
+        attachment: '',
+        progress_state: 'IN PROGRESS',
+        description: 'En cours'
+      });
     });
 
     it('should return an error if task doest not exist', async () => {
-      // const result = await server.executeOperation({
-      //   query: QUERY_TASK_BY_TITLE,
-      //   variables: {
-      //     title: 'My super task'
-      //   }
-      // });
-      // expect(result.errors).toBeTruthy();
+      const result = await server.executeOperation({
+        query: QUERY_TASK_BY_TITLE,
+        variables: {
+          title: 'My super task'
+        }
+      });
+
+      expect(result.errors).toBeTruthy();
     });
   });
 });
