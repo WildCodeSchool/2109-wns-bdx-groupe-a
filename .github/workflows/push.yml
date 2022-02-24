@@ -1,0 +1,17 @@
+name: CI checks
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build the Docker image
+        run: docker-compose build
+
+      - name: up mysql
+        run: docker-compose up -d
+
+      - name: unit back test
+        run: docker-compose exec -T api npm run test
