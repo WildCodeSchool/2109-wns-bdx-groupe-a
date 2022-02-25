@@ -15,9 +15,10 @@ describe('UserResolver', () => {
 
   describe('mutation createUser', () => {
     const CREATE_USER = `
-    mutation($name: String!, $role: String!, $email: String!, $password: String!) {
-      createUser(name: $name, role: $role, email: $email, password: $password) {
-        name
+    mutation($firstName: String!, $lastName: String!, $role: String!, $email: String!, $password: String!) {
+      createUser(firstName: $firstName, lastName: $lastName, role: $role, email: $email, password: $password) {
+        firstName
+        lastName
         role
         email
         password
@@ -29,21 +30,23 @@ describe('UserResolver', () => {
       const result = await server.executeOperation({
         query: CREATE_USER,
         variables: {
-          name: 'Alfred',
+          firstName: 'Alfred',
+          lastName: 'Test',
           email: 'Bordeaux@test.fr',
           role: 'Manager',
           password: 'test33'
         }
       });
 
-      expect(await User.findOne({ name: 'Alfred' })).toHaveProperty(
+      expect(await User.findOne({ firstName: 'Alfred' })).toHaveProperty(
         'email',
         'Bordeaux@test.fr'
       );
 
       expect(result.errors).toBeUndefined();
       expect(result.data?.createUser).toEqual({
-        name: 'Alfred',
+        firstName: 'Alfred',
+        lastName: 'Test',
         email: 'Bordeaux@test.fr',
         role: 'Manager',
         password: 'test33'

@@ -23,7 +23,8 @@
     "mysql2": "^2.3.2",
     "reflect-metadata": "^0.1.13",
     "type-graphql": "^1.1.1",
-    "typeorm": "^0.2.38"
+    "typeorm": "^0.2.38",
+    "typeorm-encrypted": "^0.6.0"
   },
   "devDependencies": {
     "@types/node": "^17.0.10",

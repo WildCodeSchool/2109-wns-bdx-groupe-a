@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTab
 import { Field, ID, ObjectType } from "type-graphql";
 import User from './User'
 import Project from "./Project";
+import { IsNotEmpty } from "class-validator";
 
 
 @Entity()
@@ -13,11 +14,13 @@ class Task extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
-  title?: string;
+  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
+  title!: string;
 
   @Column({ type: 'longtext' })
   @Field()
-  description?: string;
+  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
+  description!: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
@@ -28,11 +31,11 @@ class Task extends BaseEntity {
   progress_state?: string;
 
   @ManyToMany(() => User)
-    @JoinTable()
-    users!: User[];
+  @JoinTable()
+  users!: User[];
 
-    @ManyToOne(() => Project, project => project.tasks)
-    project!: Project;
+  @ManyToOne(() => Project, project => project.tasks)
+  project!: Project;
 }
 
 export default Task;

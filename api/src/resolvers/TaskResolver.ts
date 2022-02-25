@@ -1,15 +1,14 @@
 import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
-import { getCustomRepository } from "typeorm";
 
 import CreateTaskInput from "../inputs/Task/CreateTaskInput";
-import TaskRepository from "../repositories/TaskRepository";
-import Task from "../models/Task";
 import UpdateTaskInput from "../inputs/Task/UpdateTaskInput";
+import DeleteTaskInput from "../inputs/Task/DeleteTaskInput";
+import Task from "../models/Task";
 
 
 @Resolver()
 export class TaskResolver {
-    @Query(() => Task) 
+    @Query(() => [Task]) 
     getTasks() {
         return Task.find()
     }
@@ -19,9 +18,13 @@ export class TaskResolver {
         return Task.findOne({ title })
     }
 
+    @Query(() => [Task]) 
+    getTasksByProjectId(@Arg("projectId") projectId : string ) {
+        return Task.find({ project : { id: projectId} })
+    }
+
     @Mutation(() => Task)
     async createTask(@Args() { title, description, attachment, progress_state }: CreateTaskInput){
-        const taskRepository = getCustomRepository(TaskRepository)
         
         const newTask = new Task();
         newTask.title = title;
@@ -29,19 +32,14 @@ export class TaskResolver {
         newTask.attachment = attachment;
         newTask.progress_state = progress_state;
 
-        await taskRepository.save(newTask);
+        await newTask.save();
         return newTask;
     }
 
-    
+
     @Mutation(() => Task)
     async updateTask(@Args() { id, title, description, attachment, progress_state} : UpdateTaskInput){
-        const taskRepository = getCustomRepository(TaskRepository);
-        const taskToUpdate = await taskRepository.findOneOrFail( { id } )
-
-        if (!taskToUpdate) {
-            throw new Error('No task founded')
-        }
+        const taskToUpdate = await Task.findOneOrFail( { id } )
 
         let newData =  {
             title: title ?? taskToUpdate.title,
@@ -54,5 +52,13 @@ export class TaskResolver {
         await taskToUpdate.save()
 
         return taskToUpdate
+    }
+
+    @Mutation(() => Task)
+    async deleteTask(@Args() { id } : DeleteTaskInput){
+        const taskToDelete = await Task.findOneOrFail({ id })
+
+        await taskToDelete.remove()
+        return taskToDelete
     }
 }
