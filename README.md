@@ -46,7 +46,7 @@ web (front-end)
 Everything is good now you can yo to
 
 ```sh
-$ http://localhost:3000/
+http://localhost:3000/
 ```
 
 ### 🐻 How to run test from root
