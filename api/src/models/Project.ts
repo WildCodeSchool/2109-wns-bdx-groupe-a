@@ -3,21 +3,24 @@ import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import Task from "./Task";
 import Comment from "./Comment";
+import { IsNotEmpty } from "class-validator";
 
 @Entity()
 @ObjectType()
 class Project extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID)
-  id!: String;
+  id!: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
-  title?: string;
+  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
+  title!: string;
 
   @Column({ type: 'longtext' })
   @Field()
-  description?: string;
+  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
+  description!: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()

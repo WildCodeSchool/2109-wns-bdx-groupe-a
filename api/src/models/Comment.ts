@@ -2,6 +2,7 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "t
 import { Field, ID, ObjectType } from "type-graphql";
 import Project from "./Project";
 import User from "./User";
+import { IsNotEmpty } from "class-validator";
 
 @Entity()
 @ObjectType()
@@ -12,10 +13,12 @@ class Comment extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
+  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   title!: string;
 
   @Column({ type: 'longtext' })
   @Field()
+  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   content!: string;
 
   @Column({ type: 'date' })

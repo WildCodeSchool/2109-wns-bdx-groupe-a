@@ -36,7 +36,7 @@ export class CommentResolver {
         let newData =  {
             title: title ?? commentToUpdate.title,
             content: content ?? commentToUpdate.content,
-            date: new Date ?? commentToUpdate.date,
+            date: date ?? commentToUpdate.date,
         }
 
         Object.assign(commentToUpdate, newData)

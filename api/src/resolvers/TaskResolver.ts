@@ -18,6 +18,11 @@ export class TaskResolver {
         return Task.findOne({ title })
     }
 
+    @Query(() => [Task]) 
+    getTasksByProjectId(@Arg("projectId") projectId : string ) {
+        return Task.find({ project : { id: projectId} })
+    }
+
     @Mutation(() => Task)
     async createTask(@Args() { title, description, attachment, progress_state }: CreateTaskInput){
         

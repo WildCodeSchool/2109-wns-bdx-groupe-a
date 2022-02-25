@@ -15,16 +15,15 @@ export class UserResolver {
 
     @Mutation(() => User)
     async createUser(@Args() { firstName, lastName, email, password, role}: CreateUserInput){
-        
-        const newUser = new User();
-        newUser.firstName = firstName;
-        newUser.lastName = lastName;
-        newUser.email = email;
-        newUser.password = password;
-        newUser.role = role;
-
-        await newUser.save();
-        return newUser;
+            const newUser = new User();
+            newUser.firstName = firstName;
+            newUser.lastName = lastName;
+            newUser.email = email;
+            newUser.password = password;
+            newUser.role = role;
+    
+            await newUser.save();
+            return newUser;
     }
 
     @Mutation(() => User)

@@ -13,7 +13,7 @@ class UpdateCommentInput{
     content? : string
 
     @Field()
-    date? : string
+    date? : Date
 
 }
 
