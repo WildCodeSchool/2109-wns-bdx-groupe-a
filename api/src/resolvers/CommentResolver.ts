@@ -29,10 +29,6 @@ export class CommentResolver {
     async updateComment(@Args() { id, title, content, date} : UpdateCommentInput){
         const commentToUpdate = await Comment.findOneOrFail( { id } )
 
-        if (!commentToUpdate) {
-            throw new Error('No comment founded')
-        }
-
         let newData =  {
             title: title ?? commentToUpdate.title,
             content: content ?? commentToUpdate.content,
@@ -48,11 +44,8 @@ export class CommentResolver {
     @Mutation(() => Comment)
     async deleteTask(@Args() { id } : DeleteCommentInput){
         const commentToDelete = await Comment.findOneOrFail({ id })
-        if (!commentToDelete) {
-            throw new Error('No comment founded')
-        }
 
         await commentToDelete.remove()
-        return "Comment `$id` Deleted"
+        return commentToDelete
     }
 }

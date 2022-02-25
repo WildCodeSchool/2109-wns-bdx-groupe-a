@@ -30,10 +30,6 @@ export class UserResolver {
     async updateUser(@Args() { id, firstName, lastName, email, password, role} : UpdateUserInput){
         const userToUpdate = await User.findOneOrFail( { id } )
 
-        if (!userToUpdate) {
-            throw new Error('No user founded')
-        }
-
         let newData =  {
             firstName: firstName ?? userToUpdate.firstName,
             lastName: lastName ?? userToUpdate.lastName,
@@ -56,6 +52,6 @@ export class UserResolver {
         }
 
         await userToDelete.remove()
-        return "User `$id` Deleted"
+        return userToDelete
     }
 }

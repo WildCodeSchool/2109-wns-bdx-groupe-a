@@ -10,7 +10,7 @@ import Project from "../models/Project";
 @Resolver()
 export class ProjectResolver {
     @Query(() => [Project]) 
-    getProject() {
+    getProjects() {
         return Project.find()
     }
 
@@ -32,9 +32,6 @@ export class ProjectResolver {
     async updateProject(@Args() { id, title, description, picture, start_date, end_date}: UpdateProjectInput){
 
         const projectToUpdate = await Project.findOneOrFail({ id })
-        if(!projectToUpdate){
-            throw new Error ('No project founded')
-        }
 
         const newData = {
             title: title ?? projectToUpdate.title,
@@ -54,11 +51,8 @@ export class ProjectResolver {
     @Mutation(() => Project)
     async deleteProject(@Args() { id } : DeleteProjectInput) {
         const projectToDelete = await Project.findOneOrFail({ id })
-        if (!projectToDelete) {
-            throw new Error( 'No Project founded')
-        }
 
         await projectToDelete.remove()
-        return "Project `$id` deleted"
+        return projectToDelete
     }
 }

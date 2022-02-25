@@ -41,10 +41,6 @@ export class TaskResolver {
     async updateTask(@Args() { id, title, description, attachment, progress_state} : UpdateTaskInput){
         const taskToUpdate = await Task.findOneOrFail( { id } )
 
-        if (!taskToUpdate) {
-            throw new Error('No task founded')
-        }
-
         let newData =  {
             title: title ?? taskToUpdate.title,
             description: description ?? taskToUpdate.description,
@@ -61,11 +57,8 @@ export class TaskResolver {
     @Mutation(() => Task)
     async deleteTask(@Args() { id } : DeleteTaskInput){
         const taskToDelete = await Task.findOneOrFail({ id })
-        if (!taskToDelete) {
-            throw new Error('No task founded')
-        }
 
         await taskToDelete.remove()
-        return "taskToDelete Deleted"
+        return taskToDelete
     }
 }
