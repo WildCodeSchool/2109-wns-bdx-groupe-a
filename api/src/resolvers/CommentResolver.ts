@@ -7,7 +7,7 @@ import Comment from "../models/Comment";
 
 
 @Resolver()
-export class CommentResolver {
+export default class CommentResolver {
     @Query(() => [Comment]) 
     getComment() {
         return Comment.find()
@@ -29,7 +29,8 @@ export class CommentResolver {
     async updateComment(@Args() { id, title, content, date} : UpdateCommentInput){
         const commentToUpdate = await Comment.findOneOrFail( { id } )
 
-        let newData =  {
+        const newData =  {
+
             title: title ?? commentToUpdate.title,
             content: content ?? commentToUpdate.content,
             date: date ?? commentToUpdate.date,

@@ -1,7 +1,6 @@
 import { ArgsType, Field } from "type-graphql";
 
 
-
 @ArgsType()
 class CreateCommentInput {
     @Field()
