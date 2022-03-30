@@ -30,7 +30,9 @@ export default class UserResolver {
     async updateUser(@Args() { id, firstName, lastName, email, password, role} : UpdateUserInput){
         const userToUpdate = await User.findOneOrFail( { id } )
 
+
         const newData =  {
+
             firstName: firstName ?? userToUpdate.firstName,
             lastName: lastName ?? userToUpdate.lastName,
             email: email ?? userToUpdate.email,

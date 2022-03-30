@@ -1,6 +1,6 @@
 import { IsEmail, IsString } from 'class-validator';
 import { ArgsType, Field } from 'type-graphql';
-// import { UserRole } from '../../models/User';
+import { UserRole } from '../../models/User';
 
 
 @ArgsType()

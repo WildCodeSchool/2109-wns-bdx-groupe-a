@@ -34,7 +34,9 @@ services:
       retries: 10
 
   api:
-    build: ./api
+    build:
+      context: ./api
+      target: development
     depends_on:
       db:
         condition: service_healthy
@@ -46,7 +48,9 @@ services:
       - /api/node_modules/
 
   web:
-    build: ./web
+    build:
+      context: ./web
+      target: development
     ports:
       - 3000:3000
     command: npm start

@@ -16,7 +16,6 @@ export enum UserRole {
 }
 
 @Entity()
-// @Unique(['email'])
 @ObjectType()
 
 class User extends BaseEntity {

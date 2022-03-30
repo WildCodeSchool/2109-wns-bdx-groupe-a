@@ -1,3 +1,4 @@
+import { IsEmail, IsNotEmpty, Max, Min } from "class-validator";
 import { ArgsType, Field } from "type-graphql";
 
 
@@ -10,6 +11,7 @@ class CreateUserInput {
     lastName!: string;
 
     @Field()
+    @IsEmail()
     email! : string;
 
     @Field()

@@ -15,7 +15,7 @@ describe('UserResolver', () => {
   afterEach(() => getConnection().close());
 
   describe('mutation createTask', () => {
-    //TODO RAJOUTER ID (il faut drop la table avant chaque test)
+    // TODO RAJOUTER ID (il faut drop la table avant chaque test)
     const CREATE_TASK = `
     mutation($title: String!, $attachment: String!, $progressState: String!, $description: String!) {
       createTask(title: $title, attachment: $attachment, progress_state: $progressState, description: $description) {
@@ -49,7 +49,7 @@ describe('UserResolver', () => {
   });
 
   describe('mutation updateTaskt', () => {
-    //TODO RAJOUTER ID (il faut drop la table avant chaque test)
+    // TODO RAJOUTER ID (il faut drop la table avant chaque test)
     const UPDATE_TASK = `
     mutation($updateTaskId: String!, $title: String) {
       updateTask(id: $updateTaskId, title: $title) {

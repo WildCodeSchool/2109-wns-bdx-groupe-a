@@ -30,6 +30,7 @@ export default class CommentResolver {
         const commentToUpdate = await Comment.findOneOrFail( { id } )
 
         const newData =  {
+
             title: title ?? commentToUpdate.title,
             content: content ?? commentToUpdate.content,
             date: date ?? commentToUpdate.date,

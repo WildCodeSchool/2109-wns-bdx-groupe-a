@@ -7,7 +7,9 @@ import Task from "../models/Task";
 
 
 @Resolver()
+
 export default class TaskResolver {
+
     @Query(() => [Task]) 
     getTasks() {
         return Task.find()
@@ -42,6 +44,7 @@ export default class TaskResolver {
         const taskToUpdate = await Task.findOneOrFail( { id } )
 
         const newData =  {
+
             title: title ?? taskToUpdate.title,
             description: description ?? taskToUpdate.description,
             attachment: attachment ?? taskToUpdate.attachment,

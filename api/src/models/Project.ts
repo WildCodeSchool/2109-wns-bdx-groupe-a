@@ -6,6 +6,7 @@ import { IsNotEmpty } from "class-validator";
 import Task from "./Task";
 // eslint-disable-next-line import/no-cycle
 import Comment from "./Comment";
+import { IsNotEmpty } from "class-validator";
 
 @Entity()
 @ObjectType()
