@@ -1,5 +1,4 @@
 import { Args, Mutation, Query, Resolver } from "type-graphql";
-import { getCustomRepository } from "typeorm";
 
 import CreateProjectInput from "../inputs/Project/CreateProjectInput";
 import DeleteProjectInput from "../inputs/Project/DeleteProjectInput";
@@ -8,7 +7,7 @@ import Project from "../models/Project";
 
 
 @Resolver()
-export class ProjectResolver {
+export default class ProjectResolver {
     @Query(() => [Project]) 
     getProjects() {
         return Project.find()

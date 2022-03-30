@@ -7,7 +7,7 @@ import User from "../models/User";
 
 
 @Resolver()
-export class UserResolver {
+export default class UserResolver {
     @Query(() => [User]) 
     getUsers() {
         return User.find()
@@ -30,7 +30,7 @@ export class UserResolver {
     async updateUser(@Args() { id, firstName, lastName, email, password, role} : UpdateUserInput){
         const userToUpdate = await User.findOneOrFail( { id } )
 
-        let newData =  {
+        const newData =  {
             firstName: firstName ?? userToUpdate.firstName,
             lastName: lastName ?? userToUpdate.lastName,
             email: email ?? userToUpdate.email,

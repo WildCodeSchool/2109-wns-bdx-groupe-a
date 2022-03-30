@@ -1,9 +1,11 @@
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany, JoinTable, ManyToMany, Unique } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany, JoinTable, ManyToMany } from "typeorm";
 import { EncryptionTransformer } from 'typeorm-encrypted';
 import { Field, ID, ObjectType } from "type-graphql";
-import { IsEmail, IsNotEmpty, IsString } from "class-validator";
+import { IsEmail, IsNotEmpty } from "class-validator";
 
+// eslint-disable-next-line import/no-cycle
 import Comment from "./Comment";
+// eslint-disable-next-line import/no-cycle
 import Project from "./Project";
 
 
@@ -14,7 +16,7 @@ export enum UserRole {
 }
 
 @Entity()
-@Unique(['email'])
+// @Unique(['email'])
 @ObjectType()
 
 class User extends BaseEntity {

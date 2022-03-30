@@ -21,7 +21,6 @@ describe('UserResolver', () => {
         lastName
         role
         email
-        password
       }
     }
     `;
@@ -48,8 +47,7 @@ describe('UserResolver', () => {
         firstName: 'Alfred',
         lastName: 'Test',
         email: 'Bordeaux@test.fr',
-        role: 'Manager',
-        password: 'test33'
+        role: 'Manager'
       });
     });
   });

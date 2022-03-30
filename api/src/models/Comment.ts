@@ -1,8 +1,10 @@
+import { IsNotEmpty } from "class-validator";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
+// eslint-disable-next-line import/no-cycle
 import Project from "./Project";
+// eslint-disable-next-line import/no-cycle
 import User from "./User";
-import { IsNotEmpty } from "class-validator";
 
 @Entity()
 @ObjectType()

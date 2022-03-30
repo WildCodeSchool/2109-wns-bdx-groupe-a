@@ -7,7 +7,7 @@ import Task from "../models/Task";
 
 
 @Resolver()
-export class TaskResolver {
+export default class TaskResolver {
     @Query(() => [Task]) 
     getTasks() {
         return Task.find()
@@ -41,7 +41,7 @@ export class TaskResolver {
     async updateTask(@Args() { id, title, description, attachment, progress_state} : UpdateTaskInput){
         const taskToUpdate = await Task.findOneOrFail( { id } )
 
-        let newData =  {
+        const newData =  {
             title: title ?? taskToUpdate.title,
             description: description ?? taskToUpdate.description,
             attachment: attachment ?? taskToUpdate.attachment,

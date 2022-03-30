@@ -14,10 +14,10 @@ module.exports = {
   plugins: ['@typescript-eslint', 'prettier'],
   ignorePatterns: ['.eslintrc.js'],
   rules: {
-    'class-methods-use-this': 0,
-    js: 'never',
-    jsx: 'never',
-    ts: 'never',
-    tsx: 'never'
+    'class-methods-use-this': 0
+    // js: 'never',
+    // jsx: 'never',
+    // ts: 'never',
+    // tsx: 'never'
   }
 };

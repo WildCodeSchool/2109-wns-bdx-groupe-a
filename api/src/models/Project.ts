@@ -1,9 +1,11 @@
 
 import { Field, ID, ObjectType } from "type-graphql";
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import Task from "./Task";
-import Comment from "./Comment";
 import { IsNotEmpty } from "class-validator";
+// eslint-disable-next-line import/no-cycle
+import Task from "./Task";
+// eslint-disable-next-line import/no-cycle
+import Comment from "./Comment";
 
 @Entity()
 @ObjectType()
