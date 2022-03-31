@@ -1,18 +1,23 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Dashboard from './components/dashboard/Dashboard';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+
+
+
+const client = new ApolloClient({
+  uri: 'http://localhost:4000/graphql',
+  cache: new InMemoryCache()
+});
+
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path='/' element={<App />} />
-      <Route path='dashboard' element={<Dashboard />} />
-    </Routes>
-  </BrowserRouter>,
+  <ApolloProvider client={client}>
+    <div className='h-screen'>
+      <App />
+    </div>
+  </ApolloProvider>,
   document.getElementById('root')
 );
 

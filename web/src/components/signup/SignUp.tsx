@@ -1,12 +1,32 @@
 import { useState } from 'react';
 import { Switch } from '@headlessui/react';
+import { gql, useMutation } from '@apollo/client';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
+const SIGN_UP = gql`
+mutation Mutation($firstName: String!, $lastName: String!, $emailAddress: String!, $password: String!) {
+  signUp(firstName: $firstName, lastName: $lastName, emailAddress: $emailAddress, password: $password) {
+    id
+    firstName
+    lastName
+    emailAddress
+  }
+}
+`
+const newUser = { firstName: "" , lastName : "", emailAddress: "", password: ""}
+
 const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [agreed, setAgreed] = useState(false);
+  const [ userInformations, setUserInformations ] = useState(newUser) 
+  const [signUp, { data, error }] = useMutation(SIGN_UP);
+  const onChange = (e: any) => { 
+    const {name, value} = e.target;
+    setUserInformations({ ...userInformations, [name]: value})
+  }
+  console.log(userInformations);
 
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
@@ -88,22 +108,65 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
             action='#'
             method='POST'
             className='grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8'
+            onSubmit={(event) => {event.preventDefault();
+                                  signUp({variables: userInformations})}}
           >
             <div>
               <label
-                htmlFor='username'
+                htmlFor='firstName'
                 className='block text-sm font-medium text-gray-700'
               >
-                Username
+                Firstname
               </label>
               <div className='mt-1'>
                 <input
                   type='text'
-                  name='username'
-                  id='username'
+                  name='firstName'
+                  id='firstName'
                   autoComplete='given-name'
                   required
                   className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
+                  value={userInformations.firstName}
+                  onChange={(e) => onChange(e)}
+                />
+              </div>
+            </div>
+            <div>
+              <label
+                htmlFor='lastName'
+                className='block text-sm font-medium text-gray-700'
+              >
+                Lastname
+              </label>
+              <div className='mt-1'>
+                <input
+                  type='text'
+                  name='lastName'
+                  id='lastName'
+                  autoComplete='given-name'
+                  required
+                  className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
+                  value={userInformations.lastName}
+                  onChange={(e) => onChange(e)}
+               />
+              </div>
+            </div>
+            <div className='sm:col-span-2'>
+              <label
+                htmlFor='email'
+                className='block text-sm font-medium text-gray-700'
+              >
+                Email
+              </label>
+              <div className='mt-1'>
+                <input
+                  id='email'
+                  name='emailAddress'
+                  type='email'
+                  autoComplete='email'
+                  className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
+                  value={userInformations.emailAddress}
+                  onChange={(e) => {onChange(e)}}
                 />
               </div>
             </div>
@@ -122,26 +185,12 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                   autoComplete='family-name'
                   required
                   className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
+                  value={userInformations.password}
+                  onChange={(e) => onChange(e)}
                 />
               </div>
             </div>
-            <div className='sm:col-span-2'>
-              <label
-                htmlFor='email'
-                className='block text-sm font-medium text-gray-700'
-              >
-                Email
-              </label>
-              <div className='mt-1'>
-                <input
-                  id='email'
-                  name='email'
-                  type='email'
-                  autoComplete='email'
-                  className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
-                />
-              </div>
-            </div>
+           
 
             <div className='sm:col-span-2'>
               <div className='flex items-start'>
@@ -167,11 +216,11 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 <div className='ml-3'>
                   <p className='text-base text-gray-500'>
                     By selecting this, you agree to the{' '}
-                    <a href='#' className='font-medium text-gray-700 underline'>
+                    <a href='#/' className='font-medium text-gray-700 underline'>
                       Privacy Policy
                     </a>{' '}
                     and{' '}
-                    <a href='#' className='font-medium text-gray-700 underline'>
+                    <a href='#/' className='font-medium text-gray-700 underline'>
                       Cookie Policy
                     </a>
                     .
@@ -181,7 +230,6 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
             </div>
             <div className='sm:col-span-2'>
               <button
-                onClick={onClose}
                 type='submit'
                 className='w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
               >
@@ -189,6 +237,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               </button>
             </div>
           </form>
+          { error ? "Invalid credentials." : null}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, Max, Min } from "class-validator";
+import { IsEmail } from "class-validator";
 import { ArgsType, Field } from "type-graphql";
 
 

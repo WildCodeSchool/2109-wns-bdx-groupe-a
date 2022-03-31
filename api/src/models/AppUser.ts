@@ -9,7 +9,16 @@ class AppUser extends BaseEntity {
   @Field(() => ID)
   id!: number;
 
-  @Column({ unique: true })
+  @Column()
+  @Field(() => String)
+  firstName!: string;
+
+  @Column()
+  @Field(() => String)
+  lastName!: string;
+
+
+  @Column()
   @IsEmail()
   @Field(() => String)
   emailAddress!: string;
