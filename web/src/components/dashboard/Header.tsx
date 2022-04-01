@@ -6,29 +6,30 @@ import {
   USER_NAVIGATION
 } from './dashboard.constants';
 import { Fragment } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { GET_MY_PROFILE } from '../../App';
 import { gql, useMutation } from '@apollo/client';
 
 export const DELETE_SESSION = gql`
-mutation DeleteSession {
-  deleteSession
-}
+  mutation DeleteSession {
+    deleteSession
+  }
 `;
 
-const Header = ({user}: {user: any}) => {
+const Header = ({ user }: { user: any }) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
-  const [deleteSession] = useMutation(DELETE_SESSION, {refetchQueries: [{query: GET_MY_PROFILE}]});
-  let navigate = useNavigate()
+  const [deleteSession] = useMutation(DELETE_SESSION, {
+    refetchQueries: [{ query: GET_MY_PROFILE }]
+  });
+  let navigate = useNavigate();
   const { myProfile } = user;
 
-  
   const onLogOut = () => {
-    deleteSession()
-    navigate("/")
-  }
+    deleteSession();
+    navigate('/');
+  };
 
   return (
     <header className='flex-shrink-0 relative h-16 bg-white flex items-center'>
@@ -226,16 +227,12 @@ const Header = ({user}: {user: any}) => {
               </a>
             </div>
             <div className='mt-3 max-w-8xl mx-auto px-2 space-y-1 sm:px-4'>
-              {USER_NAVIGATION.map((item: { name: string; href: string }) => (
-                <a
-                  key={item.name}
-                  href={item.href}
-                  className='block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50'
-                >
-                  {item.name}
-                </a>
-              ))}
-              <button onClick={()=> onLogOut()}>Se déco</button>
+              <button
+                className='block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50'
+                onClick={() => onLogOut()}
+              >
+                Log Out
+              </button>
             </div>
           </div>
         </nav>

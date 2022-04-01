@@ -7,9 +7,10 @@ import { useState } from 'react';
 
 const Dashboard = ({data} : {data: any}) => {
   const [columns, setColumns] = useState(COLUMNS_TICKETS);
+  const {myProfile} = data
 
-  if (!data) {
-    return <div>Chargement en cours...</div>
+  if (!myProfile) {
+    return <div className="text-3xl uppercase flex justify-center">à faire si pas connecté</div>
   }
 
   return (
