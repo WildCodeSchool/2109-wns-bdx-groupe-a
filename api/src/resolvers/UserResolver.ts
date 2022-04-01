@@ -26,7 +26,7 @@ export default class UserResolver {
             newUser.email = email;
             newUser.password = password;
             newUser.role = role;
-    
+
             await newUser.save();
             return newUser;
     }
@@ -82,5 +82,12 @@ export default class UserResolver {
         return user;
     }
 
-
+    @Mutation(() => Boolean)
+    async deleteSession(@Ctx() { sessionId }: CustomContext) : Promise<boolean> {
+        if (!sessionId) {
+            return false;
+        }
+        await UserRepository.deleteSession(sessionId);
+        return true;
+    }
 }

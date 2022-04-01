@@ -20,6 +20,9 @@ export const UserContext = createContext(null);
 
 function App() {
   const { data } = useQuery(GET_MY_PROFILE);
+  if (!data) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <BrowserRouter>

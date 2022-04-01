@@ -51,6 +51,12 @@ class UserRepository extends User {
     }
     throw Error(COULD_NOT_SIGN_IN);
   }
+
+  static async deleteSession(sessionId: string): Promise<void> {
+    await UserSessionRepository.deleteSession(sessionId);
+  }
 }
+
+
 
 export default UserRepository;

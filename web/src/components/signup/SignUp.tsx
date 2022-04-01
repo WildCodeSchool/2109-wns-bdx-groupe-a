@@ -7,26 +7,36 @@ function classNames(...classes: string[]) {
 }
 
 const SIGN_UP = gql`
-mutation Mutation($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
-  signUp(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
-    id
-    firstName
-    lastName
-    email
+  mutation Mutation(
+    $firstName: String!
+    $lastName: String!
+    $email: String!
+    $password: String!
+  ) {
+    signUp(
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      password: $password
+    ) {
+      id
+      firstName
+      lastName
+      email
+    }
   }
-}
-`
-const newUser = { firstName: "" , lastName : "", email: "", password: ""}
+`;
+const newUser = { firstName: '', lastName: '', email: '', password: '' };
 
 const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [agreed, setAgreed] = useState(false);
-  const [ userInformations, setUserInformations ] = useState(newUser) 
-  const [signUp, { data, error }] = useMutation(SIGN_UP);
-  const onChange = (e: any) => { 
-    const {name, value} = e.target;
-    setUserInformations({ ...userInformations, [name]: value})
-  }
-  
+  const [userInformations, setUserInformations] = useState(newUser);
+  const [signUp, { error }] = useMutation(SIGN_UP);
+  const onChange = (e: any) => {
+    const { name, value } = e.target;
+    setUserInformations({ ...userInformations, [name]: value });
+  };
+
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
       <div className='relative max-w-xl mx-auto'>
@@ -107,8 +117,11 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
             action='#'
             method='POST'
             className='grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8'
-            onSubmit={(event) => {event.preventDefault();
-                                  signUp({variables: userInformations})}}
+            onSubmit={(event) => {
+              event.preventDefault();
+              signUp({ variables: userInformations });
+              onClose()
+            }}
           >
             <div>
               <label
@@ -147,7 +160,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                   className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
                   value={userInformations.lastName}
                   onChange={(e) => onChange(e)}
-               />
+                />
               </div>
             </div>
             <div className='sm:col-span-2'>
@@ -165,7 +178,9 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                   autoComplete='email'
                   className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
                   value={userInformations.email}
-                  onChange={(e) => {onChange(e)}}
+                  onChange={(e) => {
+                    onChange(e);
+                  }}
                 />
               </div>
             </div>
@@ -189,7 +204,6 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 />
               </div>
             </div>
-           
 
             <div className='sm:col-span-2'>
               <div className='flex items-start'>
@@ -215,11 +229,17 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 <div className='ml-3'>
                   <p className='text-base text-gray-500'>
                     By selecting this, you agree to the{' '}
-                    <a href='#/' className='font-medium text-gray-700 underline'>
+                    <a
+                      href='#/'
+                      className='font-medium text-gray-700 underline'
+                    >
                       Privacy Policy
                     </a>{' '}
                     and{' '}
-                    <a href='#/' className='font-medium text-gray-700 underline'>
+                    <a
+                      href='#/'
+                      className='font-medium text-gray-700 underline'
+                    >
                       Cookie Policy
                     </a>
                     .
@@ -236,7 +256,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               </button>
             </div>
           </form>
-          { error ? "Invalid credentials." : null}
+          {error ? 'Invalid credentials.' : null}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   NAVIGATION,
   SIDE_BAR_NAVIGATION,
@@ -6,14 +6,29 @@ import {
   USER_NAVIGATION
 } from './dashboard.constants';
 import { Fragment } from 'react';
+import { useNavigate } from "react-router-dom";
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
+import { GET_MY_PROFILE } from '../../App';
+import { gql, useMutation } from '@apollo/client';
+
+export const DELETE_SESSION = gql`
+mutation DeleteSession {
+  deleteSession
+}
+`;
 
 const Header = ({user}: {user: any}) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
-
+  const [deleteSession] = useMutation(DELETE_SESSION, {refetchQueries: [{query: GET_MY_PROFILE}]});
+  let navigate = useNavigate()
   const { myProfile } = user;
-  const {firstName, lastName, email, password} = myProfile;
+
+  
+  const onLogOut = () => {
+    deleteSession()
+    navigate("/")
+  }
 
   return (
     <header className='flex-shrink-0 relative h-16 bg-white flex items-center'>
@@ -199,10 +214,10 @@ const Header = ({user}: {user: any}) => {
               </div>
               <div className='ml-3 min-w-0 flex-1'>
                 <div className='text-base font-medium text-gray-800 truncate'>
-                  {firstName} {lastName}
+                  {myProfile?.firstName} {myProfile?.lastName}
                 </div>
                 <div className='text-sm font-medium text-gray-500 truncate'>
-                  {email}
+                  {myProfile?.email}
                 </div>
               </div>
               <a className='ml-auto flex-shrink-0 bg-white p-2 text-gray-400 hover:text-gray-500'>
@@ -220,6 +235,7 @@ const Header = ({user}: {user: any}) => {
                   {item.name}
                 </a>
               ))}
+              <button onClick={()=> onLogOut()}>Se déco</button>
             </div>
           </div>
         </nav>

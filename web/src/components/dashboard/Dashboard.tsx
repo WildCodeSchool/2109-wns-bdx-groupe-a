@@ -8,8 +8,6 @@ import { useState } from 'react';
 const Dashboard = ({data} : {data: any}) => {
   const [columns, setColumns] = useState(COLUMNS_TICKETS);
 
-  console.log(data)
-
   if (!data) {
     return <div>Chargement en cours...</div>
   }

@@ -24,6 +24,10 @@ class UserSessionRepository extends UserSession {
 
     return session?.user || null;
   }
+
+  static async deleteSession(sessionId: string): Promise<void> {
+    await UserSession.delete({ id: sessionId });
+  }
 }
 
 export default UserSessionRepository;

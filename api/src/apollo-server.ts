@@ -27,6 +27,7 @@ const setUpContext = async ( context: ExpressContext ): Promise<CustomContext> =
   return {
     onSessionCreated: setSessionIdInCookies(context.res),
     user: sessionId ? await UserSessionRepository.getUser(sessionId) : null,
+    sessionId
   };
 };
   
