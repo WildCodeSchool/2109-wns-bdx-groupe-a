@@ -9,8 +9,11 @@ import { Fragment } from 'react';
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 
-const Header = () => {
+const Header = ({user}: {user: any}) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
+
+  const { myProfile } = user;
+  const {firstName, lastName, email, password} = myProfile;
 
   return (
     <header className='flex-shrink-0 relative h-16 bg-white flex items-center'>
@@ -196,10 +199,10 @@ const Header = () => {
               </div>
               <div className='ml-3 min-w-0 flex-1'>
                 <div className='text-base font-medium text-gray-800 truncate'>
-                  {USER.name}
+                  {firstName} {lastName}
                 </div>
                 <div className='text-sm font-medium text-gray-500 truncate'>
-                  {USER.email}
+                  {email}
                 </div>
               </div>
               <a className='ml-auto flex-shrink-0 bg-white p-2 text-gray-400 hover:text-gray-500'>

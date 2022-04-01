@@ -4,6 +4,7 @@ type Props = {
   description: string;
 };
 const TemplateTicket = ({ name, description }: Props) => {
+
   return (
     <div className='bg-blue w-full p-2 flex justify-center font-sans '>
       <div className='rounded bg-grey-light w-64 p-2 '>

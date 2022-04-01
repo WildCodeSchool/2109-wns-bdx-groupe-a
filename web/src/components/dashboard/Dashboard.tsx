@@ -8,10 +8,16 @@ import { useState } from 'react';
 const Dashboard = ({data} : {data: any}) => {
   const [columns, setColumns] = useState(COLUMNS_TICKETS);
 
+  console.log(data)
+
+  if (!data) {
+    return <div>Chargement en cours...</div>
+  }
+
   return (
     <div className='h-full flex flex-col'>
       {/* Top nav*/}
-      <Header />
+      <Header user={data}/>
       {/* Bottom section */}
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
