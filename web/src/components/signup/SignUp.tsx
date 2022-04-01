@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 import { gql, useMutation } from '@apollo/client';
 
@@ -31,11 +31,16 @@ const newUser = { firstName: '', lastName: '', email: '', password: '' };
 const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [agreed, setAgreed] = useState(false);
   const [userInformations, setUserInformations] = useState(newUser);
-  const [signUp, { error }] = useMutation(SIGN_UP);
+  const [signUp, { error, data }] = useMutation(SIGN_UP);
   const onChange = (e: any) => {
     const { name, value } = e.target;
     setUserInformations({ ...userInformations, [name]: value });
   };
+  useEffect(() => {
+    if (data){
+      onClose()
+    }
+  }, [data])
 
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
@@ -120,7 +125,6 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
             onSubmit={(event) => {
               event.preventDefault();
               signUp({ variables: userInformations });
-              onClose()
             }}
           >
             <div>
@@ -256,7 +260,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               </button>
             </div>
           </form>
-          {error ? 'Invalid credentials.' : null}
+          {error ? 'Le mot de passe doit contenir au minimum 8 caractères' : null}
         </div>
       </div>
     </div>

@@ -170,7 +170,7 @@ const Connection = () => {
             </button>
           </div>
         </form>
-        { error ? "Invalid credentials." : null}
+        { error ? "La combinaison email/mot de passe est invalide" : null}
       </div>
     </div>
   );
