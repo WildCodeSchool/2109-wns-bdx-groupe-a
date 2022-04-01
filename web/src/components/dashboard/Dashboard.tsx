@@ -5,13 +5,18 @@ import LeftMenu from './LeftMenu';
 import { COLUMNS_TICKETS } from './dashboard.constants';
 import { useState } from 'react';
 
-const Dashboard = () => {
+const Dashboard = ({data} : {data: any}) => {
   const [columns, setColumns] = useState(COLUMNS_TICKETS);
+  const {myProfile} = data
+
+  if (!myProfile) {
+    return <div className="text-3xl uppercase flex justify-center">à faire si pas connecté</div>
+  }
 
   return (
     <div className='h-full flex flex-col'>
       {/* Top nav*/}
-      <Header />
+      <Header user={data}/>
       {/* Bottom section */}
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}

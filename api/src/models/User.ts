@@ -1,5 +1,4 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany, JoinTable, ManyToMany } from "typeorm";
-import { EncryptionTransformer } from 'typeorm-encrypted';
 import { Field, ID, ObjectType } from "type-graphql";
 import { IsEmail, IsNotEmpty } from "class-validator";
 
@@ -40,12 +39,7 @@ class User extends BaseEntity {
     email!: string; 
 
     
-    @Column({transformer: new EncryptionTransformer({
-        key: 'e41c966f21f9e1577802463f8924e6a3fe3e9751f201304213b2f845d8841d61',
-        algorithm: 'aes-256-cbc',
-        ivLength: 16,
-        iv: 'ff5ac19190424b1d88f9419ef949ae56'
-      }), type: "varchar", length: 255}) 
+    @Column() 
     @IsNotEmpty({ message : 'Ce champ doit être rempli'})
     password!: string;
 

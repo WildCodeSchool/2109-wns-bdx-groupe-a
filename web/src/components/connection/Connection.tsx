@@ -1,8 +1,25 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Modal from 'react-modal';
 import { LockClosedIcon } from '@heroicons/react/solid';
+import { useEffect, useState } from 'react';
+import { Navigate } from 'react-router-dom';
+import Modal from 'react-modal';
+
+import { gql, useMutation } from '@apollo/client';
+import { GET_MY_PROFILE } from '../../App';
 import SignUp from '../signup/SignUp';
+
+
+
+
+const SIGN_IN = gql`
+mutation SignIn($email: String!, $password: String!) {
+  signIn(email: $email, password: $password) {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+`
 
 const customStyles = {
   content: {
@@ -16,6 +33,10 @@ const customStyles = {
 };
 
 const Connection = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signIn, { data, error }] = useMutation(SIGN_IN);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
@@ -28,6 +49,10 @@ const Connection = () => {
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  if(data) {
+    return <Navigate to="/dashboard" /> 
+  }
 
   return (
     <div className='min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8'>
@@ -60,7 +85,16 @@ const Connection = () => {
         >
           <SignUp onClose={closeModal} />
         </Modal>
-        <form className='mt-8 space-y-6' action='#' method='POST'>
+        <form 
+          className='mt-8 space-y-6' 
+          action='#' 
+          method='POST'
+          onSubmit={ (event) => {
+            event.preventDefault();
+            signIn({ variables: {email, password}, refetchQueries: [ GET_MY_PROFILE ]})
+          }}
+          >
+
           <input type='hidden' name='remember' defaultValue='true' />
           <div className='rounded-md shadow-sm -space-y-px'>
             <div>
@@ -68,13 +102,14 @@ const Connection = () => {
                 Email address
               </label>
               <input
-                id='email-address'
+                id='email'
                 name='email'
                 type='email'
                 autoComplete='email'
                 required
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Email address'
+                onChange={(event) => setEmail(event.target.value) }
               />
             </div>
             <div>
@@ -89,6 +124,7 @@ const Connection = () => {
                 required
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Password'
+                onChange={(event) => setPassword(event.target.value) }
               />
             </div>
           </div>
@@ -111,7 +147,7 @@ const Connection = () => {
 
             <div className='text-sm'>
               <a
-                href='#'
+                href='#/'
                 className='font-medium text-indigo-600 hover:text-indigo-500'
               >
                 Forgot your password?
@@ -120,22 +156,21 @@ const Connection = () => {
           </div>
 
           <div>
-            <Link to='/dashboard'>
-              <button
-                type='submit'
-                className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
-              >
-                <span className='absolute left-0 inset-y-0 flex items-center pl-3'>
-                  <LockClosedIcon
-                    className='h-5 w-5 text-indigo-500 group-hover:text-indigo-400'
-                    aria-hidden='true'
-                  />
-                </span>
-                Sign in
-              </button>
-            </Link>
+            <button
+              type='submit'
+              className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+            >
+              <span className='absolute left-0 inset-y-0 flex items-center pl-3'>
+                <LockClosedIcon
+                  className='h-5 w-5 text-indigo-500 group-hover:text-indigo-400'
+                  aria-hidden='true'
+                />
+              </span>
+              Sign in
+            </button>
           </div>
         </form>
+        { error ? "La combinaison email/mot de passe est invalide" : null}
       </div>
     </div>
   );
