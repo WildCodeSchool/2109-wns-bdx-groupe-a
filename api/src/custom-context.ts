@@ -1,6 +1,6 @@
-import AppUser from "./models/AppUser";
+import User from "./models/User";
 
 export type CustomContext = {
   onSessionCreated: (sessionId: string) => void;
-  appUser: AppUser | null;
+  user: User | null;
 };

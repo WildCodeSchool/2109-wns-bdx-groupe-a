@@ -7,16 +7,16 @@ function classNames(...classes: string[]) {
 }
 
 const SIGN_UP = gql`
-mutation Mutation($firstName: String!, $lastName: String!, $emailAddress: String!, $password: String!) {
-  signUp(firstName: $firstName, lastName: $lastName, emailAddress: $emailAddress, password: $password) {
+mutation Mutation($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
+  signUp(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
     id
     firstName
     lastName
-    emailAddress
+    email
   }
 }
 `
-const newUser = { firstName: "" , lastName : "", emailAddress: "", password: ""}
+const newUser = { firstName: "" , lastName : "", email: "", password: ""}
 
 const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [agreed, setAgreed] = useState(false);
@@ -161,11 +161,11 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               <div className='mt-1'>
                 <input
                   id='email'
-                  name='emailAddress'
+                  name='email'
                   type='email'
                   autoComplete='email'
                   className='py-3 px-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border-gray-300 rounded-md'
-                  value={userInformations.emailAddress}
+                  value={userInformations.email}
                   onChange={(e) => {onChange(e)}}
                 />
               </div>

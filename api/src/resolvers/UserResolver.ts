@@ -1,12 +1,17 @@
-import { Args, Mutation, Query, Resolver } from "type-graphql";
+import { Args, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { CustomContext } from "../custom-context";
 
 import CreateUserInput from "../inputs/User/CreateUserInput";
 import DeleteUserInput from "../inputs/User/DeleteUserInput";
+import SignUpInput from "../inputs/User/Login/SignUpInput";
 import UpdateUserInput from "../inputs/User/UpdateUserInput";
 import User from "../models/User";
+import SignInInput from '../inputs/User/Login/SignInInput';
+import UserRepository from "./UserRepository";
 
 
-@Resolver()
+@Resolver(User)
+
 export default class UserResolver {
     @Query(() => [User]) 
     getUsers() {
@@ -56,4 +61,26 @@ export default class UserResolver {
         await userToDelete.remove()
         return userToDelete
     }
+
+    @Mutation(() => User)
+    async signUp(
+        @Args() { firstName, lastName, email, password }: SignUpInput
+    ): Promise<User | undefined> {
+        return UserRepository.signUp(firstName, lastName, email, password);
+    }
+
+    @Mutation(() => User)
+    async signIn(
+        @Args() { email, password }: SignInInput,
+        @Ctx() { onSessionCreated }: CustomContext
+    ): Promise<User | undefined> {
+        return UserRepository.signIn(email, password, onSessionCreated);
+    }
+
+    @Query(() => User, {nullable: true })
+    async myProfile(@Ctx() { user }: CustomContext) : Promise<User | null> {
+        return user;
+    }
+
+
 }

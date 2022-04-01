@@ -5,7 +5,7 @@ import { ArgsType, Field } from "type-graphql";
 class SignInInput {
   @Field()
   @IsEmail()
-  emailAddress!: string;
+  email!: string;
 
   @Field()
   @MinLength(8)

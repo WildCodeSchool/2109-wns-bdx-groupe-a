@@ -1,20 +1,22 @@
 import { LockClosedIcon } from '@heroicons/react/solid';
-
 import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-
-import SignUp from '../signup/SignUp';
 import Modal from 'react-modal';
+
 import { gql, useMutation } from '@apollo/client';
+import { GET_MY_PROFILE } from '../../App';
+import SignUp from '../signup/SignUp';
 
 
 
 
 const SIGN_IN = gql`
-mutation SignIn($emailAddress: String!, $password: String!) {
-  signIn(emailAddress: $emailAddress, password: $password) {
+mutation SignIn($email: String!, $password: String!) {
+  signIn(email: $email, password: $password) {
     id
-    emailAddress
+    firstName
+    lastName
+    email
   }
 }
 `
@@ -31,7 +33,7 @@ const customStyles = {
 };
 
 const Connection = () => {
-  const [emailAddress, setEmailAddress] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [signIn, { data, error }] = useMutation(SIGN_IN);
 
@@ -89,7 +91,7 @@ const Connection = () => {
           method='POST'
           onSubmit={ (event) => {
             event.preventDefault();
-            signIn({ variables: {emailAddress, password}})
+            signIn({ variables: {email, password}, refetchQueries: [ GET_MY_PROFILE ]})
           }}
           >
 
@@ -100,14 +102,14 @@ const Connection = () => {
                 Email address
               </label>
               <input
-                id='email-address'
+                id='email'
                 name='email'
                 type='email'
                 autoComplete='email'
                 required
                 className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
                 placeholder='Email address'
-                onChange={(event) => setEmailAddress(event.target.value) }
+                onChange={(event) => setEmail(event.target.value) }
               />
             </div>
             <div>

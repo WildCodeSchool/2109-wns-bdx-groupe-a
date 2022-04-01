@@ -1,15 +1,14 @@
 import { BaseEntity, Entity, ManyToOne, PrimaryColumn } from "typeorm";
-import AppUser from "./AppUser";
+import User from "./User";
+
 
 @Entity()
-class AppUserSession extends BaseEntity {
-  @PrimaryColumn("varchar", {
-    length: 32,
-  })
+class UserSession extends BaseEntity {
+  @PrimaryColumn("varchar", { length: 32 })
   id!: string;
 
-  @ManyToOne(() => AppUser)
-  user!: AppUser;
+  @ManyToOne(() => User)
+  user!: User;
 }
 
-export default AppUserSession;
+export default UserSession;

@@ -13,7 +13,7 @@ class SignUpInput {
 
   @Field()
   @IsEmail()
-  emailAddress!: string;
+  email!: string;
 
   @Field()
   @MinLength(8)
