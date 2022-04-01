@@ -6,7 +6,6 @@ import { COLUMNS_TICKETS } from './dashboard.constants';
 import { useState } from 'react';
 
 const Dashboard = ({data} : {data: any}) => {
-  console.log(data)
   const [columns, setColumns] = useState(COLUMNS_TICKETS);
 
   return (

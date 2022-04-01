@@ -46,6 +46,7 @@
       "last 1 safari version"
     ]
   },
+  "proxy": "http://api:4000",
   "devDependencies": {
     "@types/cookie": "^0.4.1",
     "@types/react-modal": "^3.13.1",

@@ -12,15 +12,13 @@ import UserSessionRepository from './resolvers/UserSessionRepository';
 
 
 
-const setSessionIdInCookies = (res: Response) => (sessionId: string) => {
+const setSessionIdInCookies = (res: Response) => (sessionId: string) => {  
   res.cookie("sessionId", sessionId, {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     httpOnly: true,
     secure: true,
     sameSite: "strict",
   });
-
-  console.log('res.cookies : ', res.cookie)
 };
 
 const setUpContext = async ( context: ExpressContext ): Promise<CustomContext> => {

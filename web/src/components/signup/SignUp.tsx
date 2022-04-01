@@ -26,8 +26,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
     const {name, value} = e.target;
     setUserInformations({ ...userInformations, [name]: value})
   }
-  console.log(userInformations);
-
+  
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
       <div className='relative max-w-xl mx-auto'>
