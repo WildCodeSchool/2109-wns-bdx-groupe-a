@@ -3,7 +3,9 @@
 // import getApolloServer from '../../apollo-server';
 // import Project from '../../models/Project';
 // import getDatabaseTestConnection from '../db-test-connection';
-
+describe('Logger', () => {
+  test.todo('please pass');
+});
 // describe('CommentResolver', () => {
 //   let server: ApolloServer;
 

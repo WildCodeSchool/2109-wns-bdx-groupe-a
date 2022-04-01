@@ -3,7 +3,9 @@
 // import getApolloServer from '../../apollo-server';
 // import User from '../../models/User';
 // import getDatabaseTestConnection from '../db-test-connection';
-
+describe('Logger', () => {
+  test.todo('please pass');
+});
 // describe('UserResolver', () => {
 //   let server: ApolloServer;
 
