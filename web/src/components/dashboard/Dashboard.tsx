@@ -1,25 +1,37 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
+import Modal from 'react-modal';
+
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import Column from './Column';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
 
-import { COLUMNS_TICKETS } from './dashboard.constants';
 import { Todo } from './types';
 import InputField from './InputField';
 import TodoList from './TodoList';
 import Loader from '../loader';
 
 const Dashboard = ({ data }: { data: any }) => {
-  const [columns, setColumns] = useState(COLUMNS_TICKETS);
   const [todo, setTodo] = useState<string>('');
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [inProgressTodos, setInProgressTodos] = useState<Array<Todo>>([]);
   const [inTestTodos, setInTestTodos] = useState<Array<Todo>>([]);
-  const [CompletedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
+  const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { myProfile } = data;
+
+
+  useEffect(() => {
+    if (isModalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isModalOpen]);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   if (!myProfile) {
       <Navigate to="/" replace />
@@ -31,6 +43,17 @@ const Dashboard = ({ data }: { data: any }) => {
     if (todo) {
       setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
       setTodo('');
+    }
+  };
+
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
     }
   };
 
@@ -52,7 +75,7 @@ const Dashboard = ({ data }: { data: any }) => {
     let active = todos;
     let inProgress = inProgressTodos;
     let inTest = inTestTodos;
-    let complete = CompletedTodos;
+    let complete = completedTodos;
     // Source Logic
     if (source.droppableId === 'TodosList') {
       add = active[source.index];
@@ -86,21 +109,36 @@ const Dashboard = ({ data }: { data: any }) => {
   };
 
   return (
-    <div className='h-full flex flex-col'>
+    <>
+     <div className='h-full flex flex-col'>
       {/* Top nav*/}
       <Header user={data} />
-            <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
       {/* Bottom section */}
+      <Modal
+          isOpen={isModalOpen}
+          onRequestClose={closeModal}
+          style={customStyles}
+          contentLabel='Item Modal'
+          ariaHideApp={false}
+        >
+            <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} onClose={closeModal}/>
+        </Modal>
+        <button
+              onClick={openModal}
+              className='font-medium text-indigo-600 hover:text-indigo-500'
+            >
+              Ajout task
+            </button>
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
         <LeftMenu />
+            {/* Main area */}
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className='border-2 border-solid border-red-600 w-full'>
-            <span className='heading'>Board</span>
+          <div className="w-full flex justify-evenly">
             <TodoList
               todos={todos}
               setTodos={setTodos}
-              CompletedTodos={CompletedTodos}
+              completedTodos={completedTodos}
               setCompletedTodos={setCompletedTodos}
               inProgressTodos={inProgressTodos}
               setInProgressTodos={setInProgressTodos}
@@ -109,12 +147,9 @@ const Dashboard = ({ data }: { data: any }) => {
             />
           </div>
         </DragDropContext>
-        {/* Main area */}
-        {/* {columns.map(({ columnId, title, ticket }) => (
-          <Column key={columnId} title={title} ticket={ticket} />
-        ))} */}
       </div>
     </div>
+    </>
   );
 };
 

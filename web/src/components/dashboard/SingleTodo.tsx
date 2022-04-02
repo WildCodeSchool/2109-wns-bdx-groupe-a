@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { Todo } from './types';
 import "./styles.css";
+import Ticket from './ticket/Ticket';
 
 
 const SingleTodo: React.FC<{
@@ -47,9 +48,10 @@ const SingleTodo: React.FC<{
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           ref={provided.innerRef}
-          className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
-        >
-          {edit ? (
+          // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
+          // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
+        > <Ticket todo={todo.todo} />
+          {/* {edit ? (
             <input
               value={editTodo}
               onChange={(e) => setEditTodo(e.target.value)}
@@ -60,8 +62,8 @@ const SingleTodo: React.FC<{
             <s className="todos__single--text">{todo.todo}</s>
           ) : (
             <span className="todos__single--text">{todo.todo}</span>
-          )}
-          <div>
+          )} */}
+          {/* <div>
             <span
               className="icon"
               onClick={() => {
@@ -78,7 +80,7 @@ const SingleTodo: React.FC<{
             <span className="icon" onClick={() => handleDone(todo.id)}>
               Done
             </span>
-          </div>
+          </div> */}
         </form>
       )}
     </Draggable>

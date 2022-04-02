@@ -15,9 +15,8 @@ function classNames(...classes: string[]) {
 const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState('');
-  const [userInformations, setUserInformations] = useState(
-    DEFAULT_USER_INFORMATIONS
-  );
+  const [userInformations, setUserInformations] = useState(DEFAULT_USER_INFORMATIONS);
+
   //TODO on peut se créer un compte avec 2 fois l'adress mail malgré l'erreur graphql
   const [signUp, { error: ErrorSgnUp }] = useMutation(SIGN_UP);
 
@@ -264,9 +263,9 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 xmlns='http://www.w3.org/2000/svg'
               >
                 <path
-                  fill-rule='evenodd'
+                  fillRule='evenodd'
                   d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z'
-                  clip-rule='evenodd'
+                  clipRule='evenodd'
                 ></path>
               </svg>
               <div>

@@ -5,6 +5,7 @@ interface props {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
   handleAdd: (e: React.FormEvent) => void;
+  onClose: (e: React.FormEvent) => void;
 }
 
 const InputField: React.FC<props> = ({ todo, setTodo, handleAdd }) => {

@@ -13,14 +13,14 @@ interface props {
   setInProgressTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
   setInTestTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
   inProgressTodos: Array<Todo>;
-  CompletedTodos: Array<Todo>;
+  completedTodos: Array<Todo>;
   inTestTodos: Array<Todo>;
 }
 
 const TodoList: React.FC<props> = ({
   todos,
   setTodos,
-  CompletedTodos,
+  completedTodos,
   setCompletedTodos,
   inProgressTodos,
   setInProgressTodos,
@@ -28,9 +28,10 @@ const TodoList: React.FC<props> = ({
   setInTestTodos
 }) => {
 
-  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-500 dark:border-gray-400" : "bg-gray-800 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-600 p-6";
+  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-5/6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-500 dark:border-gray-400" : "bg-gray-800 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-600 p-6 w-5/6";
   return (
-    <div className="w-full flex mt-3 justify-between items-center">
+    <div className="container">
+      <div className="w-full">
       <Droppable droppableId="TodosList">
         {(provided, snapshot) => (
           <div
@@ -52,6 +53,8 @@ const TodoList: React.FC<props> = ({
           </div>
         )}
       </Droppable>
+      </div>
+      <div className="w-full">
       <Droppable droppableId="InProgressList">
         {(provided, snapshot) => (
           <div
@@ -73,6 +76,8 @@ const TodoList: React.FC<props> = ({
           </div>
         )}
       </Droppable>
+      </div>
+      <div className="w-full">
       <Droppable droppableId="InTestList">
         {(provided, snapshot) => (
           <div
@@ -94,6 +99,8 @@ const TodoList: React.FC<props> = ({
           </div>
         )}
       </Droppable>
+      </div>
+      <div className="w-full">
       <Droppable droppableId="TodosRemove">
         {(provided, snapshot) => (
           <div
@@ -102,10 +109,10 @@ const TodoList: React.FC<props> = ({
             className={isDraggingStyle(snapshot.isDraggingOver)}
           >
             <span className="todos__heading">Completed Tasks</span>
-            {CompletedTodos?.map((todo, index) => (
+            {completedTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}
-                todos={CompletedTodos}
+                todos={completedTodos}
                 todo={todo}
                 key={todo.id}
                 setTodos={setCompletedTodos}
@@ -115,6 +122,7 @@ const TodoList: React.FC<props> = ({
           </div>
         )}
       </Droppable>
+      </div>
     </div>
   );
 };
