@@ -12,9 +12,11 @@ interface props {
   setCompletedTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
   setInProgressTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
   setInTestTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
+  setPrInProgress: React.Dispatch<React.SetStateAction<Array<Todo>>>;
   inProgressTodos: Array<Todo>;
   completedTodos: Array<Todo>;
   inTestTodos: Array<Todo>;
+  prInProgress: Array<Todo>;
 }
 
 const TodoList: React.FC<props> = ({
@@ -25,10 +27,12 @@ const TodoList: React.FC<props> = ({
   inProgressTodos,
   setInProgressTodos,
   inTestTodos,
-  setInTestTodos
+  setInTestTodos,
+  prInProgress,
+  setPrInProgress
 }) => {
 
-  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-5/6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-500 dark:border-gray-400" : "bg-gray-800 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-600 p-6 w-5/6";
+  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
   return (
     <div className="container">
       <div className="w-full">
@@ -77,6 +81,30 @@ const TodoList: React.FC<props> = ({
         )}
       </Droppable>
       </div>
+      <div className="w-full">
+      <Droppable droppableId="InPRList">
+        {(provided, snapshot) => (
+          <div
+            className={isDraggingStyle(snapshot.isDraggingOver)}
+            ref={provided.innerRef}
+            {...provided.droppableProps}
+          >
+            <span className="todos__heading">PR in progress</span>
+            {prInProgress?.map((todo, index) => (
+              <SingleTodo
+                index={index}
+                todos={todos}
+                todo={todo}
+                key={todo.id}
+                setTodos={setPrInProgress}
+              />
+            ))}
+            {provided.placeholder}
+          </div>
+        )}
+      </Droppable>
+      </div>
+     
       <div className="w-full">
       <Droppable droppableId="InTestList">
         {(provided, snapshot) => (

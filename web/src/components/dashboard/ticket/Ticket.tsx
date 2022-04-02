@@ -3,7 +3,7 @@ import React from 'react'
 const Ticket = ({todo}: {todo: any}) => {
   return (
     <div className='bg-blue w-full flex justify-center font-sans '>
-        <div className='rounded bg-grey-light w-64 p-2 '>
+        <div className='rounded bg-grey-light w-full mt-2'>
           <div className='text-sm '>
             <div className='bg-white p-4 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter'>
               <div className='flex justify-between'>

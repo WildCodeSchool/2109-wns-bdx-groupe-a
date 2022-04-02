@@ -1,14 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import Modal from 'react-modal';
-
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
 
 import { Todo } from './types';
-import InputField from './InputField';
 import TodoList from './TodoList';
 import Loader from '../loader';
 
@@ -17,21 +14,10 @@ const Dashboard = ({ data }: { data: any }) => {
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [inProgressTodos, setInProgressTodos] = useState<Array<Todo>>([]);
   const [inTestTodos, setInTestTodos] = useState<Array<Todo>>([]);
+  const [prInProgress, setPrInProgress] = useState<Array<Todo>>([]);
   const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
   const { myProfile } = data;
 
-
-  useEffect(() => {
-    if (isModalOpen === true) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isModalOpen]);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   if (!myProfile) {
       <Navigate to="/" replace />
@@ -46,16 +32,6 @@ const Dashboard = ({ data }: { data: any }) => {
     }
   };
 
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
-    }
-  };
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
@@ -75,6 +51,7 @@ const Dashboard = ({ data }: { data: any }) => {
     let active = todos;
     let inProgress = inProgressTodos;
     let inTest = inTestTodos;
+    let inPR = prInProgress;
     let complete = completedTodos;
     // Source Logic
     if (source.droppableId === 'TodosList') {
@@ -86,6 +63,9 @@ const Dashboard = ({ data }: { data: any }) => {
     } else if (source.droppableId === 'InTestList') {
       add = inTest[source.index];
       inTest.splice(source.index, 1);
+    } else if (source.droppableId === 'InPRList') {
+      add = inPR[source.index];
+      inPR.splice(source.index, 1);
     } else {
       add = complete[source.index];
       complete.splice(source.index, 1);
@@ -98,6 +78,8 @@ const Dashboard = ({ data }: { data: any }) => {
       inProgress.splice(destination.index, 0, add);
     } else if (destination.droppableId === 'InTestList') {
       inTest.splice(destination.index, 0, add);
+    } else if (destination.droppableId === 'InPRList') {
+      inPR.splice(destination.index, 0, add);
     } else {
       complete.splice(destination.index, 0, add);
     }
@@ -106,35 +88,22 @@ const Dashboard = ({ data }: { data: any }) => {
     setTodos(active);
     setInProgressTodos(inProgress);
     setInTestTodos(inTest);
+    setPrInProgress(inPR);
   };
 
   return (
     <>
      <div className='h-full flex flex-col'>
       {/* Top nav*/}
-      <Header user={data} />
+      <Header user={data} todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
       {/* Bottom section */}
-      <Modal
-          isOpen={isModalOpen}
-          onRequestClose={closeModal}
-          style={customStyles}
-          contentLabel='Item Modal'
-          ariaHideApp={false}
-        >
-            <InputField todo={todo} setTodo={setTodo} handleAdd={handleAdd} onClose={closeModal}/>
-        </Modal>
-        <button
-              onClick={openModal}
-              className='font-medium text-indigo-600 hover:text-indigo-500'
-            >
-              Ajout task
-            </button>
+
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
         <LeftMenu />
             {/* Main area */}
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="w-full flex justify-evenly">
+          <div className="w-full flex justify-evenly overflow-y-auto">
             <TodoList
               todos={todos}
               setTodos={setTodos}
@@ -144,6 +113,8 @@ const Dashboard = ({ data }: { data: any }) => {
               setInProgressTodos={setInProgressTodos}
               inTestTodos={inTestTodos}
               setInTestTodos={setInTestTodos}
+              prInProgress={prInProgress}
+              setPrInProgress={setPrInProgress}
             />
           </div>
         </DragDropContext>

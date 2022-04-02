@@ -1,16 +1,13 @@
 import { useEffect, useState } from 'react';
-import {
-  NAVIGATION,
-  SIDE_BAR_NAVIGATION,
-  USER,
-  USER_NAVIGATION
-} from './dashboard.constants';
+import { NAVIGATION, SIDE_BAR_NAVIGATION, USER } from './dashboard.constants';
 import { Fragment } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { GET_MY_PROFILE } from '../../App';
 import { gql, useMutation } from '@apollo/client';
+import Modal from 'react-modal';
+import InputField from './InputField';
 
 export const DELETE_SESSION = gql`
   mutation DeleteSession {
@@ -18,17 +15,45 @@ export const DELETE_SESSION = gql`
   }
 `;
 
-const Header = ({ user }: { user: any }) => {
+interface props {
+  todo: string;
+  user: any;
+  setTodo: React.Dispatch<React.SetStateAction<string>>;
+  handleAdd: (e: React.FormEvent) => void;
+}
+
+const Header = ({ user, todo, setTodo, handleAdd }: props) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
-  const [deleteSession] = useMutation(DELETE_SESSION, {
-    refetchQueries: [{ query: GET_MY_PROFILE }]
-  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [deleteSession] = useMutation(DELETE_SESSION, {refetchQueries: [{ query: GET_MY_PROFILE }]});
   let navigate = useNavigate();
   const { myProfile } = user;
+
+  useEffect(() => {
+    if (isModalOpen === true) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isModalOpen]);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const onLogOut = () => {
     deleteSession();
     navigate('/');
+  };
+  const customStyles = {
+    content: {
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-50%, -50%)'
+    }
   };
 
   return (
@@ -46,6 +71,21 @@ const Header = ({ user }: { user: any }) => {
           />
         </a>
       </div>
+      {/* TODO à changer */}
+      <Modal
+        isOpen={isModalOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel='Item Modal'
+        ariaHideApp={false}
+      >
+        <InputField
+          todo={todo}
+          setTodo={setTodo}
+          handleAdd={handleAdd}
+          onClose={closeModal}
+        />
+      </Modal>
 
       {/* Picker area */}
       <div className='mx-auto md:hidden'>
@@ -103,6 +143,7 @@ const Header = ({ user }: { user: any }) => {
         </div>
         <button
           type='button'
+          onClick={openModal}
           className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
         >
           Créer
