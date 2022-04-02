@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { NAVIGATION, SIDE_BAR_NAVIGATION, USER } from './dashboard.constants';
-import { Fragment } from 'react';
+import { SIDE_BAR_NAVIGATION, USER } from './dashboard.constants';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -8,6 +7,7 @@ import { GET_MY_PROFILE } from '../../App';
 import { gql, useMutation } from '@apollo/client';
 import Modal from 'react-modal';
 import InputField from './InputField';
+import { UserProfile } from '../../types/user/UserProfileTypes';
 
 export const DELETE_SESSION = gql`
   mutation DeleteSession {
@@ -17,7 +17,7 @@ export const DELETE_SESSION = gql`
 
 interface props {
   todo: string;
-  user: any;
+  user: UserProfile;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
   handleAdd: (e: React.FormEvent) => void;
 }
@@ -27,7 +27,7 @@ const Header = ({ user, todo, setTodo, handleAdd }: props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [deleteSession] = useMutation(DELETE_SESSION, {refetchQueries: [{ query: GET_MY_PROFILE }]});
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const { myProfile } = user;
 
   useEffect(() => {
@@ -223,7 +223,7 @@ const Header = ({ user, todo, setTodo, handleAdd }: props) => {
             </div>
           </div>
           <div className='max-w-8xl mx-auto py-3 px-2 sm:px-4'>
-            {NAVIGATION.map(
+            {/* {NAVIGATION.map(
               (item: { name: string; href: string; children: any }) => (
                 <Fragment key={item.name}>
                   <a
@@ -243,7 +243,7 @@ const Header = ({ user, todo, setTodo, handleAdd }: props) => {
                   ))}
                 </Fragment>
               )
-            )}
+            )} */}
           </div>
           <div className='border-t border-gray-200 pt-4 pb-3'>
             <div className='max-w-8xl mx-auto px-4 flex items-center sm:px-6'>

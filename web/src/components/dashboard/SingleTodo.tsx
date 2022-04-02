@@ -13,7 +13,7 @@ const SingleTodo: React.FC<{
   setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
 }> = ({ index, todo, todos, setTodos }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editTodo, setEditTodo] = useState<string>(todo.todo);
+  const [editTodo ] = useState<string>(todo.todo);
 
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -28,21 +28,21 @@ const SingleTodo: React.FC<{
     setEdit(false);
   };
 
-  const handleDelete = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
+  // const handleDelete = (id: number) => {
+  //   setTodos(todos.filter((todo) => todo.id !== id));
+  // };
 
-  const handleDone = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
-      )
-    );
-  };
+  // const handleDone = (id: number) => {
+  //   setTodos(
+  //     todos.map((todo) =>
+  //       todo.id === id ? { ...todo, isDone: !todo.isDone } : todo
+  //     )
+  //   );
+  // };
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided, snapshot) => (
+      {(provided) => (
         <form
           onSubmit={(e) => handleEdit(e, todo.id)}
           {...provided.draggableProps}

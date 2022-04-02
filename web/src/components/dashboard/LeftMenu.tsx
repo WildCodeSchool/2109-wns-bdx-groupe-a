@@ -1,8 +1,8 @@
-import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
+// import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ');
-}
+// function classNames(...classes: string[]) {
+//   return classes.filter(Boolean).join(' ');
+// }
 
 const LeftMenu = () => {
   return (
@@ -11,7 +11,7 @@ const LeftMenu = () => {
       className='hidden md:block md:flex-shrink-0 md:bg-gray-800 md:overflow-y-auto'
     >
       <div className='relative w-20 flex flex-col p-3 space-y-3'>
-        {SIDE_BAR_NAVIGATION.map(
+        {/* {SIDE_BAR_NAVIGATION.map(
           (item: { name: string; href: string; current: any; icon: any }) => (
             <a
               key={item.name}
@@ -27,7 +27,7 @@ const LeftMenu = () => {
               <item.icon className='h-6 w-6' aria-hidden='true' />
             </a>
           )
-        )}
+        )} */}
       </div>
     </nav>
   );

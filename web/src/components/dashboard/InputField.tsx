@@ -8,9 +8,9 @@ interface props {
   onClose: () => void;
 }
 
-const InputField: React.FC<props> = ({ todo, setTodo, handleAdd, onClose }) => {
+const InputField: React.FC<props> = ({ todo, setTodo, handleAdd }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-
+ 
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
       <div className='relative max-w-xl mx-auto'>

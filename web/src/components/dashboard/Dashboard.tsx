@@ -7,9 +7,10 @@ import LeftMenu from './LeftMenu';
 
 import { Todo } from './types';
 import TodoList from './TodoList';
-import Loader from '../loader';
+import { UserProfile } from '../../types/user/UserProfileTypes';
+// import Loader from '../loader';
 
-const Dashboard = ({ data }: { data: any }) => {
+const Dashboard = ({ data }: { data: UserProfile }) => {
   const [todo, setTodo] = useState<string>('');
   const [todos, setTodos] = useState<Array<Todo>>([]);
   const [inProgressTodos, setInProgressTodos] = useState<Array<Todo>>([]);
@@ -48,11 +49,11 @@ const Dashboard = ({ data }: { data: any }) => {
     }
 
     let add;
-    let active = todos;
-    let inProgress = inProgressTodos;
-    let inTest = inTestTodos;
-    let inPR = prInProgress;
-    let complete = completedTodos;
+    const active = todos;
+    const inProgress = inProgressTodos;
+    const inTest = inTestTodos;
+    const inPR = prInProgress;
+    const complete = completedTodos;
     // Source Logic
     if (source.droppableId === 'TodosList') {
       add = active[source.index];

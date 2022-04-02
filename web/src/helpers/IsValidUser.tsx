@@ -16,7 +16,7 @@ import { UserSignUp } from '../types/user/UserSignUpTypes';
     return re.test(String(name));
   };
 
-  export const isValidUser = (user: any) => {
+  export const isValidUser = (user: UserSignUp) => {
     return (
       isValidEmail(user.email) &&
       isValidPassword(user.password) &&

@@ -18,7 +18,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [userInformations, setUserInformations] = useState(DEFAULT_USER_INFORMATIONS);
 
   //TODO on peut se créer un compte avec 2 fois l'adress mail malgré l'erreur graphql
-  const [signUp, { error: ErrorSgnUp }] = useMutation(SIGN_UP);
+  const [signUp, {}] = useMutation(SIGN_UP);
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target as typeof e.target & {

@@ -1,6 +1,5 @@
-import React from 'react'
-
-const Ticket = ({todo}: {todo: any}) => {
+const Ticket = ({todo}: {todo: string}) => {
+  console.log(todo)
   return (
     <div className='bg-blue w-full flex justify-center font-sans '>
         <div className='rounded bg-grey-light w-full mt-2'>
