@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router-dom';
+
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Column from './Column';
 import Header from './Header';
@@ -8,6 +10,7 @@ import { COLUMNS_TICKETS } from './dashboard.constants';
 import { Todo } from './types';
 import InputField from './InputField';
 import TodoList from './TodoList';
+import Loader from '../loader';
 
 const Dashboard = ({ data }: { data: any }) => {
   const [columns, setColumns] = useState(COLUMNS_TICKETS);
@@ -19,11 +22,7 @@ const Dashboard = ({ data }: { data: any }) => {
   const { myProfile } = data;
 
   if (!myProfile) {
-    return (
-      <div className='text-3xl uppercase flex justify-center'>
-        à faire si pas connecté
-      </div>
-    );
+      <Navigate to="/" replace />
   }
 
   const handleAdd = (e: React.FormEvent) => {
@@ -37,8 +36,6 @@ const Dashboard = ({ data }: { data: any }) => {
 
   const onDragEnd = (result: DropResult) => {
     const { destination, source } = result;
-
-    console.log(result);
 
     if (!destination) {
       return;
