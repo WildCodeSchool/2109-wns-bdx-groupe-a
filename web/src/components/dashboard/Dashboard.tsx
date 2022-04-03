@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
@@ -8,17 +8,43 @@ import LeftMenu from './LeftMenu';
 import { Todo } from './types';
 import TodoList from './TodoList';
 import { UserProfile } from '../../types/user/UserProfileTypes';
+import { TasksData, TaskType } from '../../types/tasks/TaskType';
+import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { useQuery } from '@apollo/client';
 // import Loader from '../loader';
 
 const Dashboard = ({ data }: { data: UserProfile }) => {
   const [todo, setTodo] = useState<string>('');
-  const [todos, setTodos] = useState<Array<Todo>>([]);
-  const [inProgressTodos, setInProgressTodos] = useState<Array<Todo>>([]);
-  const [inTestTodos, setInTestTodos] = useState<Array<Todo>>([]);
-  const [prInProgress, setPrInProgress] = useState<Array<Todo>>([]);
-  const [completedTodos, setCompletedTodos] = useState<Array<Todo>>([]);
+  const [tasks, setTasks] = useState<Array<TaskType>>([]);
+  const [todos, setTodos] = useState<Array<TaskType>>([]);
+  const [inProgressTodos, setInProgressTodos] = useState<Array<TaskType>>([]);
+  const [inTestTodos, setInTestTodos] = useState<Array<TaskType>>([]);
+  const [prInProgress, setPrInProgress] = useState<Array<TaskType>>([]);
+  const [completedTodos, setCompletedTodos] = useState<Array<TaskType>>([]);
   const { myProfile } = data;
+  const { loading, error, data: tasksList } = useQuery<TasksData>(GET_TASKS);
 
+  console.log(tasksList)
+
+  useEffect(() => {
+
+    if (tasksList) {
+      const { getTasks: tasks } = tasksList;
+      const todos = tasks.filter(task => task.progress_state === '1');
+      const inProgressTodos = tasks.filter(task => task.progress_state === '2');
+      const prInProgress = tasks.filter(task => task.progress_state === '3');
+      const inTestTodos = tasks.filter(task => task.progress_state === '4');
+      const completedTodos = tasks.filter(task => task.progress_state === '5');
+
+      setTasks(tasks);
+      setTodos(todos);
+      setInProgressTodos(inProgressTodos);
+      setInTestTodos(inTestTodos);
+      setPrInProgress(prInProgress);
+      setCompletedTodos(completedTodos);
+    }
+
+  }, [tasksList])
 
   if (!myProfile) {
       <Navigate to="/" replace />
@@ -27,10 +53,10 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (todo) {
-      setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
-      setTodo('');
-    }
+    // if (todo) {
+    //   setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
+    //   setTodo('');
+    // }
   };
 
 

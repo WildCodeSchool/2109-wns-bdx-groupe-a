@@ -1,12 +1,14 @@
-const Ticket = ({todo}: {todo: string}) => {
-  console.log(todo)
+import { TaskType } from '../../../types/tasks/TaskType'
+
+const Ticket = ({task}: {task: TaskType}) => {
+  console.log(task)
   return (
     <div className='bg-blue w-full flex justify-center font-sans '>
         <div className='rounded bg-grey-light w-full mt-2'>
           <div className='text-sm '>
             <div className='bg-white p-4 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter'>
               <div className='flex justify-between'>
-                <h3 className='text-sm'>{'name'}</h3>
+                <h3 className='text-sm'>{task.title}</h3>
                 <svg
                   className='h-4 fill-current text-grey-dark cursor-pointer'
                   xmlns='http://www.w3.org/2000/svg'
@@ -16,7 +18,7 @@ const Ticket = ({todo}: {todo: string}) => {
                 </svg>
               </div>
               <hr className='mt-2 mb-2 border-indigo-500' />
-              {todo}
+              {task.description}
               <div className='flex justify-end mt-2'>
                 {/* <AddButton /> */}
                 Bouton

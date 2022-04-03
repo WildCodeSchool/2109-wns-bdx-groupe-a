@@ -4,19 +4,20 @@ import SingleTodo from "./SingleTodo";
 import { Droppable } from "react-beautiful-dnd";
 import { Todo } from './types';
 import "./styles.css";
+import { TaskType } from '../../types/tasks/TaskType';
 
 
 interface props {
-  todos: Array<Todo>;
-  setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-  setCompletedTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-  setInProgressTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-  setInTestTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-  setPrInProgress: React.Dispatch<React.SetStateAction<Array<Todo>>>;
-  inProgressTodos: Array<Todo>;
-  completedTodos: Array<Todo>;
-  inTestTodos: Array<Todo>;
-  prInProgress: Array<Todo>;
+  todos: Array<TaskType>;
+  setTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
+  setCompletedTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
+  setInProgressTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
+  setInTestTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
+  setPrInProgress: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
+  inProgressTodos: Array<TaskType>;
+  completedTodos: Array<TaskType>;
+  inTestTodos: Array<TaskType>;
+  prInProgress: Array<TaskType>;
 }
 
 const TodoList: React.FC<props> = ({

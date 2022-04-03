@@ -4,16 +4,17 @@ import { Draggable } from "react-beautiful-dnd";
 import { Todo } from './types';
 import "./styles.css";
 import Ticket from './ticket/Ticket';
+import { TaskType } from '../../types/tasks/TaskType';
 
 
 const SingleTodo: React.FC<{
   index: number;
-  todo: Todo;
-  todos: Array<Todo>;
-  setTodos: React.Dispatch<React.SetStateAction<Array<Todo>>>;
+  todo: TaskType;
+  todos: Array<TaskType>;
+  setTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
 }> = ({ index, todo, todos, setTodos }) => {
   const [edit, setEdit] = useState<boolean>(false);
-  const [editTodo ] = useState<string>(todo.todo);
+  const [editTodo ] = useState<string>(todo.description);
 
   const inputRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -27,6 +28,8 @@ const SingleTodo: React.FC<{
     );
     setEdit(false);
   };
+
+  console.log(todo)
 
   // const handleDelete = (id: number) => {
   //   setTodos(todos.filter((todo) => todo.id !== id));
@@ -44,13 +47,14 @@ const SingleTodo: React.FC<{
     <Draggable draggableId={todo.id.toString()} index={index}>
       {(provided) => (
         <form
-          onSubmit={(e) => handleEdit(e, todo.id)}
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-          // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
-          // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
-        > <Ticket todo={todo.todo} />
+        onSubmit={(e) => handleEdit(e, todo.id)}
+        {...provided.draggableProps}
+        {...provided.dragHandleProps}
+        ref={provided.innerRef}
+        // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
+        // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
+        > 
+        <Ticket task={todo} />
           {/* {edit ? (
             <input
               value={editTodo}
