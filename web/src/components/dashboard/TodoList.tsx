@@ -2,10 +2,9 @@ import React from "react";
 
 import SingleTodo from "./SingleTodo";
 import { Droppable } from "react-beautiful-dnd";
-import { Todo } from './types';
-import "./styles.css";
 import { TaskType } from '../../types/tasks/TaskType';
 
+import "./styles.css";
 
 interface props {
   todos: Array<TaskType>;
@@ -14,6 +13,7 @@ interface props {
   setInProgressTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
   setInTestTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
   setPrInProgress: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
+  setTaskId: React.Dispatch<React.SetStateAction<string>>;
   inProgressTodos: Array<TaskType>;
   completedTodos: Array<TaskType>;
   inTestTodos: Array<TaskType>;
@@ -30,14 +30,15 @@ const TodoList: React.FC<props> = ({
   inTestTodos,
   setInTestTodos,
   prInProgress,
-  setPrInProgress
+  setPrInProgress,
+  setTaskId
 }) => {
 
   const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
   return (
     <div className="container">
       <div className="w-full">
-      <Droppable droppableId="TodosList">
+      <Droppable droppableId="1">
         {(provided, snapshot) => (
           <div
             className={isDraggingStyle(snapshot.isDraggingOver)}
@@ -50,6 +51,7 @@ const TodoList: React.FC<props> = ({
                 index={index}
                 todos={todos}
                 todo={todo}
+                setTaskId={setTaskId}
                 key={todo.id}
                 setTodos={setTodos}
               />
@@ -60,7 +62,7 @@ const TodoList: React.FC<props> = ({
       </Droppable>
       </div>
       <div className="w-full">
-      <Droppable droppableId="InProgressList">
+      <Droppable droppableId="2">
         {(provided, snapshot) => (
           <div
             className={isDraggingStyle(snapshot.isDraggingOver)}
@@ -73,6 +75,7 @@ const TodoList: React.FC<props> = ({
                 index={index}
                 todos={todos}
                 todo={todo}
+                setTaskId={setTaskId}
                 key={todo.id}
                 setTodos={setInProgressTodos}
               />
@@ -83,7 +86,7 @@ const TodoList: React.FC<props> = ({
       </Droppable>
       </div>
       <div className="w-full">
-      <Droppable droppableId="InPRList">
+      <Droppable droppableId="3">
         {(provided, snapshot) => (
           <div
             className={isDraggingStyle(snapshot.isDraggingOver)}
@@ -96,6 +99,7 @@ const TodoList: React.FC<props> = ({
                 index={index}
                 todos={todos}
                 todo={todo}
+                setTaskId={setTaskId}
                 key={todo.id}
                 setTodos={setPrInProgress}
               />
@@ -107,7 +111,7 @@ const TodoList: React.FC<props> = ({
       </div>
      
       <div className="w-full">
-      <Droppable droppableId="InTestList">
+      <Droppable droppableId="4">
         {(provided, snapshot) => (
           <div
             className={isDraggingStyle(snapshot.isDraggingOver)}
@@ -120,6 +124,7 @@ const TodoList: React.FC<props> = ({
                 index={index}
                 todos={todos}
                 todo={todo}
+                setTaskId={setTaskId}
                 key={todo.id}
                 setTodos={setInTestTodos}
               />
@@ -130,7 +135,7 @@ const TodoList: React.FC<props> = ({
       </Droppable>
       </div>
       <div className="w-full">
-      <Droppable droppableId="TodosRemove">
+      <Droppable droppableId="5">
         {(provided, snapshot) => (
           <div
             ref={provided.innerRef}
@@ -143,6 +148,7 @@ const TodoList: React.FC<props> = ({
                 index={index}
                 todos={completedTodos}
                 todo={todo}
+                setTaskId={setTaskId}
                 key={todo.id}
                 setTodos={setCompletedTodos}
               />

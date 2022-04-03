@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Switch } from '@headlessui/react';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../../graphql/queries/QSignUp';
-import { DEFAULT_USER_INFORMATIONS } from '../../constants';
+import { DEFAULT_USER_INFORMATIONS } from '../../../shared/constants';
 import {
   isValidUser,
   handleIsNotValidUserError

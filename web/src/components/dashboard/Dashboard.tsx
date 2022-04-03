@@ -5,36 +5,39 @@ import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Header from './Header';
 import LeftMenu from './LeftMenu';
 
-import { Todo } from './types';
 import TodoList from './TodoList';
 import { UserProfile } from '../../types/user/UserProfileTypes';
 import { TasksData, TaskType } from '../../types/tasks/TaskType';
 import { GET_TASKS } from '../../graphql/queries/QGetTasks';
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
+import { TASK_PROGRESS_STATE } from '../../graphql/mutations/tasks/TaskProgressStateMutation';
 // import Loader from '../loader';
 
 const Dashboard = ({ data }: { data: UserProfile }) => {
   const [todo, setTodo] = useState<string>('');
-  const [tasks, setTasks] = useState<Array<TaskType>>([]);
+  const [, setTasks] = useState<Array<TaskType>>([]);
   const [todos, setTodos] = useState<Array<TaskType>>([]);
   const [inProgressTodos, setInProgressTodos] = useState<Array<TaskType>>([]);
   const [inTestTodos, setInTestTodos] = useState<Array<TaskType>>([]);
   const [prInProgress, setPrInProgress] = useState<Array<TaskType>>([]);
   const [completedTodos, setCompletedTodos] = useState<Array<TaskType>>([]);
+  const [getTaskId, setTaskId] = useState<string>('');
   const { myProfile } = data;
-  const { loading, error, data: tasksList } = useQuery<TasksData>(GET_TASKS);
+  const { data: tasksList } = useQuery<TasksData>(GET_TASKS);
+  const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
 
-  console.log(tasksList)
+  // console.log(tasks)
 
   useEffect(() => {
-
     if (tasksList) {
       const { getTasks: tasks } = tasksList;
-      const todos = tasks.filter(task => task.progress_state === '1');
-      const inProgressTodos = tasks.filter(task => task.progress_state === '2');
-      const prInProgress = tasks.filter(task => task.progress_state === '3');
-      const inTestTodos = tasks.filter(task => task.progress_state === '4');
-      const completedTodos = tasks.filter(task => task.progress_state === '5');
+      const filteredTask = (progress_state: string) => tasks.filter(task => task.progress_state === progress_state);
+
+      const todos = filteredTask("1")
+      const inProgressTodos = filteredTask("2")
+      const prInProgress = filteredTask("3")
+      const inTestTodos = filteredTask("4")
+      const completedTodos = filteredTask("5")
 
       setTasks(tasks);
       setTodos(todos);
@@ -43,7 +46,6 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
       setPrInProgress(prInProgress);
       setCompletedTodos(completedTodos);
     }
-
   }, [tasksList])
 
   if (!myProfile) {
@@ -75,48 +77,58 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
     }
 
     let add;
-    const active = todos;
-    const inProgress = inProgressTodos;
-    const inTest = inTestTodos;
-    const inPR = prInProgress;
-    const complete = completedTodos;
-    // Source Logic
-    if (source.droppableId === 'TodosList') {
-      add = active[source.index];
-      active.splice(source.index, 1);
-    } else if (source.droppableId === 'InProgressList') {
-      add = inProgress[source.index];
-      inProgress.splice(source.index, 1);
-    } else if (source.droppableId === 'InTestList') {
-      add = inTest[source.index];
-      inTest.splice(source.index, 1);
-    } else if (source.droppableId === 'InPRList') {
-      add = inPR[source.index];
-      inPR.splice(source.index, 1);
+    if (source.droppableId === "1") {
+      add = todos[source.index];
+      todos.splice(source.index, 1);
+    } else if (source.droppableId === "2") {
+      add = inProgressTodos[source.index];
+      inProgressTodos.splice(source.index, 1);
+    } else if (source.droppableId === "4") {
+      add = inTestTodos[source.index];
+      inTestTodos.splice(source.index, 1);
+    } else if (source.droppableId === "3") {
+      add = prInProgress[source.index];
+      prInProgress.splice(source.index, 1);
     } else {
-      add = complete[source.index];
-      complete.splice(source.index, 1);
+      add = completedTodos[source.index];
+      completedTodos.splice(source.index, 1);
     }
 
     // Destination Logic
-    if (destination.droppableId === 'TodosList') {
-      active.splice(destination.index, 0, add);
-    } else if (destination.droppableId === 'InProgressList') {
-      inProgress.splice(destination.index, 0, add);
-    } else if (destination.droppableId === 'InTestList') {
-      inTest.splice(destination.index, 0, add);
-    } else if (destination.droppableId === 'InPRList') {
-      inPR.splice(destination.index, 0, add);
+    if (destination.droppableId === "1") {
+      todos.splice(destination.index, 0, add);
+      changeProgressState({
+        variables: { updateTaskId: getTaskId, progressState: destination.droppableId }
+      });
+    } else if (destination.droppableId === "2") {
+      inProgressTodos.splice(destination.index, 0, add);
+      changeProgressState({
+        variables: { updateTaskId: getTaskId, progressState: destination.droppableId }
+      });
+    } else if (destination.droppableId === "4") {
+      inTestTodos.splice(destination.index, 0, add);
+      changeProgressState({
+        variables: { updateTaskId: getTaskId, progressState: destination.droppableId }
+      });
+    } else if (destination.droppableId === "3") {
+      prInProgress.splice(destination.index, 0, add);
+      changeProgressState({
+        variables: { updateTaskId: getTaskId, progressState: destination.droppableId }
+      });
     } else {
-      complete.splice(destination.index, 0, add);
+      completedTodos.splice(destination.index, 0, add);
+      changeProgressState({
+        variables: { updateTaskId: getTaskId, progressState: "5" }
+      });
     }
 
-    setCompletedTodos(complete);
-    setTodos(active);
-    setInProgressTodos(inProgress);
-    setInTestTodos(inTest);
-    setPrInProgress(inPR);
+    setCompletedTodos(completedTodos);
+    setTodos(todos);
+    setInProgressTodos(inProgressTodos);
+    setInTestTodos(inTestTodos);
+    setPrInProgress(prInProgress);
   };
+
 
   return (
     <>
@@ -142,6 +154,7 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
               setInTestTodos={setInTestTodos}
               prInProgress={prInProgress}
               setPrInProgress={setPrInProgress}
+              setTaskId={setTaskId}
             />
           </div>
         </DragDropContext>

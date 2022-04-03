@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRef } from "react";
 import { Draggable } from "react-beautiful-dnd";
-import { Todo } from './types';
 import "./styles.css";
 import Ticket from './ticket/Ticket';
 import { TaskType } from '../../types/tasks/TaskType';
@@ -12,7 +11,8 @@ const SingleTodo: React.FC<{
   todo: TaskType;
   todos: Array<TaskType>;
   setTodos: React.Dispatch<React.SetStateAction<Array<TaskType>>>;
-}> = ({ index, todo, todos, setTodos }) => {
+  setTaskId: React.Dispatch<React.SetStateAction<string>>;
+}> = ({ index, todo, todos, setTodos, setTaskId }) => {
   const [edit, setEdit] = useState<boolean>(false);
   const [editTodo ] = useState<string>(todo.description);
 
@@ -29,7 +29,6 @@ const SingleTodo: React.FC<{
     setEdit(false);
   };
 
-  console.log(todo)
 
   // const handleDelete = (id: number) => {
   //   setTodos(todos.filter((todo) => todo.id !== id));
@@ -43,18 +42,25 @@ const SingleTodo: React.FC<{
   //   );
   // };
 
+  // console.log(todo)
+
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
-      {(provided) => (
+      {(provided, snapshot) => {
+        snapshot.isDragging ? setTaskId(todo.id.toString()) : console.log('not dragging');
+        return (
         <form
-        onSubmit={(e) => handleEdit(e, todo.id)}
+        onSubmit={(e) => {
+          handleEdit(e, todo.id);
+          setTaskId(todo.id.toString())
+        }}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
         ref={provided.innerRef}
         // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
         // className={`todos__single ${snapshot.isDragging ? "drag" : ""}`}
         > 
-        <Ticket task={todo} />
+        <Ticket task={todo} id={todo.id.toString()}/>
           {/* {edit ? (
             <input
               value={editTodo}
@@ -86,7 +92,8 @@ const SingleTodo: React.FC<{
             </span>
           </div> */}
         </form>
-      )}
+        );
+        }}
     </Draggable>
   );
 };
