@@ -47,7 +47,7 @@ const SingleTodo: React.FC<{
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>
       {(provided, snapshot) => {
-        snapshot.isDragging ? setTaskId(todo.id.toString()) : console.log('not dragging');
+        snapshot.isDragging && setTaskId(todo.id.toString());
         return (
         <form
         onSubmit={(e) => {

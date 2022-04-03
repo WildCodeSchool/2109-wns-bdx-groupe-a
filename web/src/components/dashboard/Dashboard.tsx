@@ -22,16 +22,21 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const [prInProgress, setPrInProgress] = useState<Array<TaskType>>([]);
   const [completedTodos, setCompletedTodos] = useState<Array<TaskType>>([]);
   const [getTaskId, setTaskId] = useState<string>('');
+  const [searchTerm, setSearchTerm] = useState('');
   const { myProfile } = data;
   const { data: tasksList } = useQuery<TasksData>(GET_TASKS);
   const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
 
-  // console.log(tasks)
 
   useEffect(() => {
     if (tasksList) {
       const { getTasks: tasks } = tasksList;
-      const filteredTask = (progress_state: string) => tasks.filter(task => task.progress_state === progress_state);
+      const filteredTask = (progress_state: string) => {
+        if (searchTerm) {
+          return tasks.filter(task => task.title.toLowerCase().includes(searchTerm.toLowerCase()) && task.progress_state === progress_state);
+        }
+        return tasks.filter(task => task.progress_state === progress_state);
+      }
 
       const todos = filteredTask("1")
       const inProgressTodos = filteredTask("2")
@@ -46,7 +51,7 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
       setPrInProgress(prInProgress);
       setCompletedTodos(completedTodos);
     }
-  }, [tasksList])
+  }, [tasksList, searchTerm])
 
   if (!myProfile) {
       <Navigate to="/" replace />
@@ -129,12 +134,11 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
     setPrInProgress(prInProgress);
   };
 
-
   return (
     <>
      <div className='h-full flex flex-col'>
       {/* Top nav*/}
-      <Header user={data} todo={todo} setTodo={setTodo} handleAdd={handleAdd} />
+      <Header user={data} todo={todo} setTodo={setTodo} handleAdd={handleAdd} setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
       {/* Bottom section */}
 
       <div className='min-h-0 flex-1 flex overflow-hidden'>
