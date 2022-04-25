@@ -1,6 +1,6 @@
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import Routes from './Routes';
 import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 
@@ -15,7 +15,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <ApolloProvider client={client}>
     <div className='h-screen'>
-      <App />
+      <Routes />
     </div>
   </ApolloProvider>,
   document.getElementById('root')

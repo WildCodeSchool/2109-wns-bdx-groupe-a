@@ -1,46 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Switch } from '@headlessui/react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
+import { SIGN_UP } from '../../../graphql/queries/QSignUp';
+import { DEFAULT_USER_INFORMATIONS } from '../../../shared/constants';
+import {
+  isValidUser,
+  handleIsNotValidUserError
+} from '../../../helpers/IsValidUser';
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const SIGN_UP = gql`
-  mutation Mutation(
-    $firstName: String!
-    $lastName: String!
-    $email: String!
-    $password: String!
-  ) {
-    signUp(
-      firstName: $firstName
-      lastName: $lastName
-      email: $email
-      password: $password
-    ) {
-      id
-      firstName
-      lastName
-      email
-    }
-  }
-`;
-const newUser = { firstName: '', lastName: '', email: '', password: '' };
-
 const SignUp = ({ onClose }: { onClose: () => void }) => {
   const [agreed, setAgreed] = useState(false);
-  const [userInformations, setUserInformations] = useState(newUser);
-  const [signUp, { error, data }] = useMutation(SIGN_UP);
-  const onChange = (e: any) => {
-    const { name, value } = e.target;
+  const [error, setError] = useState('');
+  const [userInformations, setUserInformations] = useState(DEFAULT_USER_INFORMATIONS);
+
+  //TODO on peut se créer un compte avec 2 fois l'adress mail malgré l'erreur graphql
+  const [signUp, {}] = useMutation(SIGN_UP);
+
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target as typeof e.target & {
+      name: string;
+      value: string;
+    };
     setUserInformations({ ...userInformations, [name]: value });
   };
-  useEffect(() => {
-    if (data){
-      onClose()
-    }
-  }, [data])
 
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
@@ -124,7 +110,12 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
             className='grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-8'
             onSubmit={(event) => {
               event.preventDefault();
-              signUp({ variables: userInformations });
+              if (isValidUser(userInformations)) {
+                signUp({ variables: userInformations });
+                onClose();
+              } else {
+                handleIsNotValidUserError(setError, userInformations);
+              }
             }}
           >
             <div>
@@ -260,7 +251,28 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               </button>
             </div>
           </form>
-          {error ? 'Le mot de passe doit contenir au minimum 8 caractères' : null}
+          {error && (
+            <div
+              className='flex p-4 mb-4 mt-8 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800'
+              role='alert'
+            >
+              <svg
+                className='inline flex-shrink-0 mr-3 w-5 h-5'
+                fill='currentColor'
+                viewBox='0 0 20 20'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  fillRule='evenodd'
+                  d='M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z'
+                  clipRule='evenodd'
+                ></path>
+              </svg>
+              <div>
+                <span className='font-medium'>{error}</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -8,7 +8,6 @@ services:
     ports:
       - 3306:3306
     volumes:
-      # - db_data:/var/lib/mysql
       - ./mysql:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: root
@@ -18,13 +17,12 @@ services:
       retries: 10
 
   db_test:
+    platform: linux/x86_64
     build: ./mysql_test
     image: mysql:8.0
-    platform: linux/x86_64
     expose:
       - 3306
     volumes:
-      # - db_data:/var/lib/mysql
       - ./mysql_test:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: root
