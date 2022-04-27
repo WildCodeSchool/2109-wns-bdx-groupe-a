@@ -17,9 +17,7 @@ services:
       retries: 10
 
   api:
-    build:
-      context: ./api
-      target: development
+    image: mathildevande/wns-deploy-server
     depends_on:
       db:
         condition: service_healthy
@@ -28,9 +26,7 @@ services:
     command: npm run start:watch
 
   web:
-    build:
-      context: ./web
-      target: development
+    image: mathildevande/wns-deploy-client
     ports:
       - 3000:3000
     command: npm start
