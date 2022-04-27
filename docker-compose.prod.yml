@@ -3,10 +3,9 @@ version: '3.8'
 services:
   db:
     platform: linux/x86_64
-    build: ./mysql
-    image: mysql:8.0
-    ports:
-      - 3306:3306
+    image: mathildevande/wns-deploy-db
+    expose:
+      - 3306
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
     environment:
@@ -21,15 +20,12 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    ports:
-      - 4000:4000
+    expose:
+      - 4000
     command: npm run start:watch
 
   web:
     image: mathildevande/wns-deploy-client
-    ports:
-      - 3000:3000
-    command: npm start
     volumes:
       - web-client-build:/app/build
  
