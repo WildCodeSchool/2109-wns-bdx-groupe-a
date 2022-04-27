@@ -22,7 +22,7 @@ services:
         condition: service_healthy
     expose:
       - 4000
-    command: npm run start:watch
+    command: npm run start
 
   web:
     image: mathildevande/wns-deploy-client
