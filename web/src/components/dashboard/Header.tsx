@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SIDE_BAR_NAVIGATION, USER } from './dashboard.constants';
+import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
@@ -24,11 +24,20 @@ interface props {
   handleAdd: (e: React.FormEvent) => void;
 }
 
-const Header = ({ user, todo, setTodo, handleAdd, setSearchTerm, searchTerm }: props) => {
+const Header = ({
+  user,
+  todo,
+  setTodo,
+  handleAdd,
+  setSearchTerm,
+  searchTerm,
+}: props) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const [deleteSession] = useMutation(DELETE_SESSION, {refetchQueries: [{ query: GET_MY_PROFILE }]});
+  const [deleteSession] = useMutation(DELETE_SESSION, {
+    refetchQueries: [{ query: GET_MY_PROFILE }],
+  });
   const navigate = useNavigate();
   const { myProfile } = user;
 
@@ -54,8 +63,8 @@ const Header = ({ user, todo, setTodo, handleAdd, setSearchTerm, searchTerm }: p
       right: 'auto',
       bottom: 'auto',
       marginRight: '-50%',
-      transform: 'translate(-50%, -50%)'
-    }
+      transform: 'translate(-50%, -50%)',
+    },
   };
 
   return (
@@ -180,11 +189,10 @@ const Header = ({ user, todo, setTodo, handleAdd, setSearchTerm, searchTerm }: p
                 className="cursor-pointer bg-white rounded-full flex text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600"
               >
                 <span className="sr-only">Open user menu</span>
-                <img
-                  className="h-8 w-8 rounded-full"
-                  src={USER.imageUrl}
-                  alt=""
-                />
+                <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 bg-indigo-600 text-white flex justify-center items-center uppercase">
+                  {myProfile?.firstName.charAt(0)}
+                  {myProfile?.lastName.charAt(0)}
+                </div>
               </div>
             </div>
           </div>
@@ -211,22 +219,6 @@ const Header = ({ user, todo, setTodo, handleAdd, setSearchTerm, searchTerm }: p
               <span className="sr-only">Close main menu</span>
               <XIcon className="block h-6 w-6" aria-hidden="true" />
             </button>
-          </div>
-          <div className="mt-2 max-w-8xl mx-auto px-4 sm:px-6">
-            <div className="relative text-gray-400 focus-within:text-gray-500">
-              <label htmlFor="mobile-search" className="sr-only">
-                Search all inboxes
-              </label>
-              <input
-                id="mobile-search"
-                type="search"
-                placeholder="Search all inboxes"
-                className="block w-full border-gray-300 rounded-md pl-10 placeholder-gray-500 focus:border-indigo-600 focus:ring-indigo-600"
-              />
-              <div className="absolute inset-y-0 left-0 flex items-center justify-center pl-3">
-                <SearchIcon className="h-5 w-5" aria-hidden="true" />
-              </div>
-            </div>
           </div>
           <div className="max-w-8xl mx-auto py-3 px-2 sm:px-4">
             {/* {NAVIGATION.map(

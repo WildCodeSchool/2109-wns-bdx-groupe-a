@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../../graphql/queries/QSignUp';
@@ -27,6 +27,16 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
     };
     setUserInformations({ ...userInformations, [name]: value });
   };
+
+  useEffect(() => {
+
+    if (!isValidUser(userInformations)) {
+      handleIsNotValidUserError(setError, userInformations);
+    } else {
+      setError("")
+    }
+
+  }, [userInformations])
 
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
@@ -113,8 +123,6 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               if (isValidUser(userInformations)) {
                 signUp({ variables: userInformations });
                 onClose();
-              } else {
-                handleIsNotValidUserError(setError, userInformations);
               }
             }}
           >
@@ -269,7 +277,9 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 ></path>
               </svg>
               <div>
+                {error && 
                 <span className='font-medium'>{error}</span>
+                }
               </div>
             </div>
           )}

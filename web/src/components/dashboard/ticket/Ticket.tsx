@@ -25,14 +25,18 @@ const Ticket = ({task, id}: {task: TaskType, id: string}) => {
                 </svg>
               </div>
               <hr className='mt-2 mb-2 border-indigo-500' />
+              <div className="break-words w-56">
               {task.description}
+              </div>
+              <div className='flex justify-end w-full'>
               <button
                   onClick={() => deleteTask({ variables: {deleteTaskId: id}, refetchQueries: [ GET_TASKS ]})}
                   // onClick={() => onClose()}
-                  className="inline-flex items-center px-1 py-1 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className="inline-flex items-center px-1 py-1 border border-transparent text-xs rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
                   X
                 </button>
+                </div>
             </div>
           </div>
         </div>
