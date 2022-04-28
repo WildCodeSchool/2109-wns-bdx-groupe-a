@@ -2,7 +2,7 @@
 
 ## 📺 Demo
 
-You can test the application [here](https://google.fr)
+You can test the application on [staging](https://staging.bordeaux3-0921.wns.wilders.dev/) or [prod](bordeaux3-0921.wns.wilders.dev/)
 
 ## 🚀 Purpose of the Project
 
@@ -23,7 +23,7 @@ This Project is an exercice for the Wild Code School
 - [TailwindCSS](https://tailwindcss.com/)
 - [Jest](https://jestjs.io/)
 
-## ❓ How to start the Project
+## ❓ How to start the Project in Local
 
 ### ⚙️ Install
 
@@ -45,12 +45,42 @@ web (front-end)
 
 Everything is good now you can yo to
 
+Web
 ```sh
 http://localhost:3000/
+```
+API
+```sh
+http://localhost:4000/graphql
 ```
 
 ### 🐻 How to run test from root
 
 ```
 docker-compose exec api npm run test:watch
+```
+
+## 🤖 How's staging / prod works
+
+![My animated logo](assets/cd-ci.png)
+
+The application has a continuous deployment on staging branch, when a PR is review and approved, the github CI do the checks update the new docker image. If any of the docker images changes, they call the webhook who init the script fetch and deploy on the VPS
+
+Script fetch and deploy : 
+```
+#!/bin/sh
+# fetch-and-deploy.sh
+docker-compose -f docker-compose.dev.yml down && \
+docker-compose -f docker-compose.dev.yml pull && \
+GATEWAY_PORT=8001 docker-compose -f docker-compose.dev.yml up -d;
+```
+Webhook config :
+```
+[
+  {
+    "id": "update",
+    "execute-command": "~relativepath/staging/fetch-and-deploy.sh",
+    "command-working-directory": "~relativepath/staging"
+  }
+]
 ```

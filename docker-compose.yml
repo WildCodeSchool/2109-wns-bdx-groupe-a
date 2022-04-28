@@ -36,19 +36,7 @@ services:
     command: npm start
     volumes:
       - web-client-build:/app/build
- 
-  nginx:
-    image: nginx:1.21.3
-    depends_on:
-      - api
-      - web
-    restart: always
-    ports:
-      - ${GATEWAY_PORT:-8000}:80
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - web-client-build:/web-client-build
-      - ./logs:/var/log/nginx
+
 volumes:
   web-client-build:
 
