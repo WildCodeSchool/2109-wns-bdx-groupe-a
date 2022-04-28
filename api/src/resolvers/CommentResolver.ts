@@ -15,7 +15,7 @@ export default class CommentResolver {
 
     @Query(() => String) 
     getTest2() {
-        return 'si ça fonctionne c\'est champagne'
+        return 'si ça fonctionne c\'est champagne !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!'
     }
 
     @Mutation(() => Comment)
