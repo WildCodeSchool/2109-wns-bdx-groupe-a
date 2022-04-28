@@ -14,8 +14,8 @@ export default class CommentResolver {
     }
 
     @Query(() => String) 
-    getTest() {
-        return 'coucou'
+    getTest2() {
+        return 'coucou mise à jour trop cool '
     }
 
     @Mutation(() => Comment)
