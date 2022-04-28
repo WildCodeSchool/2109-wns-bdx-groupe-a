@@ -29,6 +29,7 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
 
 
   useEffect(() => {
+
     if (tasksList) {
       const { getTasks: tasks } = tasksList;
       const filteredTask = (progress_state: string) => {
