@@ -2,7 +2,7 @@
 
 ## 📺 Demo
 
-You can test the application on [staging](https://staging.bordeaux3-0921.wns.wilders.dev/) or [prod](bordeaux3-0921.wns.wilders.dev/)
+You can test the application on [staging](https://staging.bordeaux3-0921.wns.wilders.dev/) or [prod](https://bordeaux3-0921.wns.wilders.dev/)
 
 ## 🚀 Purpose of the Project
 
