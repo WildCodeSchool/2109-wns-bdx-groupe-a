@@ -22,6 +22,7 @@ services:
     expose:
       - 4000
     command: npm run start:watch
+    
   web:
     image: mathildevande/wns-deploy-client
     command: sh -c "npm run build"
