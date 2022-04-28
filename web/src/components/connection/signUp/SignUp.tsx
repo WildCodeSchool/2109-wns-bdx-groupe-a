@@ -29,7 +29,6 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
   };
 
   useEffect(() => {
-
     if (!isValidUser(userInformations)) {
       handleIsNotValidUserError(setError, userInformations);
     } else {
