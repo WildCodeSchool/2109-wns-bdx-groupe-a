@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   db:
     platform: linux/x86_64
@@ -15,7 +14,6 @@ services:
       test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
       timeout: 5s
       retries: 10
-
   api:
     image: mathildevande/wns-deploy-server
     depends_on:
@@ -24,7 +22,6 @@ services:
     expose:
       - 4000
     command: npm run start:watch
-
   web:
     image: mathildevande/wns-deploy-client
     command: sh -c "npm run build"
