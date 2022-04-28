@@ -13,11 +13,6 @@ export default class CommentResolver {
         return Comment.find()
     }
 
-    @Query(() => String) 
-    getTest2() {
-        return 'coucou mise à jour trop cool '
-    }
-
     @Mutation(() => Comment)
     async createComment(@Args() { title, content, date }: CreateCommentInput){
         
