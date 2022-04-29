@@ -84,3 +84,19 @@ Webhook config :
   }
 ]
 ```
+
+Caddyfile : 
+#lie les adresses IP aux noms de domaine grâce au reserve_proxy
+
+bordeaux3-0921.wns.wilders.dev {
+  reverse_proxy localhost:8000
+}
+
+staging.bordeaux3-0921.wns.wilders.dev {
+  reverse_proxy localhost:8001
+}
+
+bordeaux3-0921.wns.wilders.dev {
+  reverse_proxy localhost:9000
+}
+
