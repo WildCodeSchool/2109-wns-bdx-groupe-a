@@ -62,7 +62,8 @@ docker-compose exec api npm run test:watch
 
 ## 🤖 How's staging / prod works
 
-![My animated logo](assets/cd-ci.png)
+![image](https://user-images.githubusercontent.com/90702276/165907144-490c67e1-8bf4-4902-8774-5f84bd61f2d8.png)
+
 
 The application has a continuous deployment on staging branch, when a PR is review and approved, the github CI do the checks update the new docker image. If any of the docker images changes, they call the webhook who init the script fetch and deploy on the VPS
 
