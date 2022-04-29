@@ -9,7 +9,7 @@ import { IsNotEmpty } from "class-validator";
 @ObjectType()
 class Task extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true })
   id!: String;
 
   @Column({ type: 'varchar', length: 255 })
