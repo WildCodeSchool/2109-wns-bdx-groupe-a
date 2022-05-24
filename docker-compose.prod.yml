@@ -8,6 +8,7 @@ services:
       - 3306
     volumes:
       - ./mysql:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
     healthcheck:
@@ -43,4 +44,5 @@ services:
       - ./logs:/var/log/nginx
 volumes:
   web-client-build:
+  db_data:
 
