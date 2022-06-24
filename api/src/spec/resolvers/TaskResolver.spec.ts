@@ -1,6 +1,5 @@
 import { getConnection } from 'typeorm';
 import createTestClient from 'supertest'
-import Task from '../../models/Task';
 import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 
