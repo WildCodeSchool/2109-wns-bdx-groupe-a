@@ -4,9 +4,6 @@ import Task from '../../models/Task';
 import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 
-// describe('Logger', () => {
-//   test.todo('please pass');
-// });
 describe('UserResolver', () => {
   let testClient : createTestClient.SuperTest<createTestClient.Test>
   ;
@@ -32,7 +29,7 @@ describe('UserResolver', () => {
     }
     `;
 
-    it.only('creates and returns task', async () => {
+    it('creates and returns task', async () => {
       const result = await testClient.post('/graphql').send({
         query: CREATE_TASK,
         variables: {
@@ -43,7 +40,6 @@ describe('UserResolver', () => {
         }
       });
 
-      console.log("result", result.text)
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.createTask).toEqual({
@@ -55,80 +51,80 @@ describe('UserResolver', () => {
     });
   });
 
-  // describe('mutation updateTaskt', () => {
-  //   // TODO RAJOUTER ID (il faut drop la table avant chaque test)
-  //   const UPDATE_TASK = `
-  //   mutation($updateTaskId: String!, $title: String) {
-  //     updateTask(id: $updateTaskId, title: $title) {
-  //       title
-  //       description
-  //       attachment
-  //       id
-  //       progress_state
-  //     }
-  //   } 
-  //   `;
+  describe('mutation updateTaskt', () => {
+    // TODO RAJOUTER ID (il faut drop la table avant chaque test)
+    const UPDATE_TASK = `
+    mutation($updateTaskId: String!, $title: String) {
+      updateTask(id: $updateTaskId, title: $title) {
+        title
+        description
+        attachment
+        id
+        progress_state
+      }
+    } 
+    `;
 
-  //   it('update a task', async () => {
-  //     const result = await testClient.executeOperation({
-  //       query: UPDATE_TASK,
-  //       variables: {
-  //         updateTaskId: '1',
-  //         title: 'Premiere tache update'
-  //       }
-  //     });
+    it('update a task', async () => {
+      const result = await testClient.post("/graphql").send({
+        query: UPDATE_TASK,
+        variables: {
+          updateTaskId: '1',
+          title: 'Premiere tache update'
+        }
+      });
 
-  //     expect(result.errors).toBeUndefined();
-  //     expect(result.data?.updateTask).toEqual({
-  //       id: '1',
-  //       title: 'Premiere tache update',
-  //       attachment: '',
-  //       progress_state: 'IN PROGRESS',
-  //       description: 'En cours'
-  //     });
-  //   });
-  // });
-  // describe('query getTaskByTitle', () => {
-  //   const QUERY_TASK_BY_TITLE = `
-  //   query($title: String!) {
-  //     getTaskByTitle(title: $title) {
-  //       id
-  //       title
-  //       description
-  //       attachment
-  //       progress_state
-  //     }
-  //   }
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.updateTask).toEqual({
+        id: '1',
+        title: 'Premiere tache update',
+        attachment: '',
+        progress_state: 'IN PROGRESS',
+        description: 'En cours'
+      });
+    });
+  });
+  describe('query getTaskByTitle', () => {
+    const QUERY_TASK_BY_TITLE = `
+    query($title: String!) {
+      getTaskByTitle(title: $title) {
+        id
+        title
+        description
+        attachment
+        progress_state
+      }
+    }
     
-  //   `;
+    `;
 
-  //   it('query a task by title', async () => {
-  //     const result = await testClient.executeOperation({
-  //       query: QUERY_TASK_BY_TITLE,
-  //       variables: {
-  //         title: 'Premiere tache update'
-  //       }
-  //     });
+    it('query a task by title', async () => {
+      const result = await testClient.post("/graphql").send({
+        query: QUERY_TASK_BY_TITLE,
+        variables: {
+          title: 'Premiere tache update'
+        }
+      });
 
-  //     expect(result.errors).toBeUndefined();
-  //     expect(result.data?.getTaskByTitle).toEqual({
-  //       id: '1',
-  //       title: 'Premiere tache update',
-  //       attachment: '',
-  //       progress_state: 'IN PROGRESS',
-  //       description: 'En cours'
-  //     });
-  //   });
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.getTaskByTitle).toEqual({
+        id: '1',
+        title: 'Premiere tache update',
+        attachment: '',
+        progress_state: 'IN PROGRESS',
+        description: 'En cours'
+      });
+    });
 
-  //   it('should return an error if task doest not exist', async () => {
-  //     const result = await testClient.executeOperation({
-  //       query: QUERY_TASK_BY_TITLE,
-  //       variables: {
-  //         title: 'My super task'
-  //       }
-  //     });
+    it('should return an error if task doest not exist', async () => {
+      const result = await testClient.post("/graphql").send({
+        query: QUERY_TASK_BY_TITLE,
+        variables: {
+          title: 'My super task'
+        }
+      });
 
-  //     expect(result.errors).toBeTruthy();
-  //   });
-  // });
+      expect(JSON.parse(result.text).errors).toBeTruthy();
+    });
+  });
 });
