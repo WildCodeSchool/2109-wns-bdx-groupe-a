@@ -1,10 +1,9 @@
-import { Args, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 
 import CreateProjectInput from "../inputs/Project/CreateProjectInput";
 import DeleteProjectInput from "../inputs/Project/DeleteProjectInput";
 import UpdateProjectInput from "../inputs/Project/UpdateProjectInput";
 import Project from "../models/Project";
-
 
 @Resolver()
 export default class ProjectResolver {
@@ -13,11 +12,17 @@ export default class ProjectResolver {
         return Project.find()
     }
 
+    @Query(() => [Project])
+    getProjectByUserId(@Arg('userId') userId: string) {
+        return Project.find({ userId })
+    }
+
     @Mutation(() => Project)
-    async createProject(@Args() { title, description, picture, start_date, end_date }: CreateProjectInput){
-        
+    async createProject(@Args() { title, userId, description, picture, start_date, end_date }: CreateProjectInput){
+
         const newProject = new Project();
         newProject.title = title;
+        newProject.userId = userId
         newProject.description = description;
         newProject.picture = picture;
         newProject.start_date = start_date;

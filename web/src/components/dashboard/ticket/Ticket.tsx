@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import Modal from 'react-modal';
 import { useMutation } from '@apollo/client';
 import { DELETE_TASK } from '../../../graphql/mutations/tasks/DeleteTaskMutation';
 import { GET_TASKS } from '../../../graphql/queries/QGetTasks';
 import { TaskType } from '../../../types/tasks/TaskType';
-import EditTicket from '../EditTicket';
 
 const Ticket = ({ task, id }: { task: TaskType; id: string }) => {
   const [deleteTask, {}] = useMutation(DELETE_TASK);
@@ -19,18 +17,6 @@ const Ticket = ({ task, id }: { task: TaskType; id: string }) => {
   }, [isModalOpen]);
 
   const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  };
 
   return (
     <div className="bg-blue w-full flex justify-center font-sans ">
@@ -59,17 +45,6 @@ const Ticket = ({ task, id }: { task: TaskType; id: string }) => {
               >
                 Edit
               </button>
-              <Modal
-                isOpen={isModalOpen}
-                onRequestClose={closeModal}
-                style={customStyles}
-                contentLabel="Item Modal"
-                ariaHideApp={false}
-              >
-                <div className="w-96">
-                  <EditTicket task={task} onClose={closeModal} />
-                </div>
-              </Modal>
               <button
                 onClick={() =>
                   deleteTask({

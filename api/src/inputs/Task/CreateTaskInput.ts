@@ -1,4 +1,5 @@
 import { ArgsType, Field } from "type-graphql";
+import Project from "../../models/Project";
 
 
 @ArgsType()
@@ -14,6 +15,9 @@ class CreateTaskInput {
 
     @Field()
     progress_state!: string;
+
+    @Field()
+    projectId!: string;
 }
 
 export default CreateTaskInput

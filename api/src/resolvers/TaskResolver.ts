@@ -3,7 +3,11 @@ import { Arg, Args, Mutation, Query, Resolver } from 'type-graphql';
 import CreateTaskInput from '../inputs/Task/CreateTaskInput';
 import UpdateTaskInput from '../inputs/Task/UpdateTaskInput';
 import DeleteTaskInput from '../inputs/Task/DeleteTaskInput';
+
 import Task from '../models/Task';
+
+import ProjectResolver from './ProjectResolver';
+import Project from '../models/Project';
 
 @Resolver()
 export default class TaskResolver {
@@ -23,19 +27,28 @@ export default class TaskResolver {
   }
 
   @Query(() => [Task])
-  getTasksByProjectId(@Arg('projectId') projectId: string) {
-    return Task.find({ project: { id: projectId } });
+  getTasksByProjectId(@Arg('project') project: string) {
+    return Task.find({ project: { id: project } });
+  }
+
+  @Query(() => Project) 
+  getProjectById(@Arg('projectId') id: string) {
+      return Project.findOneOrFail({ id })
   }
 
   @Mutation(() => Task)
   async createTask(
-    @Args() { title, description, attachment, progress_state }: CreateTaskInput
+    @Args() { title, description, attachment, progress_state, projectId }: CreateTaskInput
   ) {
+
     const newTask = new Task();
+
     newTask.title = title;
     newTask.description = description;
     newTask.attachment = attachment;
     newTask.progress_state = progress_state;
+
+    this.getProjectById(projectId).then(project => newTask.project = project)
 
     await newTask.save();
     return newTask;

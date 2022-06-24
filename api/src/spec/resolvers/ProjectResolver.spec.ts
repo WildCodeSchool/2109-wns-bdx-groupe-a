@@ -17,8 +17,8 @@ describe('Logger', () => {
 
 //   describe('mutation createProject', () => {
 //     const CREATE_PROJECT = `
-//         mutation($title: String!, $description: String!, $picture: String!, $startDate: DateTime!, $endDate: DateTime!) {
-//             createProject(title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
+//         mutation($title: String!, $description: String!, $picture: String!, $start_date: DateTime!, $end_date: DateTime!) {
+//             createProject(title: $title, description: $description, picture: $picture, start_date: $start_date, end_date: $end_date) {
 //                 title
 //                 description
 //                 picture
@@ -35,8 +35,8 @@ describe('Logger', () => {
 //           title: 'crud',
 //           description: 'I do not understand the crud',
 //           picture: 'data.png',
-//           startDate: '2021-11-23T23:18:00.134Z',
-//           endDate: '2022-11-23T23:18:00.134Z'
+//           start_date: '2021-11-23T23:18:00.134Z',
+//           end_date: '2022-11-23T23:18:00.134Z'
 //         }
 //       });
 
