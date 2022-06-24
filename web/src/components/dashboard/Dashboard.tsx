@@ -14,6 +14,7 @@ import { TASK_PROGRESS_STATE } from '../../graphql/mutations/tasks/TaskProgressS
 // import Loader from '../loader';
 
 const Dashboard = ({ data }: { data: UserProfile }) => {
+
   const [todo, setTodo] = useState<string>('');
   const [, setTasks] = useState<Array<TaskType>>([]);
   const [todos, setTodos] = useState<Array<TaskType>>([]);

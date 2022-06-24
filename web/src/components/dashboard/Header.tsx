@@ -3,11 +3,11 @@ import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
 import { useNavigate } from 'react-router-dom';
 import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
-import { GET_MY_PROFILE } from '../../App';
 import { gql, useMutation } from '@apollo/client';
 import Modal from 'react-modal';
 import InputField from './InputField';
 import { UserProfile } from '../../types/user/UserProfileTypes';
+import { GET_MY_PROFILE } from '../../graphql/queries/QGetMyProfile';
 
 export const DELETE_SESSION = gql`
   mutation DeleteSession {
