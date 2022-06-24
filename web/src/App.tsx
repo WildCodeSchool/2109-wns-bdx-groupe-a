@@ -1,20 +1,10 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
+import {  useQuery } from '@apollo/client';
 
 import Connection from './components/connection/Connection';
 import Dashboard from './components/dashboard/Dashboard';
 import { createContext } from 'react';
-
-export const GET_MY_PROFILE = gql`
-  query GetMyProfile {
-    myProfile {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
+import { GET_MY_PROFILE } from './graphql/queries/QGetMyProfile';
 
 export const UserContext = createContext(null);
 
