@@ -2,12 +2,27 @@ version: '3.8'
 services:
   db:
     platform: linux/x86_64
-    image: mathildevande/wns-deploy-db
+    build: ./mysql
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 5s
+      retries: 10
+
+  db_test:
+    platform: linux/x86_64
+    build: ./mysql_test
+    image: mysql:8.0
     expose:
       - 3306
     volumes:
-      - ./mysql:/docker-entrypoint-initdb.d
-      - db_data:/var/lib/mysql
+      - ./mysql_test:/docker-entrypoint-initdb.d
     environment:
       MYSQL_ROOT_PASSWORD: root
     healthcheck:
@@ -15,33 +30,27 @@ services:
       timeout: 5s
       retries: 10
   api:
-    image: mathildevande/wns-deploy-server
+    build:
+      context: ./api
+      target: development
     depends_on:
       db:
         condition: service_healthy
-    expose:
-      - 4000
-    command: npm run start:watch
-    
-  web:
-    image: mathildevande/wns-deploy-client
-    command: sh -c "npm run build"
-    volumes:
-      - web-client-build:/app/build
- 
-  nginx:
-    image: nginx:1.21.3
-    depends_on:
-      - api
-      - web
-    restart: always
     ports:
-      - ${GATEWAY_PORT:-8000}:80
+      - 4000:4000
+    command: npm run start:watch
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - web-client-build:/web-client-build
-      - ./logs:/var/log/nginx
+      - ./api/src:/app/src
+      - /api/node_modules/
+  web:
+    build:
+      context: ./web
+      target: development
+    ports:
+      - 3000:3000
+    command: npm start
+    volumes:
+      - ./web/src:/app/src
+      - /web/node_modules
 volumes:
-  web-client-build:
   db_data:
-

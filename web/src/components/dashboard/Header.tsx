@@ -8,7 +8,7 @@ import { gql, useMutation } from '@apollo/client';
 import Modal from 'react-modal';
 import InputField from './InputField';
 import { UserProfile } from '../../types/user/UserProfileTypes';
-import FormProject from '../project/formProject';
+import projectForm from '../project/projectForm';
 
 export const DELETE_SESSION = gql`
   mutation DeleteSession {
@@ -110,7 +110,7 @@ const Header = ({
         ariaHideApp={false}
       >
         <div className="w-96">
-        <FormProject 
+        <projectForm 
           user={user}
         />
 

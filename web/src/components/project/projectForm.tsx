@@ -12,7 +12,7 @@ function getDateWithoutTime(date: string): string {
 	return date ? new Date(date).toJSON().split("T")[0] : ''
 }
 
-const FormProject: React.FC<props> = ({user}) => {
+const projectForm: React.FC<props> = ({user}) => {
 
 	const { myProfile } = user;
 	const [newProject, setNewProject] = useState(DEFAULT_NEW_PROJECT);
@@ -105,4 +105,4 @@ const FormProject: React.FC<props> = ({user}) => {
 )
 }
 
-export default FormProject;
+export default projectForm;
