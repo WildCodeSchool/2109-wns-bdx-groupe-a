@@ -38,13 +38,11 @@ mutation LogOut {
 // insider my login handler
 class ApiUtils {
 
-  static async signIn (firstName: string, lastName: string, email: string, password: string) : Promise<Boolean> {
+  static async signIn (email: string, password: string) : Promise<Boolean> {
     console.log('je rentre dans le signIn')
-    return customAxios.post(API_URL, {
+    return customAxios.post('http://localhost:4000/graphql', {
       query: print(SIGN_IN),
       variables: {
-        firstName: firstName,
-        lastName: lastName,
         email: email,
         password: password,
       },
@@ -58,6 +56,30 @@ class ApiUtils {
       // this.myProfile()
     }).catch((error) => {
       console.log('ERREUR DE LA MUTATION DE LOGIN', error.message)
+      return false;
+    });
+  }
+
+  static async signUp (firstName: string, lastName: string, email: string, password: string) : Promise<Boolean> {
+    console.log('je rentre dans le signUp')
+    return customAxios.post('http://localhost:4000/graphql', {
+      query: print(SIGN_IN),
+      variables: {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      },
+    }).then((response) => {
+      console.log('RESULTAT DE LA MUTATION DE SIGNUP', response.data)
+      if (response.data === null) {
+        return false
+      } else {
+        return true
+      }
+      // this.myProfile()
+    }).catch((error) => {
+      console.log('ERREUR DE LA MUTATION DE SIGNUP', error.message)
       return false;
     });
   }

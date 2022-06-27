@@ -10,12 +10,26 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Ionicons } from '@expo/vector-icons'; 
+import { gql, useQuery } from '@apollo/client';
 
 //import Share from 'react-native-share';
 
 //import files from '../assets/filesBase64';
 
+export const GET_MY_PROFILE = gql`
+  query GetMyProfile {
+    myProfile {
+      id
+      email
+      firstName
+      lastName
+    }
+  }
+`;
+
 const ProfileScreen = () => {
+  const { data } = useQuery(GET_MY_PROFILE);
+  console.log(data);
 
   /* const myCustomShare = async() => {
     const shareOptions = {

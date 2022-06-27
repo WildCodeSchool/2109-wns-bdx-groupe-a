@@ -1,8 +1,8 @@
+import { gql, useMutation } from '@apollo/client';
 import { useNavigation } from '@react-navigation/native';
 import {useState, useCallback, SetStateAction} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
-//import ApiUtils from '../utils/ApiUtils';
 
 const styles = StyleSheet.create({
     container: {
@@ -50,8 +50,30 @@ const styles = StyleSheet.create({
     },
 })
 
+export const SIGN_UP = gql`
+mutation Mutation(
+  $firstName: String!
+  $lastName: String!
+  $email: String!
+  $password: String!
+) {
+  signUp(
+    firstName: $firstName
+    lastName: $lastName
+    email: $email
+    password: $password
+  ) {
+    id
+    firstName
+    lastName
+    email
+  }
+}
+`;
+
 export default function Login () {
     const navigation = useNavigation();
+    const [signUp, {}] = useMutation(SIGN_UP);
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastname] = useState('');
@@ -133,9 +155,12 @@ export default function Login () {
                     style={styles.button}
                     contentStyle={styles.buttonContent}
                     color='#6200EE'
-                    onPress={() => navigation.navigate('Projects' as never)}
+                    onPress={() => navigation.navigate('LoginSignIn' as never)}
+                    /* onPress={() => {
+                          signUp({ variables: { firstName:"toto", lastName:"bla", email:"test@test.com", password:"Abcdefgh" } });
+                      }} */
                 >
-                    Connect
+                    Sign Up
                 </Button>
             </View>
 

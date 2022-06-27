@@ -7,20 +7,7 @@ import { Card, Button, Title } from 'react-native-paper';
 
 export default function Projects() {
 
-  const GET_PROJECTS = gql`
-  query Project {
-    projects {
-      id
-      title
-      description
-      picture
-      start_date
-      end_date
-    }
-  }
-`;
-
-  const { loading, error, data }= useQuery<Project>(GET_PROJECTS);
+  //const { loading, error, data }= useQuery<Project>(GET_PROJECTS);
 
   const styles = StyleSheet.create({
     title: {
