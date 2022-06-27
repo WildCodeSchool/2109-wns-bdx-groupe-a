@@ -14,7 +14,7 @@
     "start:watch": "npm run build && (npm run build:watch & nodemon --inspect build/.)"
   },
   "jest": {
-    "testTimeout": 15000
+    "testTimeout": 70000
   },
   "author": "",
   "license": "ISC",

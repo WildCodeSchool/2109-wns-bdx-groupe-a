@@ -5,17 +5,17 @@ class CreateProjectInput {
   @Field()
   title!: string;
 
-  @Field()
-  description!: string;
+  @Field({nullable: true})
+  description?: string;
 
-  @Field()
+  @Field({nullable: true})
   picture?: string;
 
-  @Field()
-  start_date!: Date;
+  @Field({nullable: true})
+  start_date?: Date;
 
-  @Field()
-  end_date!: Date;
+  @Field({nullable: true})
+  end_date?: Date;
 }
 
 export default CreateProjectInput;

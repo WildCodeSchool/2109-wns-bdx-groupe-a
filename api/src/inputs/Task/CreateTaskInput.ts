@@ -6,10 +6,10 @@ class CreateTaskInput {
     @Field()
     title!: string;
 
-    @Field()
-    description! : string;
+    @Field({nullable: true})
+    description? : string;
 
-    @Field()
+    @Field({nullable: true})
     attachment?:  string; 
 
     @Field()

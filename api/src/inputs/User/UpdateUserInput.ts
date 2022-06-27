@@ -6,7 +6,7 @@ import { UserRole } from '../../models/User';
 @ArgsType()
 class UpdateUserInput{
     @Field()
-    id? : string
+    id! : string
 
     @Field()
     @IsString()

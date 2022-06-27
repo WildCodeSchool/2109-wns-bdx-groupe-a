@@ -1,8 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, ManyToOne } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
+import { IsNotEmpty } from "class-validator";
 import User from './User'
 import Project from "./Project";
-import { IsNotEmpty } from "class-validator";
 
 
 @Entity()
@@ -20,7 +20,7 @@ class Task extends BaseEntity {
   @Column({ type: 'longtext' })
   @Field()
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
-  description!: string;
+  description?: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()

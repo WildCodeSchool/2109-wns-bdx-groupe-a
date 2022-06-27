@@ -8,10 +8,10 @@ import Comment from '../models/Comment';
 
 dotenv.config();
 
-const getDatabaseTestConnection = async () => {
+const getDatabaseTestConnection = async (url: string) => {
   await createConnection({
     type: 'mysql',
-    url: process.env.DATABASE_TEST_URL,
+    url: url || process.env.TEST_DATABASE_URL,
     entities: [User, Task, Project, Comment],
     synchronize: true,
     logging: false

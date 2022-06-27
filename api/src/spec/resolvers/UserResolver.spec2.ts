@@ -1,3 +1,4 @@
+/* eslint-disable no-await-in-loop */
 import { getConnection } from 'typeorm';
 import createTestClient from 'supertest'
 import getDatabaseTestConnection from '../db-test-connection';
@@ -10,12 +11,28 @@ jest.setTimeout(70 * SECONDS)
 describe('UserResolver', () => {
   let testClient : createTestClient.SuperTest<createTestClient.Test>
 
-  beforeAll(async () => {
-    const {expressServer} = await getExpressServer();
-    testClient = createTestClient(expressServer)
-  });
-  beforeEach(() => getDatabaseTestConnection());
-  afterEach(() => getConnection().close());
+    beforeAll(async () => {
+      const {expressServer} = await getExpressServer();
+      testClient = createTestClient(expressServer)
+
+      if (!process.env.DATABASE_TEST_URL) {
+        throw Error('TEST_DATABASE_URL must be set in environment.')
+      }
+  
+
+      return getDatabaseTestConnection(process.env.DATABASE_TEST_URL);
+    });
+    beforeEach(async () => {
+        const entities = getConnection().entityMetadatas;
+        // eslint-disable-next-line no-restricted-syntax
+        for (const entity of entities) {
+          const repository = getConnection().getRepository(entity.name);
+          await repository.query(`SET FOREIGN_KEY_CHECKS=0;`);
+          await repository.query(`TRUNCATE TABLE ${entity.tableName};`);
+          await repository.query(`SET FOREIGN_KEY_CHECKS=1;`);
+        }
+      });
+    afterAll(() => getConnection().close());
 
   describe('mutation createUser', () => {
     const CREATE_USER = `

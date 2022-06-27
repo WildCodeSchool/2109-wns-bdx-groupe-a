@@ -23,7 +23,7 @@ class Project extends BaseEntity {
   @Column({ type: 'longtext' })
   @Field()
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
-  description!: string;
+  description?: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
@@ -38,10 +38,10 @@ class Project extends BaseEntity {
   end_date?: Date;
 
   @OneToMany(() => Task, task => task.project)
-    tasks!: Task[];
+    tasks?: Task[];
 
   @OneToMany(() => Comment, comment => comment.project)
-    comments!: Comment[];  
+    comments?: Comment[];  
 }
 
 export default Project;

@@ -1,25 +1,38 @@
+/* eslint-disable no-await-in-loop */
 import { getConnection } from 'typeorm';
-import createTestClient from 'supertest'
+import createTestClient from 'supertest';
 import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 
 const SECONDS = 1000;
-jest.setTimeout(70 * SECONDS)
+jest.setTimeout(70 * SECONDS);
 
 describe('UserResolver', () => {
-  let testClient : createTestClient.SuperTest<createTestClient.Test>
-  ;
+  let testClient: createTestClient.SuperTest<createTestClient.Test>;
 
   beforeAll(async () => {
-    const {expressServer} = await getExpressServer();
-    testClient = createTestClient(expressServer)
-  });
+    const { expressServer } = await getExpressServer();
+    testClient = createTestClient(expressServer);
 
-  beforeEach(() => getDatabaseTestConnection());
-  afterEach(() => getConnection().close());
+    if (!process.env.DATABASE_TEST_URL) {
+      throw Error('TEST_DATABASE_URL must be set in environment.');
+    }
+
+    return getDatabaseTestConnection(process.env.DATABASE_TEST_URL);
+  });
+  beforeEach(async () => {
+    const entities = getConnection().entityMetadatas;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const entity of entities) {
+      const repository = getConnection().getRepository(entity.name);
+      await repository.query(`SET FOREIGN_KEY_CHECKS=0;`);
+      await repository.query(`TRUNCATE TABLE ${entity.tableName};`);
+      await repository.query(`SET FOREIGN_KEY_CHECKS=1;`);
+    }
+  });
+  afterAll(() => getConnection().close());
 
   describe('mutation createTask', () => {
-    // TODO RAJOUTER ID (il faut drop la table avant chaque test)
     const CREATE_TASK = `
     mutation($title: String!, $attachment: String!, $progressState: String!, $description: String!) {
       createTask(title: $title, attachment: $attachment, progress_state: $progressState, description: $description) {
@@ -42,7 +55,6 @@ describe('UserResolver', () => {
         }
       });
 
-
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.createTask).toEqual({
         title: 'Premiere tache',
@@ -54,7 +66,6 @@ describe('UserResolver', () => {
   });
 
   describe('mutation updateTaskt', () => {
-    // TODO RAJOUTER ID (il faut drop la table avant chaque test)
     const UPDATE_TASK = `
     mutation($updateTaskId: String!, $title: String) {
       updateTask(id: $updateTaskId, title: $title) {
@@ -66,20 +77,40 @@ describe('UserResolver', () => {
       }
     } 
     `;
+    const CREATE_TASK = `
+  mutation($title: String!, $attachment: String!, $progressState: String!, $description: String!) {
+    createTask(title: $title, attachment: $attachment, progress_state: $progressState, description: $description) {
+      title
+      description
+      attachment
+      progress_state
+    }
+  }
+  `;
 
     it('update a task', async () => {
-      const result = await testClient.post("/graphql").send({
+      await testClient.post('/graphql').send({
+        query: CREATE_TASK,
+        variables: {
+          title: 'Premiere tache update',
+          attachment: '',
+          progressState: 'IN PROGRESS',
+          description: 'En cours'
+        }
+      });
+
+      const result = await testClient.post('/graphql').send({
         query: UPDATE_TASK,
         variables: {
           updateTaskId: '1',
-          title: 'Premiere tache update'
+          title: 'Premiere tache update v2'
         }
       });
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.updateTask).toEqual({
         id: '1',
-        title: 'Premiere tache update',
+        title: 'Premiere tache update v2',
         attachment: '',
         progress_state: 'IN PROGRESS',
         description: 'En cours'
@@ -97,21 +128,41 @@ describe('UserResolver', () => {
         progress_state
       }
     }
-    
     `;
 
+    const CREATE_TASK = `
+  mutation($title: String!, $attachment: String!, $progressState: String!, $description: String!) {
+    createTask(title: $title, attachment: $attachment, progress_state: $progressState, description: $description) {
+      title
+      description
+      attachment
+      progress_state
+    }
+  }
+  `;
+
     it('query a task by title', async () => {
-      const result = await testClient.post("/graphql").send({
+      await testClient.post('/graphql').send({
+        query: CREATE_TASK,
+        variables: {
+          title: 'Ma super tache',
+          attachment: '',
+          progressState: 'IN PROGRESS',
+          description: 'En cours'
+        }
+      })
+
+      const result = await testClient.post('/graphql').send({
         query: QUERY_TASK_BY_TITLE,
         variables: {
-          title: 'Premiere tache update'
+          title: 'Ma super tache'
         }
       });
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.getTaskByTitle).toEqual({
         id: '1',
-        title: 'Premiere tache update',
+        title: 'Ma super tache',
         attachment: '',
         progress_state: 'IN PROGRESS',
         description: 'En cours'
@@ -119,7 +170,7 @@ describe('UserResolver', () => {
     });
 
     it('should return an error if task doest not exist', async () => {
-      const result = await testClient.post("/graphql").send({
+      const result = await testClient.post('/graphql').send({
         query: QUERY_TASK_BY_TITLE,
         variables: {
           title: 'My super task'

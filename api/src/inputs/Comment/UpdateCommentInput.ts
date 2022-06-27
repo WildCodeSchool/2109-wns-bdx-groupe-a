@@ -4,15 +4,15 @@ import { ArgsType, Field } from 'type-graphql';
 @ArgsType()
 class UpdateCommentInput{
     @Field()
-    id? : string
+    id! : string
 
-    @Field()
+    @Field({nullable: true})
     title? : string
 
-    @Field()
+    @Field({nullable: true})
     content? : string
 
-    @Field()
+    @Field({nullable: true})
     date? : Date
 
 }
