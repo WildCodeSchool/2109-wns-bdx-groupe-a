@@ -4,6 +4,9 @@ import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 import Comment from '../../models/Comment';
 
+const SECONDS = 1000;
+jest.setTimeout(70 * SECONDS)
+
 describe('CommentResolver', () => {
   let testClient : createTestClient.SuperTest<createTestClient.Test>
 

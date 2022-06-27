@@ -4,6 +4,9 @@ import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 import User from '../../models/User';
 
+const SECONDS = 1000;
+jest.setTimeout(70 * SECONDS)
+
 describe('UserResolver', () => {
   let testClient : createTestClient.SuperTest<createTestClient.Test>
 
