@@ -7,5 +7,5 @@ export type TaskType = {
 };
 
 export interface TasksData {
-  getTasks: TaskType[];
+  getTasksByProjectId: TaskType[];
 }

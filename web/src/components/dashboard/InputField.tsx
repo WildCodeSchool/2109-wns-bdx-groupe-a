@@ -1,21 +1,22 @@
 import { useMutation } from '@apollo/client';
 import React, { ChangeEvent, useRef, useState } from 'react';
-import { CREATE_TASK } from '../../graphql/mutations/tasks/CreateTaskMutation';
-import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { CREATE_TASK, GET_TASKS } from '../../graphql';
 import { DEFAULT_NEW_TASK } from '../../shared/constants';
 import './styles.css';
 
 interface props {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
-  handleAdd: (e: React.FormEvent) => void;
   onClose: () => void;
+  projectId: string;
 }
 
-const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
+const InputField: React.FC<props> = ({ onClose, projectId }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [newTask, setNewTask] = useState(DEFAULT_NEW_TASK);
   const [createTask, {}] = useMutation(CREATE_TASK);
+
+  const handleAdd = (e: React.FormEvent) => { e.preventDefault(); };
 
   const onChange = (
     e:
@@ -27,7 +28,8 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
       name: string;
       value: string;
     };
-    setNewTask({ ...newTask, [name]: value });
+
+    setNewTask({ ...newTask, [name]:  name === "projectId" ? projectId : value });
   };
 
   return (

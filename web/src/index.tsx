@@ -1,16 +1,13 @@
-import ReactDOM from 'react-dom';
-import './index.css';
-import Routes from './Routes';
-import reportWebVitals from './reportWebVitals';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-
-
+import reportWebVitals from './reportWebVitals';
+import ReactDOM from 'react-dom';
+import Routes from './Routes';
+import './index.css';
 
 const client = new ApolloClient({
   uri: '/graphql',
   cache: new InMemoryCache()
 });
-
 
 ReactDOM.render(
   <ApolloProvider client={client}>

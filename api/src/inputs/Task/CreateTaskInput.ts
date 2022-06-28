@@ -1,5 +1,4 @@
 import { ArgsType, Field } from "type-graphql";
-import Project from "../../models/Project";
 
 
 @ArgsType()

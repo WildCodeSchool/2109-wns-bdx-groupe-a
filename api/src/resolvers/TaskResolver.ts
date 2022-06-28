@@ -27,12 +27,16 @@ export default class TaskResolver {
   }
 
   @Query(() => [Task])
-  getTasksByProjectId(@Arg('project') project: string) {
-    return Task.find({ project: { id: project } });
+  async getTasksByProjectId(@Arg('projectId') projectId: string) {
+    const project = await this.getProjectById(projectId)
+    return Task.find({ 
+      where : { project },
+      relations: ['project']
+    });;
   }
 
   @Query(() => Project) 
-  getProjectById(@Arg('projectId') id: string) {
+  getProjectById(@Arg('project') id: string) {
       return Project.findOneOrFail({ id })
   }
 
@@ -47,8 +51,7 @@ export default class TaskResolver {
     newTask.description = description;
     newTask.attachment = attachment;
     newTask.progress_state = progress_state;
-
-    this.getProjectById(projectId).then(project => newTask.project = project)
+    newTask.project = await this.getProjectById(projectId)
 
     await newTask.save();
     return newTask;

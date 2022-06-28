@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useMutation } from '@apollo/client';
-import { DELETE_TASK } from '../../../graphql/mutations/tasks/DeleteTaskMutation';
-import { GET_TASKS } from '../../../graphql/queries/QGetTasks';
+import { DELETE_TASK, GET_TASKS } from '../../../graphql';
 import { TaskType } from '../../../types/tasks/TaskType';
 
 const Ticket = ({ task, id }: { task: TaskType; id: string }) => {

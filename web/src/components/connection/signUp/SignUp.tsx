@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 import { useMutation } from '@apollo/client';
-import { SIGN_UP } from '../../../graphql/queries/QSignUp';
+import { SIGN_UP } from '../../../graphql';
 import { DEFAULT_USER_INFORMATIONS } from '../../../shared/constants';
 import {
   isValidUser,

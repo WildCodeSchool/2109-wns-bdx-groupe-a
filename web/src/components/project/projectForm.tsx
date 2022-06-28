@@ -2,18 +2,20 @@ import { useMutation } from "@apollo/client";
 import { ChangeEvent, useState } from "react";
 import { CREATE_PROJECT } from "../../graphql/mutations/projects/CreateProjectMutation";
 import { UserProfile } from "../../types/user/UserProfileTypes";
-import { DEFAULT_NEW_PROJECT } from "./projectModel"
+import { DEFAULT_NEW_PROJECT } from "./projectModel";
 
 interface props {
 	user: UserProfile;
+  onClose: () => void;
 }
 
-function getDateWithoutTime(date: string): string {
+export const  getDateWithoutTime = (date: string): string => {
 	return date ? new Date(date).toJSON().split("T")[0] : ''
 }
 
-const projectForm: React.FC<props> = ({user}) => {
 
+export const ProjectForm = ({user, onClose } : props) => {
+  
 	const { myProfile } = user;
 	const [newProject, setNewProject] = useState(DEFAULT_NEW_PROJECT);
 	const [createProject, {}] = useMutation(CREATE_PROJECT);
@@ -50,8 +52,8 @@ const projectForm: React.FC<props> = ({user}) => {
             className="input"
             onSubmit={(e) => {
 							e.preventDefault();
-							console.log(newProject);
               createProject({ variables: newProject});
+              onClose()
             }}
           >
             <div className="flex flex-col w-full align-top">
@@ -104,5 +106,3 @@ const projectForm: React.FC<props> = ({user}) => {
     </div>
 )
 }
-
-export default projectForm;

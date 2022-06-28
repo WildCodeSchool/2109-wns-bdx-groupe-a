@@ -32,7 +32,7 @@ class Project extends BaseEntity {
 
 
   @Column({ type: 'varchar', length: 255 })
-  @Field()
+  @Field({nullable: true})
   picture?: string;
 
   @Column({ type: 'datetime' })
@@ -44,6 +44,7 @@ class Project extends BaseEntity {
   end_date?: Date;
 
   @OneToMany(() => Task, task => task.project)
+  @Field(() => Task, { nullable : true } )
     tasks!: Task[];
 
   @OneToMany(() => Comment, comment => comment.project)

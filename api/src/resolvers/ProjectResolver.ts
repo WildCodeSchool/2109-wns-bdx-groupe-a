@@ -27,6 +27,7 @@ export default class ProjectResolver {
         newProject.picture = picture;
         newProject.start_date = start_date;
         newProject.end_date = end_date;
+        newProject.tasks = []
 
         await newProject.save();
         return newProject;

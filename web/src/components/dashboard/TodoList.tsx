@@ -34,7 +34,7 @@ const TodoList: React.FC<props> = ({
   setTaskId
 }) => {
 
-  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
+  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800 m-30px" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
   return (
     <div className="container">
       <div className="w-full">
