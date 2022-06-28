@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { Avatar, Card, IconButton } from 'react-native-paper';
 
 export default function Tasks() {

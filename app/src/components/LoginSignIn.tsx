@@ -3,7 +3,6 @@ import { useNavigation } from '@react-navigation/native';
 import {useState, useCallback} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, TextInput, HelperText } from 'react-native-paper';
-import App from '../../App';
 import ApiUtils from '../utils/ApiUtils';
 
 const styles = StyleSheet.create({
@@ -63,7 +62,7 @@ export default function Login () {
         const onLoginSuccess = await ApiUtils.signIn(email, password);
         if (onLoginSuccess) {
             setError(false);
-            navigation.navigate('Projects');
+            navigation.navigate('Projects' as any);
 
         } else {
             setError(true);
@@ -115,9 +114,6 @@ export default function Login () {
                     contentStyle={styles.buttonContent}
                     color='#6200EE'
                     onPress={handleClick}
-                    /* onPress={() => {
-                          signUp({ variables: { firstName:"toto", lastName:"bla", email:"test@test.com", password:"Abcdefgh" } });
-                      }} */
                 >
                     Sign In
                 </Button>
@@ -126,9 +122,6 @@ export default function Login () {
                     contentStyle={styles.buttonContent}
                     color='#6200EE'
                     onPress={() => navigation.navigate('LoginSignUp' as never)}
-                    /* onPress={() => {
-                          signUp({ variables: { firstName:"toto", lastName:"bla", email:"test@test.com", password:"Abcdefgh" } });
-                      }} */
                 >
                     Sign Up
                 </Button>

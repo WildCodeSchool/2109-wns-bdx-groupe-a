@@ -3,7 +3,6 @@ import { print } from 'graphql';
 import customAxios from './CustomAxios';
 import gql from 'graphql-tag';
 
-
 export const SIGN_IN = gql`
   mutation SignIn($email: String!, $password: String!) {
     signIn(email: $email, password: $password) {
@@ -19,10 +18,6 @@ query MyProfile {
     firstName
     lastName
     email
-    role {
-      name
-      identifier
-    }
   }
 }
 `;

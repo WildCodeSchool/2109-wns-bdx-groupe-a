@@ -1,13 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import gql from "graphql-tag";
-import { useQuery } from "@apollo/client";
-import { Project } from "../schemaTypes";
 import { Card, Button, Title } from 'react-native-paper';
 
 export default function Projects() {
-
-  //const { loading, error, data }= useQuery<Project>(GET_PROJECTS);
 
   const styles = StyleSheet.create({
     title: {

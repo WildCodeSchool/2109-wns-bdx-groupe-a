@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 import {useState, useCallback, SetStateAction} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, TextInput } from 'react-native-paper';
+import {SIGN_UP} from '../queries/signup';
+import ApiUtils from '../utils/ApiUtils';
 
 const styles = StyleSheet.create({
     container: {
@@ -50,28 +52,7 @@ const styles = StyleSheet.create({
     },
 })
 
-export const SIGN_UP = gql`
-mutation Mutation(
-  $firstName: String!
-  $lastName: String!
-  $email: String!
-  $password: String!
-) {
-  signUp(
-    firstName: $firstName
-    lastName: $lastName
-    email: $email
-    password: $password
-  ) {
-    id
-    firstName
-    lastName
-    email
-  }
-}
-`;
-
-export default function Login () {
+export default function LoginSignUp () {
     const navigation = useNavigation();
     const [signUp, {}] = useMutation(SIGN_UP);
 
@@ -81,16 +62,16 @@ export default function Login () {
     const [password, setPassword] = useState('');
     const [error, setError] = useState(false);
 
-    /* const handleClick = useCallback(async () => {
-        const onLoginSuccess = await ApiUtils.signIn(firstName, lastName, email, password);
+    const handleClick = useCallback(async () => {
+        const onLoginSuccess = await ApiUtils.signUp(firstName, lastName, email, password);
         if (onLoginSuccess) {
             setError(false);
-            navigation.navigate('App');
+            navigation.navigate('LoginSignIn' as any);
 
         } else {
             setError(true);
         }
-    }, [error, firstName, lastName, email, password]); */
+    }, [error, firstName, lastName, email, password]);
 
     return (
         <View style={styles.container}>
@@ -155,10 +136,7 @@ export default function Login () {
                     style={styles.button}
                     contentStyle={styles.buttonContent}
                     color='#6200EE'
-                    onPress={() => navigation.navigate('LoginSignIn' as never)}
-                    /* onPress={() => {
-                          signUp({ variables: { firstName:"toto", lastName:"bla", email:"test@test.com", password:"Abcdefgh" } });
-                      }} */
+                    onPress={handleClick}
                 >
                     Sign Up
                 </Button>

@@ -10,41 +10,12 @@ import {
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Ionicons } from '@expo/vector-icons'; 
-import { gql, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { GET_MY_PROFILE } from '../queries/user';
 
-//import Share from 'react-native-share';
-
-//import files from '../assets/filesBase64';
-
-export const GET_MY_PROFILE = gql`
-  query GetMyProfile {
-    myProfile {
-      id
-      email
-      firstName
-      lastName
-    }
-  }
-`;
 
 const ProfileScreen = () => {
   const { data } = useQuery(GET_MY_PROFILE);
-  console.log(data);
-
-  /* const myCustomShare = async() => {
-    const shareOptions = {
-      message: 'Order your next meal from FoodFinder App. I\'ve already ordered more than 10 meals on it.',
-      url: files.appLogo,
-      // urls: [files.image1, files.image2]
-    }
-
-    try {
-      const ShareResponse = await Share.open(shareOptions);
-      console.log(JSON.stringify(ShareResponse));
-    } catch(error) {
-      console.log('Error => ', error);
-    }
-  }; */
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,21 +32,14 @@ const ProfileScreen = () => {
             <Title style={[styles.title, {
               marginTop:15,
               marginBottom: 5,
-            }]}>Soph Wright</Title>
+            }]}>firstName</Title>
             <Caption style={styles.caption}>@queenSoph</Caption>
           </View>
         </View>
       </View>
 
       <View style={styles.userInfoSection}>
-        <View style={styles.row}>
-          <Icon name="map-marker-radius" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>Bordeaux, France</Text>
-        </View>
-        <View style={styles.row}>
-          <Icon name="phone" color="#777777" size={20}/>
-          <Text style={{color:"#777777", marginLeft: 20}}>+33 6 55 48 67 69</Text>
-        </View>
+       
         <View style={styles.row}>
           <Icon name="email" color="#777777" size={20}/>
           <Text style={{color:"#777777", marginLeft: 20}}>swright@gmail.com</Text>
@@ -103,7 +67,7 @@ const ProfileScreen = () => {
             <Text style={styles.menuItemText}>Your Favorites</Text>
           </View>
         </TouchableRipple>
-        <TouchableRipple /* onPress={myCustomShare} */>
+        <TouchableRipple>
           <View style={styles.menuItem}>
             <Icon name="share-outline" color="#6200EE" size={25}/>
             <Text style={styles.menuItemText}>Tell Your Friends</Text>
