@@ -16,6 +16,11 @@ export default class TaskResolver {
   getTaskByTitle(@Arg('title') title: string) {
     return Task.findOne({ title });
   }
+  
+  @Query(() => Task)
+  getTaskById(@Arg('id') id: string) {
+    return Task.findOne({ id });
+  }
 
   @Query(() => [Task])
   getTasksByProjectId(@Arg('projectId') projectId: string) {

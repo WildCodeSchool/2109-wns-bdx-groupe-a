@@ -29,7 +29,7 @@ import { UserSignUp } from '../types/user/UserSignUpTypes';
     if (!isValidEmail(user.email)) {
       setError('Email is not valid');
     } else if (!isValidPassword(user.password)) {
-      setError('Password is not valid, 8 caracters minimum, 1 number, 1 special caracter');
+      setError('Password is not valid, 8 caracters minimum, 1 capital letter, 1 number, 1 special caracter');
     }   else if (!isValidName(user.firstName)) {
       setError('Firstname is not valid');
     }  else if (!isValidName(user.lastName)) {
