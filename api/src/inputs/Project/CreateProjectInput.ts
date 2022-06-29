@@ -6,6 +6,9 @@ class CreateProjectInput {
   title!: string;
 
   @Field()
+  userId! : string;
+
+  @Field()
   description!: string;
 
   @Field()

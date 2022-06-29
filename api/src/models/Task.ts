@@ -9,7 +9,7 @@ import { IsNotEmpty } from "class-validator";
 @ObjectType()
 class Task extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field(() => ID, { nullable: true })
+  @Field(() => ID)
   id!: String;
 
   @Column({ type: 'varchar', length: 255 })
@@ -19,8 +19,7 @@ class Task extends BaseEntity {
 
   @Column({ type: 'longtext' })
   @Field()
-  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
-  description!: string;
+  description?: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
@@ -35,7 +34,8 @@ class Task extends BaseEntity {
   users!: User[];
 
   @ManyToOne(() => Project, project => project.tasks)
-  project!: Project;
+  @Field(() => Project, { nullable : false } )
+  project?: Project;
 }
 
 export default Task;

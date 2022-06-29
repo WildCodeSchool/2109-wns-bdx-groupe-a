@@ -1,7 +1,6 @@
 import { useMutation } from '@apollo/client';
 import { ChangeEvent, useRef, useState } from 'react';
-import { UPDATE_TASK } from '../../graphql/mutations/tasks/UpdateTaskMutation';
-import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { UPDATE_TASK, GET_TASKS } from '../../graphql';
 import { TaskType } from '../../types/tasks/TaskType';
 import './styles.css';
 
