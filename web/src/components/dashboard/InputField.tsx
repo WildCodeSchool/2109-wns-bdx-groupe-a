@@ -1,6 +1,6 @@
 import { useMutation } from '@apollo/client';
 import React, { ChangeEvent, useRef, useState } from 'react';
-import { CREATE_TASK, GET_TASKS } from '../../graphql';
+import { CREATE_TASK, GET_TASKS_BY_PROJECT_ID } from '../../graphql';
 import { DEFAULT_NEW_TASK } from '../../shared/constants';
 import './styles.css';
 
@@ -16,8 +16,6 @@ const InputField: React.FC<props> = ({ onClose, projectId }) => {
   const [newTask, setNewTask] = useState(DEFAULT_NEW_TASK);
   const [createTask, {}] = useMutation(CREATE_TASK);
 
-  const handleAdd = (e: React.FormEvent) => { e.preventDefault(); };
-
   const onChange = (
     e:
       | ChangeEvent<HTMLInputElement>
@@ -29,7 +27,11 @@ const InputField: React.FC<props> = ({ onClose, projectId }) => {
       value: string;
     };
 
-    setNewTask({ ...newTask, [name]:  name === "projectId" ? projectId : value });
+
+    console.log(projectId)
+    console.log(newTask)
+
+    setNewTask({ ...newTask, [name]: value });
   };
 
   return (
@@ -111,9 +113,9 @@ const InputField: React.FC<props> = ({ onClose, projectId }) => {
           <form
             className="input"
             onSubmit={(e) => {
-              handleAdd(e);
+              e.preventDefault();
               inputRef.current?.blur();
-              createTask({ variables: newTask, refetchQueries: [GET_TASKS] });
+              createTask({ variables: {...newTask, projectId}, refetchQueries: [GET_TASKS_BY_PROJECT_ID] });
               onClose()
             }}
           >

@@ -1,18 +1,19 @@
-import { useMutation } from "@apollo/client";
 import { ChangeEvent, useState } from "react";
-import { CREATE_PROJECT } from "../../graphql/mutations/projects/CreateProjectMutation";
+import { useMutation } from "@apollo/client";
+
 import { UserProfile } from "../../types/user/UserProfileTypes";
+import { GET_PROJECTS_BY_USER_ID } from "../../graphql";
 import { DEFAULT_NEW_PROJECT } from "./projectModel";
+import { CREATE_PROJECT } from "../../graphql/";
 
 interface props {
 	user: UserProfile;
   onClose: () => void;
 }
 
-export const  getDateWithoutTime = (date: string): string => {
+export const getDateWithoutTime = (date: string): string => {
 	return date ? new Date(date).toJSON().split("T")[0] : ''
 }
-
 
 export const ProjectForm = ({user, onClose } : props) => {
   
@@ -37,7 +38,6 @@ export const ProjectForm = ({user, onClose } : props) => {
 		setNewProject({ ...newProject, [name]:  name === "start_date" || name === "end_date" ? new Date(value).toISOString() : value });
 	}
 
-
 	return (
     <div className="bg-white py-16 px-4 overflow-hidden sm:px-6">
       <div className="relative max-w-xl mx-auto">
@@ -52,7 +52,7 @@ export const ProjectForm = ({user, onClose } : props) => {
             className="input"
             onSubmit={(e) => {
 							e.preventDefault();
-              createProject({ variables: newProject});
+              createProject({ variables: newProject, refetchQueries : [GET_PROJECTS_BY_USER_ID]});
               onClose()
             }}
           >

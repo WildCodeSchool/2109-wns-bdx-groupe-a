@@ -21,8 +21,6 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const [getTaskId, setTaskId] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  console.log(searchTerm);
-
   const { myProfile } = data;
   const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
   

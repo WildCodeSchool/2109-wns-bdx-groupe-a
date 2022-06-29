@@ -107,10 +107,10 @@ const Header = ({user, searchTerm, setSearchTerm}: props) => {
 
       {/* Desktop nav area */}
       <div className="hidden md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between">
-        <SearchBar 
+        {<SearchBar 
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
-        />
+        /> }
         <button
           type="button"
           onClick={openModal}
