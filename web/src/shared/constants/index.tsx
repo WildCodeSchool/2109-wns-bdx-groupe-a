@@ -12,3 +12,14 @@ export const DEFAULT_NEW_TASK = {
   progress_state: '1',
   projectId: ''
 }
+
+export const DEFAULT_NEW_PROJECT = {
+  id: '',
+  userId: '',
+  title: '',
+  description: '',
+  picture: '',
+  start_date: '',
+  end_date: ''
+}
+

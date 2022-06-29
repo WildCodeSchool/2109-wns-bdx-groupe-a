@@ -1,3 +1,2 @@
-export * from './projectCard'
-export * from './projectForm'
-export * from './projectModel'
+export * from './ProjectCard'
+export * from './ProjectForm'
