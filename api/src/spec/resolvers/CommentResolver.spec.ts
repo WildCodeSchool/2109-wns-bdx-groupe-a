@@ -81,12 +81,22 @@ describe('CommentResolver', () => {
           date: '2019'
         }
       });
+
       await testClient.post('/graphql').send({
         query: CREATE_COMMENT,
         variables: {
           title: 'Commentaire 2',
           content: 'Mon commentaire 2',
           date: '2020'
+        }
+      });
+
+      await testClient.post('/graphql').send({
+        query: CREATE_COMMENT,
+        variables: {
+          title: 'Commentaire 3',
+          content: 'Mon commentaire 3',
+          date: '2019'
         }
       });
 
@@ -97,7 +107,8 @@ describe('CommentResolver', () => {
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.getComment).toEqual([
         { content: 'Mon commentaire 1', id: '1', title: 'Commentaire 1' },
-        { content: 'Mon commentaire 2', id: '2', title: 'Commentaire 2' }
+        { content: 'Mon commentaire 2', id: '2', title: 'Commentaire 2' },
+        { content: 'Mon commentaire 3', id: '3', title: 'Commentaire 3' }
       ]);
     });
 

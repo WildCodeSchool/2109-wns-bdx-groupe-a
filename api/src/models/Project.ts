@@ -12,7 +12,7 @@ import Comment from "./Comment";
 @ObjectType()
 class Project extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field(() => ID)
+  @Field(() => ID, { nullable: true})
   id!: string;
 
   @Column({ type: 'varchar', length: 255 })
@@ -20,21 +20,21 @@ class Project extends BaseEntity {
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   title!: string;
 
-  @Column({ type: 'longtext' })
-  @Field()
+  @Column({ type: 'longtext', nullable: true})
+  @Field({nullable: true})
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   description?: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  @Field()
+  @Column({ type: 'varchar', length: 255, nullable: true})
+  @Field({nullable: true})
   picture?: string;
 
-  @Column({ type: 'date' })
-  @Field()
+  @Column({ type: 'date', nullable: true})
+  @Field({nullable: true})
   start_date?: Date;
 
-  @Column({ type: 'date' })
-  @Field()
+  @Column({ type: 'date', nullable: true})
+  @Field({nullable: true})
   end_date?: Date;
 
   @OneToMany(() => Task, task => task.project)

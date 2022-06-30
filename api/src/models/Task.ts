@@ -10,29 +10,29 @@ import Project from "./Project";
 class Task extends BaseEntity {
   @PrimaryGeneratedColumn()
   @Field(() => ID, { nullable: true })
-  id!: String;
+  id!: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   title!: string;
 
-  @Column({ type: 'longtext' })
-  @Field()
+  @Column({ type: 'longtext', nullable: true})
+  @Field({nullable: true})
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   description?: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  @Field()
+  @Column({ type: 'varchar', length: 255, nullable: true})
+  @Field({nullable: true})
   attachment?: string;
 
-  @Column({ type: 'varchar', length: 255 })
-  @Field()
+  @Column({ type: 'varchar', length: 255, nullable: true})
+  @Field({nullable: true})
   progress_state?: string;
 
   @ManyToMany(() => User)
   @JoinTable()
-  users!: User[];
+  users?: User[];
 
   @ManyToOne(() => Project, project => project.tasks)
   project!: Project;

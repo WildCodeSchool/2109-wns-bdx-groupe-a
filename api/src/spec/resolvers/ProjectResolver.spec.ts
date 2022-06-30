@@ -35,7 +35,7 @@ describe('ProjectResolver', () => {
 
   describe('mutation createProject', () => {
     const CREATE_PROJECT = `
-        mutation($title: String!, $description: String!, $picture: String!, $startDate: DateTime!, $endDate: DateTime!) {
+        mutation($title: String!, $description: String, $picture: String, $startDate: DateTime, $endDate: DateTime) {
             createProject(title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
                 title
                 description
@@ -62,7 +62,6 @@ describe('ProjectResolver', () => {
     const DELETE_PROJECT = `
     mutation Mutation($deleteProjectId: String!) {
       deleteProject(id: $deleteProjectId) {
-        id
         title
         description
         start_date
@@ -71,14 +70,12 @@ describe('ProjectResolver', () => {
       }
     }`;
 
-    const GET_PROJECTS = `mutation Mutation($deleteProjectId: String!) {
-      deleteProject(id: $deleteProjectId) {
+    const GET_PROJECTS = `
+    query Query {
+      getProjects {
         id
-        title
         description
-        start_date
-        picture
-        end_date
+        title
       }
     }`;
 
@@ -86,22 +83,19 @@ describe('ProjectResolver', () => {
       const result = await testClient.post('/graphql').send({
         query: CREATE_PROJECT,
         variables: {
-          title: 'crud',
-          description: 'I do not understand the crud',
-          picture: 'data.png',
-          startDate: '2021-11-23T23:18:00.134Z',
-          endDate: '2022-11-23T23:18:00.134Z'
+          title: 'Projet 1',
+          description: 'Projet sur les tests unitaires'
         }
       });
 
-
+ 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.createProject).toEqual({
-        title: 'crud',
-        description: 'I do not understand the crud',
-        picture: 'data.png',
-        start_date: '2021-11-23T23:18:00.134Z',
-        end_date: '2022-11-23T23:18:00.134Z'
+        title: 'Projet 1',
+        description: 'Projet sur les tests unitaires',
+        end_date: null,
+        picture: null,
+        start_date: null
       });
     });
 
@@ -117,18 +111,75 @@ describe('ProjectResolver', () => {
       const result = await testClient.post('/graphql').send({
         query: UPDATE_PROJECT,
         variables: {
-          updateCommentId: '1',
+          updateProjectId: '1',
           title: 'Projet 1.0',
-          description: 'Update sur n projet sur les tests unitaires',
+          description: 'Update les tests unitaires',
         }
       });
+
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.updateProject).toEqual({
         id: '1',
         title: 'Projet 1.0',
-        description: 'Update sur n projet sur les tests unitaires'
+        description: 'Update les tests unitaires',
+        end_date: null,
+        picture: null,
+        start_date: null
       });
+    });
+
+    it('delete a project', async () => {
+       await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'Projet 1',
+          description: 'Projet sur les tests unitaires'
+        }
+      });
+
+      const result = await testClient.post('/graphql').send({
+        query: DELETE_PROJECT,
+        variables: {
+          deleteProjectId: '1'
+        }
+      });
+
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.deleteProject).toEqual({
+        title: 'Projet 1',
+        description: 'Projet sur les tests unitaires',
+        end_date: null,
+        picture: null,
+        start_date: null,
+      });
+    });
+
+    it('return all projects', async () => {
+      await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'Projet 1',
+          description: 'Projet sur les tests unitaires'
+        }
+      });
+      await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'Projet 2',
+          description: 'Projet trello'
+        }
+      });
+
+      const result = await testClient.post('/graphql').send({
+        query: GET_PROJECTS
+      });
+
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.getProjects).toEqual([
+        { description: 'Projet sur les tests unitaires', id: '1', title: 'Projet 1' },
+        { description: 'Projet trello', id: '2', title: 'Projet 2' }
+      ]);
     });
   });
 });
