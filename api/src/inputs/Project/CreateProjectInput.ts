@@ -19,6 +19,9 @@ class CreateProjectInput {
 
   @Field()
   end_date!: Date;
+
+  @Field()
+  userAssignedId? : string;
 }
 
 export default CreateProjectInput;

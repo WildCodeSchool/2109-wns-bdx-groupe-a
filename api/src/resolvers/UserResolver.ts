@@ -76,7 +76,7 @@ export default class UserResolver {
     }
 
     @Query(() => User, {nullable: true })
-    async myProfile(@Ctx() { user }: CustomContext) : Promise<User | null> {
+    async userProfile(@Ctx() { user }: CustomContext) : Promise<User | null> {
         return user;
     }
 

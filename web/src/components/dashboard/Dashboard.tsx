@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
-import { Navigate, useParams } from 'react-router-dom';
-
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import LeftMenu from './LeftMenu';
-
-import TodoList from './TodoList';
-import { UserProfile } from '../../types/user/UserProfileTypes';
-import { TasksData, TaskType } from '../../types/tasks/TaskType';
-import { GET_TASKS_BY_PROJECT_ID, TASK_PROGRESS_STATE } from '../../graphql';
 import { useMutation, useQuery } from '@apollo/client';
+import { Navigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+
+import { GET_TASKS_BY_PROJECT_ID, TASK_PROGRESS_STATE } from '../../graphql';
+import { TasksData, TaskType } from '../../types/tasks/TaskType';
+import { UserData } from '../../types/user/UserProfileTypes';
+import LeftMenu from './LeftMenu';
+import TodoList from './TodoList';
 import Header from './Header';
 
-const Dashboard = ({ data }: { data: UserProfile }) => {
+interface props {
+  data: UserData
+}
+
+const Dashboard = ({data } : props) => {
   const [, setTasks] = useState<Array<TaskType>>([]);
   const [todos, setTodos] = useState<Array<TaskType>>([]);
   const [inProgressTodos, setInProgressTodos] = useState<Array<TaskType>>([]);
@@ -21,14 +24,13 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const [getTaskId, setTaskId] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { myProfile } = data;
   const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
   
   const { projectId } = useParams()
   const { data: tasksList } = useQuery<TasksData>(GET_TASKS_BY_PROJECT_ID, {
     variables: {projectId : projectId}
   });
-  
+
   useEffect(() => {
 
     if (tasksList) {
@@ -55,7 +57,7 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
     }
   }, [tasksList, searchTerm])
 
-  if (!myProfile) {
+  if (!data) {
       <Navigate to="/" replace />
   }
 
@@ -133,21 +135,15 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
     <Header user={data} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
      <div className='h-full flex flex-col'>
       {/* Bottom section */}
-
-
-      {/* <SearchBar 
-        searchTerm={searchTerm}
-        setSearchTerm={setSearchTerm}
-      /> */}
-
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
         <LeftMenu 
           user={data}
         />
 
-            {/* Main area */}
+        {/* Main area */}
         <DragDropContext onDragEnd={onDragEnd}>
+          {/* TODO : Mettre le titre du projet */}
           <div className="w-full flex justify-around overflow-y-auto">
             <TodoList
               todos={todos}

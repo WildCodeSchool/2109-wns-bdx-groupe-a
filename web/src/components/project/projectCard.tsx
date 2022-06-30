@@ -1,15 +1,16 @@
+import { Link } from 'react-router-dom';
 import { ProjectType } from '../../types/projects/ProjectType';
-import { UserProfile } from '../../types/user/UserProfileTypes';
+import { UserData } from '../../types/user/UserProfileTypes';
 
 interface props {
   project: ProjectType;
-  user: UserProfile;
+  user: UserData;
 }
 
 export const ProjectCard = ({ project, user }: props) => {
-  const { myProfile } = user;
-  const { firstName, lastName } = myProfile;
-  const { title, description, picture, start_date, end_date } = project;
+  const { userProfile } = user;
+  const { firstName, lastName } = userProfile
+  const { id, title, description, picture, start_date, end_date } = project;
 
   const startDateTransformed = new Date(start_date).toLocaleDateString('fr-FR');
   const endDateTransformed = new Date(end_date).toLocaleTimeString('fr-FR');
@@ -30,14 +31,14 @@ export const ProjectCard = ({ project, user }: props) => {
           )}
 
           <div className="flex-1 min-w-0">
-            <a href="#" className="focus:outline-none">
+            <Link to={`/dashboard/${id}`} className="focus:outline-none">
               <span className="absolute inset-0" aria-hidden="true" />
               <p className="text-sm font-medium text-gray-900">{title}</p>
               <p className="text-sm text-gray-500 truncate">{description}</p>
               <p className="text-sm text-gray-500 truncate">
                 {startDateTransformed} - {endDateTransformed}{' '}
               </p>
-            </a>
+            </Link>
           </div>
         </div>
       </div>

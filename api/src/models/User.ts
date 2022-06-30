@@ -49,7 +49,8 @@ class User extends BaseEntity {
 
     @ManyToMany(() => Project)
     @JoinTable()
-    projects!: Project[];
+    @Field(() => [Project], {nullable : true})
+    projects?: Project[];
 
     @OneToMany(() => Comment, comment => comment.user)
     comments!: Comment[]; 

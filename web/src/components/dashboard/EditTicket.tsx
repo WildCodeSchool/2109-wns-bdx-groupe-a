@@ -6,6 +6,7 @@ import './styles.css';
 
 
 const EditTicket = ({ task, onClose }: {task: TaskType, onClose: () => void}) => {
+  console.log('hello')
   const inputRef = useRef<HTMLInputElement>(null);
   const [updateTask, {}] = useMutation(UPDATE_TASK);
   const [taskUpdated, setTaskUpdated] = useState(task);

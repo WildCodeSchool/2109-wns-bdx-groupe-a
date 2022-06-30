@@ -1,7 +1,7 @@
 import { GET_PROJECTS_BY_USER_ID } from "../../graphql";
 import { useQuery } from "@apollo/client";
 import { ProjectsData, ProjectType, SidebarNavigation } from "../../types/projects/ProjectType";
-import { UserProfile } from "../../types/user/UserProfileTypes";
+import { UserData } from "../../types/user/UserProfileTypes";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import { Link } from "react-router-dom";
@@ -10,13 +10,12 @@ import { ProjectForm } from "../project";
 
 
 interface props {
-  user : UserProfile
+  user : UserData
 }
 
 const LeftMenu = ( { user } : props) => {
-  const { myProfile } = user
   const { data } = useQuery<ProjectsData>(GET_PROJECTS_BY_USER_ID, {
-    variables: {userId : myProfile.id }
+    variables: {userId : user.userProfile.id }
   })
 
   const [ projects, setProjects ] = useState<Array<ProjectType>>([])

@@ -1,13 +1,14 @@
 import { ChangeEvent, useState } from 'react';
-import { useMutation } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
-import { UserProfile } from '../../types/user/UserProfileTypes';
+import { UserData } from '../../types/user/UserProfileTypes';
+import { DEFAULT_NEW_PROJECT } from '../../shared/constants';
+import { GET_USERS } from '../../graphql/queries/QGetUsers';
 import { GET_PROJECTS_BY_USER_ID } from '../../graphql';
 import { CREATE_PROJECT } from '../../graphql';
-import { DEFAULT_NEW_PROJECT } from '../../shared/constants';
 
 interface props {
-  user: UserProfile;
+  user: UserData;
   onClose: () => void;
 }
 
@@ -16,9 +17,10 @@ export const getDateWithoutTime = (date: string): string => {
 };
 
 export const ProjectForm = ({ user, onClose }: props) => {
-  const { myProfile } = user;
   const [newProject, setNewProject] = useState(DEFAULT_NEW_PROJECT);
   const [createProject, {}] = useMutation(CREATE_PROJECT);
+  const { data } = useQuery<UserData>(GET_USERS);
+  const [ users ] = useState<Array<UserData>>([])
 
   const setNewProjectFromForm = (
     e:
@@ -26,7 +28,7 @@ export const ProjectForm = ({ user, onClose }: props) => {
       | ChangeEvent<HTMLSelectElement>
       | ChangeEvent<HTMLTextAreaElement>
   ) => {
-    newProject.userId = myProfile.id;
+    newProject.userId = user.userProfile.id;
 
     const { name, value } = e.target as typeof e.target & {
       name: string;
@@ -35,12 +37,18 @@ export const ProjectForm = ({ user, onClose }: props) => {
 
     setNewProject({
       ...newProject,
-      [name]:
-        name === 'start_date' || name === 'end_date'
+      [name]: name === 'start_date' || name === 'end_date'
           ? new Date(value).toISOString()
           : value,
     });
   };
+
+  // useEffect( () => {
+  //   if (data){
+  //     console.log(data)
+
+  //   }  
+  // })
 
   return (
     <div className="bg-white py-16 px-4 overflow-hidden sm:px-6">
@@ -99,7 +107,48 @@ export const ProjectForm = ({ user, onClose }: props) => {
                 value={getDateWithoutTime(newProject.end_date)}
                 onChange={setNewProjectFromForm}
                 className="py-3 px-4 mb-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-indigo-500 rounded-md"
-              />
+             />
+
+              <div>
+                <label id="listbox-label" className="block text-sm font-medium text-gray-700"> Ajouter des developpeurs </label>
+                <div className="mt-1 relative">
+                  {/* <select> */}
+                    { data && users.map(user => {
+                      console.log(user)
+                      // const { id, lastName, firstName} = myProfile
+                      // return(
+                      //   <option>
+                      //     { user}
+                      //   </option>
+                      //   )
+                    })}
+                  {/* </select> */}
+                  <button type="button" className="relative w-full bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" aria-haspopup="listbox" aria-expanded="true" aria-labelledby="listbox-label">
+                    <span className="flex items-center">
+                      <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
+                      <span className="ml-3 block truncate"> Tom Cook </span>
+                    </span>
+                    <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                      <svg className="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                        <path fillRule="evenodd" d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                  </button>
+                  <ul className="absolute z-10 mt-1 w-full bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm" role="listbox" aria-labelledby="listbox-label" aria-activedescendant="listbox-option-3">
+                    <li className="text-gray-900 cursor-default select-none relative py-2 pl-3 pr-9" id="listbox-option-0" role="option">
+                      <div className="flex items-center">
+                        <img src="https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" className="flex-shrink-0 h-6 w-6 rounded-full" />
+                        <span className="font-normal ml-3 block truncate"> Wade Cooper </span>
+                      </div>
+                      <span className="text-indigo-600 absolute inset-y-0 right-0 flex items-center pr-4">
+                        <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
               <div className="flex justify-end mt-12">
                 <button
                   type="submit"
@@ -113,6 +162,8 @@ export const ProjectForm = ({ user, onClose }: props) => {
                   Add
                 </button>
               </div>
+
+              
             </div>
           </form>
         </div>

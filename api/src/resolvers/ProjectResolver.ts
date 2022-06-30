@@ -4,6 +4,7 @@ import CreateProjectInput from "../inputs/Project/CreateProjectInput";
 import DeleteProjectInput from "../inputs/Project/DeleteProjectInput";
 import UpdateProjectInput from "../inputs/Project/UpdateProjectInput";
 import Project from "../models/Project";
+import User from "../models/User";
 
 @Resolver()
 export default class ProjectResolver {
@@ -17,17 +18,28 @@ export default class ProjectResolver {
         return Project.find({ userId })
     }
 
-    @Mutation(() => Project)
-    async createProject(@Args() { title, userId, description, picture, start_date, end_date }: CreateProjectInput){
+    @Query(() => User)
+    getUserById(@Arg('id') id: string) {
+        return User.findOneOrFail({id})
+    }
 
+    @Mutation(() => Project)
+    async createProject(@Args() { title, userId, description, picture, start_date, end_date, userAssignedId }: CreateProjectInput){
         const newProject = new Project();
+
         newProject.title = title;
         newProject.userId = userId
         newProject.description = description;
         newProject.picture = picture;
         newProject.start_date = start_date;
         newProject.end_date = end_date;
-        newProject.tasks = []
+        newProject.tasks = [];
+        newProject.users = [];
+
+        const user = userAssignedId ? await this.getUserById(userAssignedId) : ''
+        if (userAssignedId ) newProject.users.push( await this.getUserById(userAssignedId))
+        
+
 
         await newProject.save();
         return newProject;

@@ -27,10 +27,6 @@ const InputField: React.FC<props> = ({ onClose, projectId }) => {
       value: string;
     };
 
-
-    console.log(projectId)
-    console.log(newTask)
-
     setNewTask({ ...newTask, [name]: value });
   };
 

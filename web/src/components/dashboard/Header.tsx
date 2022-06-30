@@ -1,17 +1,18 @@
-import { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { MenuIcon, XIcon } from '@heroicons/react/outline';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import Modal from 'react-modal';
-import InputField from './InputField';
-import { UserProfile } from '../../types/user/UserProfileTypes';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Modal from 'react-modal';
+
+import { UserData } from '../../types/user/UserProfileTypes';
 import { DELETE_SESSION, GET_MY_PROFILE } from '../../graphql';
+import InputField from './InputField';
 import SearchBar from './SearchBar';
 
 
 interface props {
-  user: UserProfile;
+  user: UserData;
   searchTerm: string;
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -20,14 +21,12 @@ const Header = ({user, searchTerm, setSearchTerm}: props) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [todo, setTodo] = useState<string>('');
-
   const { projectId } = useParams();
 
   const [deleteSession] = useMutation(DELETE_SESSION, {
     refetchQueries: [{ query: GET_MY_PROFILE }],
   });
   const navigate = useNavigate();
-  const { myProfile } = user;
 
   useEffect(() => {
     if (isModalOpen === true) {
@@ -107,10 +106,10 @@ const Header = ({user, searchTerm, setSearchTerm}: props) => {
 
       {/* Desktop nav area */}
       <div className="hidden md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between">
-        {<SearchBar 
+        <SearchBar 
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}
-        /> }
+        />
         <button
           type="button"
           onClick={openModal}
@@ -127,8 +126,8 @@ const Header = ({user, searchTerm, setSearchTerm}: props) => {
               >
                 <span className="sr-only">Open user menu</span>
                 <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 bg-indigo-600 text-white flex justify-center items-center uppercase">
-                  {myProfile?.firstName.charAt(0)}
-                  {myProfile?.lastName.charAt(0)}
+                  {user?.userProfile.firstName.charAt(0)}
+                  {user?.userProfile.lastName.charAt(0)}
                 </div>
               </div>
             </div>
@@ -161,15 +160,15 @@ const Header = ({user, searchTerm, setSearchTerm}: props) => {
           <div className="border-t border-gray-200 pt-4 pb-3">
             <div className="max-w-8xl mx-auto px-4 flex items-center sm:px-6">
               <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 bg-indigo-600 text-white flex justify-center items-center uppercase">
-                {myProfile?.firstName.charAt(0)}
-                {myProfile?.lastName.charAt(0)}
+                {user?.userProfile.firstName.charAt(0)}
+                {user?.userProfile.lastName.charAt(0)}
               </div>
               <div className="ml-3 min-w-0 flex-1">
                 <div className="text-base font-medium text-gray-800 truncate">
-                  {myProfile?.firstName} {myProfile?.lastName}
+                  {user?.userProfile.firstName} {user?.userProfile.lastName}
                 </div>
                 <div className="text-sm font-medium text-gray-500 truncate">
-                  {myProfile?.email}
+                  {user?.userProfile.email}
                 </div>
               </div>
             </div>

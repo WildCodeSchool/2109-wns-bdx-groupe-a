@@ -3,20 +3,19 @@ import { useEffect, useState } from "react";
 import Header from "../../components/dashboard/Header";
 import LeftMenu from "../../components/dashboard/LeftMenu";
 import { ProjectCard } from "../../components/project";
-import { GET_PROJECTS_BY_USER_ID } from "../../graphql/";
+import { GET_PROJECTS_BY_USER_ID } from "../../graphql";
 import { ProjectsData, ProjectType } from "../../types/projects/ProjectType";
-import { UserProfile } from "../../types/user/UserProfileTypes";
+import { UserData } from "../../types/user/UserProfileTypes";
 
 
 interface props {
-    user : UserProfile;
+    user : UserData;
 }
 
 const ProjectPage = ({user} : props) => {
 
-    const { myProfile } = user;
     const { data } = useQuery<ProjectsData>(GET_PROJECTS_BY_USER_ID, {
-        variables : {userId : myProfile.id}
+        variables : {userId : user.userProfile.id}
     })
 
     const [visibleProjects, setVisibleProjects] = useState<Array<ProjectType>>([]);
@@ -41,6 +40,7 @@ const ProjectPage = ({user} : props) => {
             <Header user={user} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <div className='min-h-0 flex-1 flex overflow-hidden'>
                 <LeftMenu user={user} />
+                Mes projets
                 <div className="w-full overflow-y-auto">
                     { data && visibleProjects.map(( project ) => {
                         return(

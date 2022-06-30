@@ -9,12 +9,13 @@ import Dashboard from './components/dashboard/Dashboard';
 import Loader from './components/loader'
 
 
-import ProjectPage from './pages/projects/projectPage';
 import PageNotFound from './pages/404';
+import ProjectPage from './pages/projects/ProjectPage';
+import { UserData } from './types/user/UserProfileTypes';
 
 
 const ContextualRoutes = () => {
-  const { data } = useQuery(GET_MY_PROFILE);
+  const { data } = useQuery<UserData>(GET_MY_PROFILE);
 
   if (!data) {
     return (
