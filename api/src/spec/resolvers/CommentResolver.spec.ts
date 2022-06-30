@@ -158,7 +158,7 @@ describe('CommentResolver', () => {
         date: '2021-11-23T23:18:00.134Z'
       });
     });
-    
+
     it('delete a comment', async () => {
       await testClient.post('/graphql').send({
         query: CREATE_COMMENT,

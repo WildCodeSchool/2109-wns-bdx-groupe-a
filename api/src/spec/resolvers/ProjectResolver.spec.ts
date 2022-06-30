@@ -88,7 +88,6 @@ describe('ProjectResolver', () => {
         }
       });
 
- 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.createProject).toEqual({
         title: 'Projet 1',
@@ -104,7 +103,7 @@ describe('ProjectResolver', () => {
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 1',
-          description: 'Un projet sur les tests unitaires',
+          description: 'Un projet sur les tests unitaires'
         }
       });
 
@@ -113,10 +112,9 @@ describe('ProjectResolver', () => {
         variables: {
           updateProjectId: '1',
           title: 'Projet 1.0',
-          description: 'Update les tests unitaires',
+          description: 'Update les tests unitaires'
         }
       });
-
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.updateProject).toEqual({
@@ -130,7 +128,7 @@ describe('ProjectResolver', () => {
     });
 
     it('delete a project', async () => {
-       await testClient.post('/graphql').send({
+      await testClient.post('/graphql').send({
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 1',
@@ -151,7 +149,7 @@ describe('ProjectResolver', () => {
         description: 'Projet sur les tests unitaires',
         end_date: null,
         picture: null,
-        start_date: null,
+        start_date: null
       });
     });
 
@@ -177,7 +175,11 @@ describe('ProjectResolver', () => {
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.getProjects).toEqual([
-        { description: 'Projet sur les tests unitaires', id: '1', title: 'Projet 1' },
+        {
+          description: 'Projet sur les tests unitaires',
+          id: '1',
+          title: 'Projet 1'
+        },
         { description: 'Projet trello', id: '2', title: 'Projet 2' }
       ]);
     });
