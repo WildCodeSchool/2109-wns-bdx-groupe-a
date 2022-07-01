@@ -6,11 +6,11 @@ class CreateCommentInput {
     @Field()
     title! : string;
 
-    @Field()
-    content! : string; 
+    @Field({nullable: true})
+    content? : string; 
     
-    @Field()
-    date! : Date;
+    @Field({nullable: true})
+    date? : Date;
 }
 
 export default CreateCommentInput

@@ -6,7 +6,7 @@ interface props {
   user: UserProfile;
 }
 
-export const ProjectCard = ({ project, user }: props) => {
+const ProjectCard = ({ project, user }: props) => {
   const { myProfile } = user;
   const { firstName, lastName } = myProfile;
   const { title, description, picture, start_date, end_date } = project;
@@ -44,3 +44,5 @@ export const ProjectCard = ({ project, user }: props) => {
     </div>
   );
 };
+
+export default ProjectCard

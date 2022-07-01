@@ -9,8 +9,8 @@ import Dashboard from './components/dashboard/Dashboard';
 import Loader from './components/loader'
 
 
-import ProjectPage from './pages/projects/projectPage';
 import PageNotFound from './pages/404';
+import ProjectPage from './pages/projects/ProjectPage';
 
 
 const ContextualRoutes = () => {

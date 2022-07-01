@@ -47,7 +47,7 @@ const Ticket = ({ task, id }: { task: TaskType; id: string }) => {
               <button
                 onClick={() =>
                   deleteTask({
-                    variables: { deleteTaskId: id },
+                    variables: { taskId: id },
                     refetchQueries: [GET_TASKS],
                   })
                 }
