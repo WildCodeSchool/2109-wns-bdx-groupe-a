@@ -4,6 +4,7 @@ import createTestClient from 'supertest';
 import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 import User from '../../models/User';
+import UserSession from '../../models/UserSession';
 
 const SECONDS = 1000;
 jest.setTimeout(70 * SECONDS);
@@ -97,6 +98,23 @@ describe('UserResolver', () => {
       email
     }
   }`;
+
+  const GET_MY_PROFILE = `
+  query GetMyProfile {
+    myProfile {
+      id
+      email
+      firstName
+      lastName
+    }
+  }
+`;
+
+  const DELETE_SESSION = `
+  mutation deleteSession {
+    deleteSession
+  }
+`;
 
   describe('UserResolver', () => {
     it('creates and returns user', async () => {
@@ -245,40 +263,14 @@ describe('UserResolver', () => {
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.signUp).toEqual({
-        id: "1",
+        id: '1',
         firstName: 'Alfred',
-          lastName: 'Test',
-          email: 'Bordeaux@test.fr',
-          role : "visitor"
+        lastName: 'Test',
+        email: 'Bordeaux@test.fr',
+        role: 'visitor'
       });
     });
 
-    // it('user sign in', async () => {
-    //   // await testClient.post('/graphql').send({
-    //   //   query: SIGN_UP,
-    //   //   variables: {
-    //   //     firstName: 'Alfred',
-    //   //     lastName: 'Test',
-    //   //     email: 'Bordeaux@test.fr',
-    //   //     password: 'Test1234567!!'
-    //   //   }
-    //   // });
-    //   const result = await testClient.post('/graphql').send({
-    //     query: SIGN_IN,
-    //     variables: {
-    //       email: 'Bordeaux@test.fr',
-    //       password: 'Test1234567!!'
-    //     }
-    //   });
-
-    //   expect(JSON.parse(result.text).errors).toBeUndefined();
-    //   expect(JSON.parse(result.text).data?.signIn).toEqual({
-    //     firstName: 'Alfred',
-    //     lastName: 'Test',
-    //     email: 'Bordeaux@test.fr',
-    //     role: 'visitor'
-    //   });
-    // });
     it('should throw an error if password/email incorrect when sign in', async () => {
       const result = await testClient.post('/graphql').send({
         query: SIGN_IN,
@@ -290,7 +282,7 @@ describe('UserResolver', () => {
 
       expect(JSON.parse(result.text).errors).toBeTruthy();
       expect(JSON.parse(result.text).errors[0].message).toEqual(
-        "Could not sign in with provided email address and password.",
+        'Could not sign in with provided email address and password.'
       );
     });
 
@@ -316,7 +308,7 @@ describe('UserResolver', () => {
 
       expect(JSON.parse(result.text).errors).toBeTruthy();
       expect(JSON.parse(result.text).errors[0].message).toEqual(
-        "Could not sign up with provided email address.",
+        'Could not sign up with provided email address.'
       );
     });
 
@@ -340,35 +332,136 @@ describe('UserResolver', () => {
 
       expect(JSON.parse(result.text).errors).toBeTruthy();
       expect(JSON.parse(result.text).errors[0].message).toEqual(
-        "Could not sign in with provided email address and password."
+        'Could not sign in with provided email address and password.'
       );
     });
 
-    // it('should throw an error if password is incorrect', async () => {
-    //   const test = await testClient.post('/graphql').send({
-    //     query: SIGN_UP,
-    //     variables: {
-    //       firstName: 'Alfred',
-    //       lastName: 'Test',
-    //       email: 'Bordeaux@test.fr',
-    //       password: 'Test1234567!!'
-    //     }
-    //   });
+    it('should sign in and return visitor role', async () => {
+      await testClient.post('/graphql').send({
+        query: SIGN_UP,
+        variables: {
+          firstName: 'Alfred',
+          lastName: 'Test',
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
 
-    //   console.log(test.text)
-    //   const result = await testClient.post('/graphql').send({
-    //     query: SIGN_IN,
-    //     variables: {
-    //       email: 'Bordeaux@test.fr',
-    //       password: 'Test1234567!!'
-    //     }
-    //   });
-    //   console.log(result)
+      const result = await testClient.post('/graphql').send({
+        query: SIGN_IN,
+        variables: {
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
 
-    //   // expect(JSON.parse(result.text).errors).toBeTruthy();
-    //   // expect(JSON.parse(result.text).errors[0].message).toEqual(
-    //   //   "Could not sign in with provided email address and password."
-    //   // );
-    // });
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.signIn).toEqual({
+        id: '1',
+        firstName: 'Alfred',
+        lastName: 'Test',
+        email: 'Bordeaux@test.fr',
+        role: 'visitor'
+      });
+    });
+
+    it('should get the profile', async () => {
+      await testClient.post('/graphql').send({
+        query: SIGN_UP,
+        variables: {
+          firstName: 'Alfred',
+          lastName: 'Test',
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
+
+      const userSignIn = await testClient.post('/graphql').send({
+        query: SIGN_IN,
+        variables: {
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
+      // on force la main à super test pour le set le cookie
+      const cookie = userSignIn.headers['set-cookie'][0];
+
+      const result = await testClient
+        .post('/graphql')
+        .set('Cookie', cookie)
+        .send({
+          query: GET_MY_PROFILE
+        });
+
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.myProfile).toEqual({
+        id: '1',
+        firstName: 'Alfred',
+        lastName: 'Test',
+        email: 'Bordeaux@test.fr',
+      });
+    });
+
+    it('should delete the session', async () => {
+      await testClient.post('/graphql').send({
+        query: SIGN_UP,
+        variables: {
+          firstName: 'Alfred',
+          lastName: 'Test',
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
+
+      const userSignIn = await testClient.post('/graphql').send({
+        query: SIGN_IN,
+        variables: {
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
+      // on force la main à super test pour le set le cookie
+      const cookie = userSignIn.headers['set-cookie'][0];
+
+      const result = await testClient
+        .post('/graphql')
+        .set('Cookie', cookie)
+        .send({
+          query: DELETE_SESSION
+        });
+
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.deleteSession).toBeTruthy();
+    });
+
+    it('should not delete the session', async () => {
+      await testClient.post('/graphql').send({
+        query: SIGN_UP,
+        variables: {
+          firstName: 'Alfred',
+          lastName: 'Test',
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
+
+      await testClient.post('/graphql').send({
+        query: SIGN_IN,
+        variables: {
+          email: 'Bordeaux@test.fr',
+          password: 'Test1234567!!'
+        }
+      });
+      // on force la main à super test pour le set le cookie
+
+      const result = await testClient
+        .post('/graphql')
+        .send({
+          query: DELETE_SESSION
+        });
+
+      expect(JSON.parse(result.text).errors).toBeUndefined();
+      expect(JSON.parse(result.text).data?.deleteSession).toBeFalsy();
+    });
   });
 });
