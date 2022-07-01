@@ -14,6 +14,9 @@ class CreateTaskInput {
 
     @Field()
     progress_state!: string;
+
+    @Field()
+    projectId!: string;
 }
 
 export default CreateTaskInput

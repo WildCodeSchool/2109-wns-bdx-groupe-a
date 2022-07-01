@@ -1,18 +1,17 @@
 import { useMutation } from '@apollo/client';
 import React, { ChangeEvent, useRef, useState } from 'react';
-import { CREATE_TASK } from '../../graphql/mutations/tasks/CreateTaskMutation';
-import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { CREATE_TASK, GET_TASKS_BY_PROJECT_ID } from '../../graphql';
 import { DEFAULT_NEW_TASK } from '../../shared/constants';
 import './styles.css';
 
 interface props {
   todo: string;
   setTodo: React.Dispatch<React.SetStateAction<string>>;
-  handleAdd: (e: React.FormEvent) => void;
   onClose: () => void;
+  projectId: string;
 }
 
-const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
+const InputField: React.FC<props> = ({ onClose, projectId }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [newTask, setNewTask] = useState(DEFAULT_NEW_TASK);
   const [createTask, {}] = useMutation(CREATE_TASK);
@@ -27,6 +26,11 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
       name: string;
       value: string;
     };
+
+
+    console.log(projectId)
+    console.log(newTask)
+
     setNewTask({ ...newTask, [name]: value });
   };
 
@@ -109,9 +113,9 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
           <form
             className="input"
             onSubmit={(e) => {
-              handleAdd(e);
+              e.preventDefault();
               inputRef.current?.blur();
-              createTask({ variables: newTask, refetchQueries: [GET_TASKS] });
+              createTask({ variables: {...newTask, projectId}, refetchQueries: [GET_TASKS_BY_PROJECT_ID] });
               onClose()
             }}
           >

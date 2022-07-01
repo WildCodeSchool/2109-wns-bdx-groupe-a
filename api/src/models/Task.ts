@@ -19,7 +19,6 @@ class Task extends BaseEntity {
 
   @Column({ type: 'longtext', nullable: true})
   @Field({nullable: true})
-  @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   description?: string;
 
   @Column({ type: 'varchar', length: 255, nullable: true})
@@ -35,7 +34,8 @@ class Task extends BaseEntity {
   users?: User[];
 
   @ManyToOne(() => Project, project => project.tasks)
-  project!: Project;
+  @Field(() => Project, { nullable : false } )
+  project?: Project;
 }
 
 export default Task;

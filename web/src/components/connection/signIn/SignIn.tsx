@@ -3,8 +3,7 @@ import { useMutation } from '@apollo/client';
 import { Navigate } from 'react-router-dom';
 import { LockClosedIcon } from '@heroicons/react/solid';
 
-import { GET_MY_PROFILE } from '../../../graphql/queries/QGetMyProfile';
-import { SIGN_IN } from '../../../graphql/queries/QSignIn';
+import { GET_MY_PROFILE, SIGN_IN } from '../../../graphql';
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

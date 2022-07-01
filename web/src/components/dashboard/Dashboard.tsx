@@ -1,21 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
-import Header from './Header';
 import LeftMenu from './LeftMenu';
 
 import TodoList from './TodoList';
 import { UserProfile } from '../../types/user/UserProfileTypes';
 import { TasksData, TaskType } from '../../types/tasks/TaskType';
-import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { GET_TASKS_BY_PROJECT_ID, TASK_PROGRESS_STATE } from '../../graphql';
 import { useMutation, useQuery } from '@apollo/client';
-import { TASK_PROGRESS_STATE } from '../../graphql/mutations/tasks/TaskProgressStateMutation';
-// import Loader from '../loader';
+import Header from './Header';
 
 const Dashboard = ({ data }: { data: UserProfile }) => {
-
-  const [todo, setTodo] = useState<string>('');
   const [, setTasks] = useState<Array<TaskType>>([]);
   const [todos, setTodos] = useState<Array<TaskType>>([]);
   const [inProgressTodos, setInProgressTodos] = useState<Array<TaskType>>([]);
@@ -24,15 +20,19 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const [completedTodos, setCompletedTodos] = useState<Array<TaskType>>([]);
   const [getTaskId, setTaskId] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
+
   const { myProfile } = data;
-  const { data: tasksList } = useQuery<TasksData>(GET_TASKS);
   const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
-
-
+  
+  const { projectId } = useParams()
+  const { data: tasksList } = useQuery<TasksData>(GET_TASKS_BY_PROJECT_ID, {
+    variables: {projectId : projectId}
+  });
+  
   useEffect(() => {
 
     if (tasksList) {
-      const { getTasks: tasks } = tasksList;
+      const { getTasksByProjectId: tasks } = tasksList;
       const filteredTask = (progress_state: string) => {
         if (searchTerm) {
           return tasks.filter(task => task.title.toLowerCase().includes(searchTerm.toLowerCase()) && task.progress_state === progress_state);
@@ -58,15 +58,6 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   if (!myProfile) {
       <Navigate to="/" replace />
   }
-
-  const handleAdd = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // if (todo) {
-    //   setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
-    //   setTodo('');
-    // }
-  };
 
 
   const onDragEnd = (result: DropResult) => {
@@ -138,17 +129,26 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
 
   return (
     <>
+
+    <Header user={data} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
      <div className='h-full flex flex-col'>
-      {/* Top nav*/}
-      <Header user={data} todo={todo} setTodo={setTodo} handleAdd={handleAdd} setSearchTerm={setSearchTerm} searchTerm={searchTerm}/>
       {/* Bottom section */}
+
+
+      {/* <SearchBar 
+        searchTerm={searchTerm}
+        setSearchTerm={setSearchTerm}
+      /> */}
 
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
-        <LeftMenu />
+        <LeftMenu 
+          user={data}
+        />
+
             {/* Main area */}
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="w-full flex justify-evenly overflow-y-auto">
+          <div className="w-full flex justify-around overflow-y-auto">
             <TodoList
               todos={todos}
               setTodos={setTodos}

@@ -15,6 +15,11 @@ class Project extends BaseEntity {
   @Field(() => ID, { nullable: true})
   id!: string;
 
+  @Column()
+  @Field()
+  @IsNotEmpty()
+  userId! : string
+
   @Column({ type: 'varchar', length: 255 })
   @Field()
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
@@ -38,7 +43,8 @@ class Project extends BaseEntity {
   end_date?: Date;
 
   @OneToMany(() => Task, task => task.project)
-    tasks?: Task[];
+  @Field(() => Task, { nullable : true } )
+    tasks!: Task[];
 
   @OneToMany(() => Comment, comment => comment.project)
     comments?: Comment[];  
