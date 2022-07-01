@@ -4,7 +4,6 @@ import createTestClient from 'supertest';
 import getDatabaseTestConnection from '../db-test-connection';
 import getExpressServer from '../../express-server';
 import User from '../../models/User';
-import UserSession from '../../models/UserSession';
 
 const SECONDS = 1000;
 jest.setTimeout(70 * SECONDS);
@@ -398,7 +397,7 @@ describe('UserResolver', () => {
         id: '1',
         firstName: 'Alfred',
         lastName: 'Test',
-        email: 'Bordeaux@test.fr',
+        email: 'Bordeaux@test.fr'
       });
     });
 
@@ -454,11 +453,9 @@ describe('UserResolver', () => {
       });
       // on force la main à super test pour le set le cookie
 
-      const result = await testClient
-        .post('/graphql')
-        .send({
-          query: DELETE_SESSION
-        });
+      const result = await testClient.post('/graphql').send({
+        query: DELETE_SESSION
+      });
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.deleteSession).toBeFalsy();
