@@ -2,8 +2,8 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import Header from "../../components/dashboard/Header";
 import LeftMenu from "../../components/dashboard/LeftMenu";
-import { ProjectCard } from "../../components/project";
-import { GET_PROJECTS_BY_USER_ID } from "../../graphql/";
+import ProjectCard from '../../components/project/ProjectCard';
+import { GET_PROJECTS_BY_USER_ID } from "../../graphql";
 import { ProjectsData, ProjectType } from "../../types/projects/ProjectType";
 import { UserProfile } from "../../types/user/UserProfileTypes";
 
