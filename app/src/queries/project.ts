@@ -7,8 +7,8 @@ const GET_PROJECTS = gql`
       title
       description
       picture
-      start_date
-      end_date
+      startDate
+      endDate
     }
   }
   `;

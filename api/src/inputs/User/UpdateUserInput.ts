@@ -20,6 +20,10 @@ class UpdateUserInput{
     @IsEmail()
     email? : string
 
+    // @Field()
+    // @IsString()
+    // picture?: string
+
     @Field()
     @IsString()
     password? : string

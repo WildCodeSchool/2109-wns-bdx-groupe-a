@@ -1,14 +1,15 @@
 import { TaskType } from "../tasks/TaskType";
 
 export type ProjectType = {
-    id: number;
+    id: string;
     userId: string;
     title: string;
     description: string,
     picture: string;
-    start_date: string;
-    end_date: string;
+    startDate: string;
+    endDate: string;
     tasks: [TaskType]
+    userAssignedId:string
   };
 
 export interface ProjectsData {

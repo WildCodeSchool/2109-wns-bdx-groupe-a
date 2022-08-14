@@ -40,8 +40,13 @@ const ProjectPage = ({user} : props) => {
             <Header user={user} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             <div className='min-h-0 flex-1 flex overflow-hidden'>
                 <LeftMenu user={user} />
-                Mes projets
                 <div className="w-full overflow-y-auto">
+                <h2
+                    className="text-3xl font-extrabold tracking-tight  sm:text-4xl"
+                    style={{ color: '#374151' }}
+                >
+                    Mes projets
+                </h2>
                     { data && visibleProjects.map(( project ) => {
                         return(
                             <ProjectCard 

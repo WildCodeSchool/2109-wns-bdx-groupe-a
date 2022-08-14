@@ -15,8 +15,8 @@ mutation CreateTask($title: String!, $description: String!, $attachment: String!
       title
       description
       picture
-      start_date
-      end_date
+      startDate
+      endDate
     }
   }
 }

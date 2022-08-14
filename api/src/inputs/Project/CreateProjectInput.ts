@@ -15,13 +15,13 @@ class CreateProjectInput {
   picture?: string;
 
   @Field()
-  start_date!: Date;
+  startDate?: Date;
 
   @Field()
-  end_date!: Date;
+  endDate?: Date;
 
   @Field()
-  userAssignedId? : string;
+  userAssignedId!: string;
 }
 
 export default CreateProjectInput;

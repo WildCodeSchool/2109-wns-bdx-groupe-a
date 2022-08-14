@@ -6,8 +6,8 @@ export interface Project {
     title: string
     description: string
     picture: string
-    start_date: Date
-    end_date: Date
+    startDate: Date
+    endDate: Date
     tasks: Task[]
     comments: Comment[]
   }

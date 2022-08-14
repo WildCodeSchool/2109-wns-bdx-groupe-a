@@ -7,4 +7,6 @@ export type UserProfile = {
 
 export type UserData = {
   userProfile : UserProfile
-}
+};
+
+

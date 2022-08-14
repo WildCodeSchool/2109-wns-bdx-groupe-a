@@ -38,20 +38,20 @@ class Project extends BaseEntity {
 
   @Column({ type: 'datetime' })
   @Field()
-  start_date?: Date;
+  startDate?: Date;
 
   @Column({ type: 'datetime' })
   @Field()
-  end_date?: Date;
+  endDate?: Date;
 
-  @OneToMany(() => Task, task => task.project)
+  @OneToMany(() => Task, task => task.project, {cascade: true})
   @Field(() => Task, { nullable : true } )
     tasks!: Task[];
 
-  @OneToMany(() => Comment, comment => comment.project)
+  @OneToMany(() => Comment, comment => comment.project, {cascade: true})
     comments!: Comment[];  
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => User, user => user.projects, {cascade: true})
   @Field(() => [User], {nullable : true})
   users? : User[]
 }

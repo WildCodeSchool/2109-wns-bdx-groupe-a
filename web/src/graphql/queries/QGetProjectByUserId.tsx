@@ -8,8 +8,8 @@ query GetProjectByUserId($userId: String!) {
     title
     description
     picture
-    start_date
-    end_date
+    startDate
+    endDate
     tasks {
       id
       title

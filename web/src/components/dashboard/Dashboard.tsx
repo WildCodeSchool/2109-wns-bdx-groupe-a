@@ -145,6 +145,7 @@ const Dashboard = ({data } : props) => {
         <DragDropContext onDragEnd={onDragEnd}>
           {/* TODO : Mettre le titre du projet */}
           <div className="w-full flex justify-around overflow-y-auto">
+            
             <TodoList
               todos={todos}
               setTodos={setTodos}

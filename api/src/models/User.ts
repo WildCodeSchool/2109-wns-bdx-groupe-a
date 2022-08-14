@@ -38,7 +38,7 @@ class User extends BaseEntity {
     @Field()
     email!: string; 
 
-    
+      
     @Column() 
     @IsNotEmpty({ message : 'Ce champ doit être rempli'})
     password!: string;
@@ -47,7 +47,7 @@ class User extends BaseEntity {
     @Column({type: 'varchar', default: UserRole.VISITOR, length: 255}) 
     role?: string;
 
-    @ManyToMany(() => Project)
+    @ManyToMany(() => Project, project => project.users)
     @JoinTable()
     @Field(() => [Project], {nullable : true})
     projects?: Project[];

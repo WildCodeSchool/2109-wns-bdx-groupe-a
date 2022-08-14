@@ -31,7 +31,7 @@ class Task extends BaseEntity {
 
   @ManyToMany(() => User)
   @JoinTable()
-  users!: User[];
+  users?: User[];
 
   @ManyToOne(() => Project, project => project.tasks)
   @Field(() => Project, { nullable : false } )

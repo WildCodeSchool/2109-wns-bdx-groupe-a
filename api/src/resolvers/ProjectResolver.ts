@@ -3,8 +3,10 @@ import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 import CreateProjectInput from "../inputs/Project/CreateProjectInput";
 import DeleteProjectInput from "../inputs/Project/DeleteProjectInput";
 import UpdateProjectInput from "../inputs/Project/UpdateProjectInput";
+import UpdateProjectUsersInput from "../inputs/Project/UpdateProjectUsersInpus";
 import Project from "../models/Project";
 import User from "../models/User";
+import ProjectRepository from "../repositories/ProjectRepository";
 
 @Resolver()
 export default class ProjectResolver {
@@ -24,29 +26,17 @@ export default class ProjectResolver {
     }
 
     @Mutation(() => Project)
-    async createProject(@Args() { title, userId, description, picture, start_date, end_date, userAssignedId }: CreateProjectInput){
-        const newProject = new Project();
-
-        newProject.title = title;
-        newProject.userId = userId
-        newProject.description = description;
-        newProject.picture = picture;
-        newProject.start_date = start_date;
-        newProject.end_date = end_date;
-        newProject.tasks = [];
-        newProject.users = [];
-
-        const user = userAssignedId ? await this.getUserById(userAssignedId) : ''
-        if (userAssignedId ) newProject.users.push( await this.getUserById(userAssignedId))
-        
-
-
-        await newProject.save();
-        return newProject;
+    async createProject(@Args() { title, userId, description, picture, startDate, endDate }: CreateProjectInput){
+        return ProjectRepository.createUser(title, userId, description, picture, startDate, endDate)
     }
 
     @Mutation(() => Project)
-    async updateProject(@Args() { id, title, description, picture, start_date, end_date}: UpdateProjectInput){
+    async addUsersToProject(@Args() {id, usersId}: UpdateProjectUsersInput) {
+        return ProjectRepository.addUsersToProject(id, usersId)
+    }
+
+    @Mutation(() => Project)
+    async updateProject(@Args() { id, title, description, picture, startDate, endDate}: UpdateProjectInput){
 
         const projectToUpdate = await Project.findOneOrFail({ id })
 
@@ -54,8 +44,8 @@ export default class ProjectResolver {
             title: title ?? projectToUpdate.title,
             description: description ?? projectToUpdate.description,
             picture: picture ?? projectToUpdate.picture,
-            start_date: start_date ?? projectToUpdate.start_date,
-            end_date: end_date ?? projectToUpdate.end_date
+            startDate: startDate ?? projectToUpdate.startDate,
+            endDate: endDate ?? projectToUpdate.endDate
         }
 
         Object.assign(projectToUpdate, newData)

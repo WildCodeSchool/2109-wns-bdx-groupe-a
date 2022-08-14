@@ -15,8 +15,8 @@ query GetTasksByProjectId($projectId: String!) {
         title
         description
         picture
-        start_date
-        end_date
+        startDate
+        endDate
       }
     }
   }

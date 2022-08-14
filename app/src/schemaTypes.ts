@@ -13,8 +13,8 @@ export interface Project_projects {
     title: string;
     description: string;
     picture: string;
-    start_date: any;
-    end_date: any;
+    startDate: any;
+    endDate: any;
   }
   
   export interface Project {

@@ -10,12 +10,7 @@ query GetUsers {
       role
       projects {
         id
-        userId
         title
-        description
-        picture
-        start_date
-        end_date
       }
     }
   }

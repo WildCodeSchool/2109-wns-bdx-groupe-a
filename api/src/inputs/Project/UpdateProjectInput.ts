@@ -16,10 +16,10 @@ class UpdateProjectInput{
     picture? : string
 
     @Field()
-    start_date? : Date
+    startDate? : Date
 
     @Field()
-    end_date? : Date
+    endDate? : Date
 
 }
 
