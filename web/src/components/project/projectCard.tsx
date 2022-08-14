@@ -64,3 +64,5 @@ export const ProjectCard = ({ project, user }: props) => {
     </div>
   );
 };
+
+export default ProjectCard

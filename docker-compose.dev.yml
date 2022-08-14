@@ -22,7 +22,8 @@ services:
     expose:
       - 3306
     volumes:
-      - ./mysql_test:/docker-entrypoint-initdb.d
+      - ./mysql:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
     healthcheck:
@@ -53,4 +54,6 @@ services:
       - ./web/src:/app/src
       - /web/node_modules
 volumes:
+  web-client-build:
   db_data:
+

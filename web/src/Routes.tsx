@@ -10,8 +10,8 @@ import Loader from './components/loader'
 
 
 import PageNotFound from './pages/404';
-import ProjectPage from './pages/projects/ProjectPage';
 import { UserData } from './types/user/UserProfileTypes';
+import ProjectPage from './pages/projects/projectPage';
 
 
 const ContextualRoutes = () => {

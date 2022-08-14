@@ -5,16 +5,16 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
-    "coverage": "jest --coverage",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watchAll --runInBand",
+    "coverage": "jest --coverage --runInBand",
     "build": "tsc",
     "build:watch": "tsc -w",
     "start": "node build/.",
     "start:watch": "npm run build && (npm run build:watch & nodemon --inspect build/.)"
   },
   "jest": {
-    "testTimeout": 15000
+    "testTimeout": 70000
   },
   "author": "",
   "license": "ISC",

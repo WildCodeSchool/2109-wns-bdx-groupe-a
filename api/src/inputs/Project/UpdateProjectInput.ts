@@ -1,26 +1,27 @@
-import { ArgsType, Field } from 'type-graphql';
-
+import { ArgsType, Field } from "type-graphql";
 
 @ArgsType()
-class UpdateProjectInput{
-    @Field()
-    id? : string
+class UpdateProjectInput {
+  @Field()
+  id!: string;
 
-    @Field()
-    title? : string
+  @Field({ nullable: true })
+  title?: string;
 
-    @Field()
-    description? : string
+  @Field({ nullable: true })
+  description?: string;
 
-    @Field()
-    picture? : string
+  @Field({ nullable: true })
+  picture?: string;
 
-    @Field()
-    startDate? : Date
+  @Field()
+  startDate?: Date;
 
-    @Field()
-    endDate? : Date
+  @Field({ nullable: true })
+  start_date?: Date;
 
+  @Field({ nullable: true })
+  end_date?: Date;
 }
 
-export default UpdateProjectInput
+export default UpdateProjectInput;

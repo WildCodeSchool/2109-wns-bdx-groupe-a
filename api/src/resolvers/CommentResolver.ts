@@ -24,7 +24,8 @@ export default class CommentResolver {
         const newComment = new Comment();
         newComment.title = title;
         newComment.content = content;
-        newComment.date = date;
+        if (date) newComment.date = date;
+        
 
         await newComment.save();
         return newComment;
@@ -48,10 +49,11 @@ export default class CommentResolver {
     }
 
     @Mutation(() => Comment)
-    async deleteTask(@Args() { id } : DeleteCommentInput){
+    async deleteComment(@Args() { id } : DeleteCommentInput){
         const commentToDelete = await Comment.findOneOrFail({ id })
 
         await commentToDelete.remove()
         return commentToDelete
     }
+
 }

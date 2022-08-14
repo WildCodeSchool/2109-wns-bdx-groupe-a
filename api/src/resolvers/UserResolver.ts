@@ -52,9 +52,6 @@ export default class UserResolver {
     @Mutation(() => User)
     async deleteUser(@Args() { id } : DeleteUserInput){
         const userToDelete = await User.findOneOrFail({ id })
-        if (!userToDelete) {
-            throw new Error('No user founded')
-        }
 
         await userToDelete.remove()
         return userToDelete

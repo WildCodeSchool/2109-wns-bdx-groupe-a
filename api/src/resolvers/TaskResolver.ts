@@ -11,11 +11,6 @@ import Project from '../models/Project';
 
 @Resolver()
 export default class TaskResolver {
-  @Query(() => [Task])
-  getTasks() {
-    return Task.find();
-  }
-
   @Query(() => Task)
   getTaskByTitle(@Arg('title') title: string) {
     return Task.findOne({ title });
@@ -63,10 +58,6 @@ export default class TaskResolver {
     { id, title, description, attachment, progress_state }: UpdateTaskInput
   ) {
     const taskToUpdate = await Task.findOneOrFail({ id });
-
-    if (!taskToUpdate) {
-      throw new Error('No task founded');
-    }
 
     const newData = {
       title: title ?? taskToUpdate.title,

@@ -4,7 +4,7 @@ import { ArgsType, Field } from "type-graphql";
 @ArgsType()
 class UpdateTaskInput{
     @Field()
-    id?: string
+    id!: string
 
     @Field( { nullable : true} ) 
     title?: string

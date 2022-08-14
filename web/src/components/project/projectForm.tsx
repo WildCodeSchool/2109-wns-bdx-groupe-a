@@ -17,7 +17,8 @@ export const getDateWithoutTime = (date: string): string => {
   return date ? new Date(date).toJSON().split('T')[0] : '';
 };
 
-export const ProjectForm = ({ user, onClose }: props) => {
+const ProjectForm = ({ user, onClose }: props) => {
+  const { myProfile } = user;
   const [newProject, setNewProject] = useState(DEFAULT_NEW_PROJECT);
   const [createProject, {}] = useMutation(CREATE_PROJECT);
   const { data } = useQuery<UserData2>(GET_USERS);
@@ -164,3 +165,5 @@ export const ProjectForm = ({ user, onClose }: props) => {
     </div>
   );
 };
+
+export default ProjectForm

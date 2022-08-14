@@ -11,18 +11,18 @@ import User from "./User";
 @ObjectType()
 class Comment extends BaseEntity {
   @PrimaryGeneratedColumn()
-  @Field(() => ID)
-  id!: String;
+  @Field(() => ID, { nullable: true})
+  id!: string;
 
   @Column({ type: 'varchar', length: 255 })
   @Field()
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
   title!: string;
 
-  @Column({ type: 'longtext' })
-  @Field()
+  @Column({ type: 'longtext', nullable: true})
+  @Field({nullable: true})
   @IsNotEmpty({ message : 'Ce champ doit être rempli'})
-  content!: string;
+  content?: string;
 
   @Column({ type: 'date' })
   @Field()

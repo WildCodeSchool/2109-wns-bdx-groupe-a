@@ -5,7 +5,7 @@ import { UserData } from "../../types/user/UserProfileTypes";
 import { useEffect, useState } from "react";
 import Modal from 'react-modal';
 import { Link } from "react-router-dom";
-import { ProjectForm } from "../project";
+import ProjectForm from '../project/ProjectForm';
 
 
 

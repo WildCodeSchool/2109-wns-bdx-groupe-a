@@ -1,4 +1,4 @@
-import { ArgsType, Field } from 'type-graphql';
+import { ArgsType, Field } from "type-graphql";
 
 @ArgsType()
 class CreateProjectInput {
@@ -6,22 +6,19 @@ class CreateProjectInput {
   title!: string;
 
   @Field()
-  userId! : string;
+  userId!: string;
 
-  @Field()
-  description!: string;
+  @Field({ nullable: true })
+  description?: string;
 
-  @Field()
+  @Field({ nullable: true })
   picture?: string;
 
-  @Field()
-  startDate?: Date;
+  @Field({ nullable: true })
+  start_date?: Date;
 
-  @Field()
-  endDate?: Date;
-
-  @Field()
-  userAssignedId!: string;
+  @Field({ nullable: true })
+  end_date?: Date;
 }
 
 export default CreateProjectInput;
