@@ -9,7 +9,7 @@ export type ProjectType = {
     startDate: string;
     endDate: string;
     tasks: [TaskType]
-    userAssignedId:string
+    userAssignedId: [string]
   };
 
 export interface ProjectsData {

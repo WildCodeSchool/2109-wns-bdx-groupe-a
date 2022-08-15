@@ -12,6 +12,7 @@ import { IsNotEmpty } from "class-validator";
 import Task from "./Task";
 // eslint-disable-next-line import/no-cycle
 import Comment from "./Comment";
+// eslint-disable-next-line import/no-cycle
 import User from "./User";
 
 @Entity()
@@ -42,11 +43,11 @@ class Project extends BaseEntity {
 
   @Column({ type: "date", nullable: true })
   @Field({ nullable: true })
-  start_date?: Date;
+  startDate?: Date;
 
   @Column({ type: "date", nullable: true })
   @Field({ nullable: true })
-  end_date?: Date;
+  endDate?: Date;
 
   @OneToMany(() => Task, (task) => task.project, { cascade: true })
   @Field(() => Task, { nullable: true })
@@ -55,9 +56,9 @@ class Project extends BaseEntity {
   @OneToMany(() => Comment, (comment) => comment.project, { cascade: true })
   comments!: Comment[];
 
-  @ManyToMany(() => User, (user) => user.projects, { cascade: true })
-  @Field(() => [User], { nullable: true })
-  users?: User[];
+  @ManyToMany(() => User, (user) => user.projects)
+  @Field(() => User, { nullable: true })
+  user?: User[];
 }
 
 export default Project;

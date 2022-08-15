@@ -15,10 +15,10 @@ class CreateProjectInput {
   picture?: string;
 
   @Field({ nullable: true })
-  start_date?: Date;
+  startDate?: Date;
 
   @Field({ nullable: true })
-  end_date?: Date;
+  endDate?: Date;
 }
 
 export default CreateProjectInput;

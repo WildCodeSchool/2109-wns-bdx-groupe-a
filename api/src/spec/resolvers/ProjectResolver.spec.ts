@@ -34,26 +34,26 @@ describe("ProjectResolver", () => {
 
   describe("mutation createProject", () => {
     const CREATE_PROJECT = `
-        mutation($title: String!, $description: String, $picture: String, $startDate: DateTime, $endDate: DateTime) {
-            createProject(title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
+        mutation($title: String!, $description: String, $picture: String, $startDate: DateTime, $endDate: DateTime, $userId: String!) {
+            createProject(title: $title, description: $description, picture: $picture, startDate: $startDate, endDate: $endDate, userId: $userId) {
                 title
                 description
                 picture
-                start_date
-                end_date
+                startDate
+                endDate
             }
         }
         `;
 
     const UPDATE_PROJECT = ` 
     mutation Mutation($updateProjectId: String!, $title: String, $description: String, $picture: String, $startDate: DateTime, $endDate: DateTime) {
-      updateProject(id: $updateProjectId, title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
+      updateProject(id: $updateProjectId, title: $title, description: $description, picture: $picture, startDate: $startDate, endDate: $endDate) {
         id
     title
     description
     picture
-    start_date
-    end_date
+    startDate
+    endDate
       }
     }
     `;
@@ -63,9 +63,9 @@ describe("ProjectResolver", () => {
       deleteProject(id: $deleteProjectId) {
         title
         description
-        start_date
+        startDate
         picture
-        end_date
+        endDate
       }
     }`;
 
@@ -78,12 +78,34 @@ describe("ProjectResolver", () => {
       }
     }`;
 
+    const ADD_USER_TO_PROJECT = `
+    mutation Mutation($userId: String!, $projectId: String!){
+      addUserToProject(userId: $userId, projectId: $projectId) {
+        userId, 
+        projectId, 
+        title
+      }
+    }
+    `;
+
+    const SIGN_UP = `
+    mutation SignUp($firstName: String!, $lastName: String!, $email: String!, $password: String!) {
+      signUp(firstName: $firstName, lastName: $lastName, email: $email, password: $password) {
+        id
+        firstName
+        lastName
+        email
+        role
+      }
+    }`;
+
     it("creates and returns project", async () => {
       const result = await testClient.post("/graphql").send({
         query: CREATE_PROJECT,
         variables: {
           title: "Projet 1",
           description: "Projet sur les tests unitaires",
+          userId: "1",
         },
       });
 
@@ -91,9 +113,9 @@ describe("ProjectResolver", () => {
       expect(JSON.parse(result.text).data?.createProject).toEqual({
         title: "Projet 1",
         description: "Projet sur les tests unitaires",
-        end_date: null,
+        endDate: null,
         picture: null,
-        start_date: null,
+        startDate: null,
       });
     });
 
@@ -103,6 +125,7 @@ describe("ProjectResolver", () => {
         variables: {
           title: "Projet 1",
           description: "Un projet sur les tests unitaires",
+          userId: "1",
         },
       });
 
@@ -120,9 +143,9 @@ describe("ProjectResolver", () => {
         id: "1",
         title: "Projet 1.0",
         description: "Update les tests unitaires",
-        end_date: null,
+        endDate: null,
         picture: null,
-        start_date: null,
+        startDate: null,
       });
     });
 
@@ -132,6 +155,7 @@ describe("ProjectResolver", () => {
         variables: {
           title: "Projet 1",
           description: "Projet sur les tests unitaires",
+          userId: "1",
         },
       });
 
@@ -146,9 +170,9 @@ describe("ProjectResolver", () => {
       expect(JSON.parse(result.text).data?.deleteProject).toEqual({
         title: "Projet 1",
         description: "Projet sur les tests unitaires",
-        end_date: null,
+        endDate: null,
         picture: null,
-        start_date: null,
+        startDate: null,
       });
     });
 
@@ -158,6 +182,7 @@ describe("ProjectResolver", () => {
         variables: {
           title: "Projet 1",
           description: "Projet sur les tests unitaires",
+          userId: "1",
         },
       });
       await testClient.post("/graphql").send({
@@ -165,6 +190,7 @@ describe("ProjectResolver", () => {
         variables: {
           title: "Projet 2",
           description: "Projet trello",
+          userId: "1",
         },
       });
 
@@ -181,6 +207,39 @@ describe("ProjectResolver", () => {
         },
         { description: "Projet trello", id: "2", title: "Projet 2" },
       ]);
+    });
+
+    it.only("add user to project", async () => {
+      await testClient.post("/graphql").send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: "Projet 2",
+          description: "Projet trello",
+          userId: "1",
+        },
+      });
+
+      await testClient.post("/graphql").send({
+        query: SIGN_UP,
+        variables: {
+          firstName: "Alfred",
+          lastName: "Test",
+          email: "Bordeaux@test.fr",
+          password: "Test1234567!!",
+        },
+      });
+
+      const result = await testClient.post("/graphql").send({
+        query: ADD_USER_TO_PROJECT,
+        variables: {
+          userId: "1",
+          projectId: "1",
+        },
+      });
+
+      expect(JSON.parse(result.text).data?.addUserToProject).toEqual({
+        title: "test",
+      });
     });
   });
 });

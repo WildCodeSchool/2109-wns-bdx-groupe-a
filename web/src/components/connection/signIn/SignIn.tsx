@@ -11,7 +11,7 @@ const SignIn = () => {
   const [signIn, { data, error }] = useMutation(SIGN_IN);
 
   if(data) {
-    return <Navigate to="/dashboard" /> 
+    return <Navigate to="/dashboard/1" /> 
   }
 
   return (

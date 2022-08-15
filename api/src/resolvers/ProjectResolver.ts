@@ -10,56 +10,85 @@ import ProjectRepository from "../repositories/ProjectRepository";
 
 @Resolver()
 export default class ProjectResolver {
-    @Query(() => [Project]) 
-    getProjects() {
-        return Project.find()
-    }
+  @Query(() => [Project])
+  getProjects() {
+    return Project.find();
+  }
 
-    @Query(() => [Project])
-    getProjectByUserId(@Arg('userId') userId: string) {
-        return Project.find({ userId })
-    }
+  @Query(() => [Project])
+  getProjectByUserId(@Arg("userId") userId: string) {
+    return Project.find({ userId });
+  }
 
-    @Query(() => User)
-    getUserById(@Arg('id') id: string) {
-        return User.findOneOrFail({id})
-    }
+  @Query(() => User)
+  getUserById(@Arg("id") id: string) {
+    return User.findOneOrFail({ id });
+  }
 
-    @Mutation(() => Project)
-    async createProject(@Args() { title, userId, description, picture, startDate, endDate }: CreateProjectInput){
-        return ProjectRepository.createUser(title, userId, description, picture, startDate, endDate)
-    }
+  @Query(() => Project)
+  async test(@Arg("userId") userId: string) {
+    const user = await this.getUserById(userId);
+    return Project.find({
+      relations: ["user"],
+      where: { user },
+    });
+  }
 
-    @Mutation(() => Project)
-    async addUsersToProject(@Args() {id, usersId}: UpdateProjectUsersInput) {
-        return ProjectRepository.addUsersToProject(id, usersId)
-    }
+  @Mutation(() => Project)
+  async createProject(
+    @Args()
+    {
+      title,
+      userId,
+      description,
+      picture,
+      startDate,
+      endDate,
+    }: CreateProjectInput
+  ) {
+    return ProjectRepository.createProject(
+      title,
+      userId,
+      description,
+      picture,
+      startDate,
+      endDate
+    );
+  }
 
-    @Mutation(() => Project)
-    async updateProject(@Args() { id, title, description, picture, startDate, endDate}: UpdateProjectInput){
+  @Mutation(() => Project)
+  async addUsersToProject(
+    @Args() { projectId, usersId }: UpdateProjectUsersInput
+  ) {
+    return ProjectRepository.addUsersToProject(projectId, [usersId]);
+  }
 
-        const projectToUpdate = await Project.findOneOrFail({ id })
+  @Mutation(() => Project)
+  async updateProject(
+    @Args()
+    { id, title, description, picture, startDate, endDate }: UpdateProjectInput
+  ) {
+    const projectToUpdate = await Project.findOneOrFail({ id });
 
-        const newData = {
-            title: title ?? projectToUpdate.title,
-            description: description ?? projectToUpdate.description,
-            picture: picture ?? projectToUpdate.picture,
-            startDate: startDate ?? projectToUpdate.startDate,
-            endDate: endDate ?? projectToUpdate.endDate
-        }
+    const newData = {
+      title: title ?? projectToUpdate.title,
+      description: description ?? projectToUpdate.description,
+      picture: picture ?? projectToUpdate.picture,
+      startDate: startDate ?? projectToUpdate.startDate,
+      endDate: endDate ?? projectToUpdate.endDate,
+    };
 
-        Object.assign(projectToUpdate, newData)
-        await projectToUpdate.save()
+    Object.assign(projectToUpdate, newData);
+    await projectToUpdate.save();
 
-        return projectToUpdate
+    return projectToUpdate;
+  }
 
-    }
+  @Mutation(() => Project)
+  async deleteProject(@Args() { id }: DeleteProjectInput) {
+    const projectToDelete = await Project.findOneOrFail({ id });
 
-    @Mutation(() => Project)
-    async deleteProject(@Args() { id } : DeleteProjectInput) {
-        const projectToDelete = await Project.findOneOrFail({ id })
-
-        await projectToDelete.remove()
-        return projectToDelete
-    }
+    await projectToDelete.remove();
+    return projectToDelete;
+  }
 }

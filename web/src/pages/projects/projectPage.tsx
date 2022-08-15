@@ -2,7 +2,7 @@ import { useQuery } from "@apollo/client";
 import { useEffect, useState } from "react";
 import Header from "../../components/dashboard/Header";
 import LeftMenu from "../../components/dashboard/LeftMenu";
-import { ProjectCard } from "../../components/project";
+import ProjectCard from "../../components/project/ProjectCard";
 import { GET_PROJECTS_BY_USER_ID } from "../../graphql";
 import { ProjectsData, ProjectType } from "../../types/projects/ProjectType";
 import { UserData } from "../../types/user/UserProfileTypes";

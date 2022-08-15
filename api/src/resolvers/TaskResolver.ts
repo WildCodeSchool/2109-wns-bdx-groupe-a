@@ -1,52 +1,57 @@
-import { Arg, Args, Mutation, Query, Resolver } from 'type-graphql';
+import { Arg, Args, Mutation, Query, Resolver } from "type-graphql";
 
-import CreateTaskInput from '../inputs/Task/CreateTaskInput';
-import UpdateTaskInput from '../inputs/Task/UpdateTaskInput';
-import DeleteTaskInput from '../inputs/Task/DeleteTaskInput';
+import CreateTaskInput from "../inputs/Task/CreateTaskInput";
+import UpdateTaskInput from "../inputs/Task/UpdateTaskInput";
+import DeleteTaskInput from "../inputs/Task/DeleteTaskInput";
 
-import Task from '../models/Task';
+import Task from "../models/Task";
 
-import ProjectResolver from './ProjectResolver';
-import Project from '../models/Project';
+import Project from "../models/Project";
 
 @Resolver()
 export default class TaskResolver {
   @Query(() => Task)
-  getTaskByTitle(@Arg('title') title: string) {
+  getTaskByTitle(@Arg("title") title: string) {
     return Task.findOne({ title });
   }
-  
+
   @Query(() => Task)
-  getTaskById(@Arg('id') id: string) {
+  getTaskById(@Arg("id") id: string) {
     return Task.findOne({ id });
   }
 
   @Query(() => [Task])
-  async getTasksByProjectId(@Arg('projectId') projectId: string) {
-    const project = await this.getProjectById(projectId)
-    return Task.find({ 
-      where : { project },
-      relations: ['project']
-    });;
+  async getTasksByProjectId(@Arg("projectId") projectId: string) {
+    const project = await this.getProjectById(projectId);
+    return Task.find({
+      where: { project },
+      relations: ["project"],
+    });
   }
 
-  @Query(() => Project) 
-  getProjectById(@Arg('project') id: string) {
-      return Project.findOneOrFail({ id })
+  @Query(() => Project)
+  getProjectById(@Arg("project") id: string) {
+    return Project.findOneOrFail({ id });
   }
 
   @Mutation(() => Task)
   async createTask(
-    @Args() { title, description, attachment, progress_state, projectId }: CreateTaskInput
+    @Args()
+    {
+      title,
+      description,
+      attachment,
+      progress_state,
+      projectId,
+    }: CreateTaskInput
   ) {
-
     const newTask = new Task();
 
     newTask.title = title;
     newTask.description = description;
     newTask.attachment = attachment;
     newTask.progress_state = progress_state;
-    newTask.project = await this.getProjectById(projectId)
+    newTask.project = await this.getProjectById(projectId);
 
     await newTask.save();
     return newTask;
@@ -63,7 +68,7 @@ export default class TaskResolver {
       title: title ?? taskToUpdate.title,
       description: description ?? taskToUpdate.description,
       attachment: attachment ?? taskToUpdate.attachment,
-      progress_state: progress_state ?? taskToUpdate.progress_state
+      progress_state: progress_state ?? taskToUpdate.progress_state,
     };
 
     Object.assign(taskToUpdate, newData);

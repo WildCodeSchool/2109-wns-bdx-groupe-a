@@ -22,9 +22,9 @@ const index = ({ userProfile }: { userProfile: UserData }) => {
             <div className='mt-10 flex space-x-3 sm:border-l sm:border-transparent sm:pl-6'>
               <nav className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                 {userProfile ? (
-                  <Link to='/dashboard'>Go to dashboard</Link>
+                  <Link to='/dashboard/1'>Go to dashboard</Link>
                 ) : (
-                  <Link to='/'>Sign in</Link>
+                  <Link to='/1'>Sign in</Link>
                 )}
               </nav>
             </div>

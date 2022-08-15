@@ -18,7 +18,6 @@ export const getDateWithoutTime = (date: string): string => {
 };
 
 const ProjectForm = ({ user, onClose }: props) => {
-  const { myProfile } = user;
   const [newProject, setNewProject] = useState(DEFAULT_NEW_PROJECT);
   const [createProject, {}] = useMutation(CREATE_PROJECT);
   const { data } = useQuery<UserData2>(GET_USERS);
@@ -122,7 +121,7 @@ const ProjectForm = ({ user, onClose }: props) => {
                     name="userAssignedId"
                     >
                     { data && users.map(user => {
-                      return(
+                      return (
                         <option 
                         key={user.id}
                         value={user.id}

@@ -14,14 +14,11 @@ class UpdateProjectInput {
   @Field({ nullable: true })
   picture?: string;
 
-  @Field()
+  @Field({ nullable: true })
   startDate?: Date;
 
   @Field({ nullable: true })
-  start_date?: Date;
-
-  @Field({ nullable: true })
-  end_date?: Date;
+  endDate?: Date;
 }
 
 export default UpdateProjectInput;
