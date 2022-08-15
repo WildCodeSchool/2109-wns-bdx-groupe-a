@@ -20,6 +20,14 @@ export default class ProjectResolver {
     return Project.find({ userId });
   }
 
+  @Query(() => Project)
+  async getProjectByIdProjectResolver(@Arg("project") id: string) {
+    const test = await Project.find({ where: { id }, relations: ["user"] });
+    console.log(test);
+
+    return test;
+  }
+
   @Query(() => User)
   getUserById(@Arg("id") id: string) {
     return User.findOneOrFail({ id });

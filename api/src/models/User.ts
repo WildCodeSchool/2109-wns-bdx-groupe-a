@@ -4,14 +4,14 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   OneToMany,
-  JoinTable,
-  ManyToMany,
 } from "typeorm";
 import { Field, ID, ObjectType } from "type-graphql";
 import { IsEmail, IsNotEmpty } from "class-validator";
 
 // eslint-disable-next-line import/no-cycle
 import Comment from "./Comment";
+// eslint-disable-next-line import/no-cycle
+import UserProject from "./UserProject";
 // eslint-disable-next-line import/no-cycle
 import Project from "./Project";
 
@@ -52,22 +52,19 @@ class User extends BaseEntity {
   @Column({ type: "varchar", default: UserRole.VISITOR, length: 255 })
   role?: string;
 
-  @ManyToMany(() => Project, (project) => project.user, {
-    cascade: true,
-  })
-  @JoinTable()
-  @Field(() => [Project], { nullable: true })
-  projects?: Project[];
+  @OneToMany(() => UserProject, (up) => up.user)
+  @Field(() => Project)
+  projectConnection?: Promise<UserProject[]>;
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments!: Comment[];
 
-  addProject(project: Project) {
-    if (this.projects == null) {
-      this.projects = new Array<Project>();
-    }
-    this.projects.push(project);
-  }
+  //   addProject(project: Project) {
+  //     if (this.projects == null) {
+  //       this.projects = new Array<Project>();
+  //     }
+  //     this.projects.push(project);
+  //   }
 }
 
 export default User;

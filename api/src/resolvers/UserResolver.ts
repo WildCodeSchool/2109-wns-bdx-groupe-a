@@ -23,6 +23,20 @@ export default class UserResolver {
     return User.findOneOrFail({ id });
   }
 
+  @Query(() => [User])
+  async getUsersByProjectId(@Arg("projectId") projectId: string) {
+    const project = await this.getProjectById(projectId);
+    return User.find({
+      where: { projects: project },
+      relations: ["projects"],
+    });
+  }
+
+  @Query(() => Project)
+  getProjectById(@Arg("project") id: string) {
+    return Project.findOneOrFail({ id });
+  }
+
   @Mutation(() => User)
   async createUser(
     @Args() { firstName, lastName, email, password, role }: CreateUserInput
@@ -45,8 +59,9 @@ export default class UserResolver {
     const project = await Project.findOneOrFail({ id: projectId });
     const user = await this.getUserById(usersId);
 
-    user.addProject(project);
+    user.projects?.push(project);
 
+    console.log(project);
     console.log(user);
 
     return user;

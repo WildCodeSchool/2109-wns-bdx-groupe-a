@@ -5,13 +5,14 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   OneToMany,
-  ManyToMany,
 } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 // eslint-disable-next-line import/no-cycle
 import Task from "./Task";
 // eslint-disable-next-line import/no-cycle
 import Comment from "./Comment";
+// eslint-disable-next-line import/no-cycle
+import UserProject from "./UserProject";
 // eslint-disable-next-line import/no-cycle
 import User from "./User";
 
@@ -56,9 +57,9 @@ class Project extends BaseEntity {
   @OneToMany(() => Comment, (comment) => comment.project, { cascade: true })
   comments!: Comment[];
 
-  @ManyToMany(() => User, (user) => user.projects)
+  @OneToMany(() => UserProject, (up) => up.project)
   @Field(() => User, { nullable: true })
-  user?: User[];
+  userConnection?: Promise<UserProject[]>;
 }
 
 export default Project;

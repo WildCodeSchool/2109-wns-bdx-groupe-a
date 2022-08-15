@@ -1,18 +1,17 @@
-import { ApolloServer, ExpressContext } from 'apollo-server-express';
+import { ApolloServer, ExpressContext } from "apollo-server-express";
 import { Response } from "express";
-import { parse } from 'cookie';
-import { buildSchema } from 'type-graphql';
+import { parse } from "cookie";
+import { buildSchema } from "type-graphql";
 
-import CommentResolver from './resolvers/CommentResolver';
-import ProjectResolver from './resolvers/ProjectResolver';
+import CommentResolver from "./resolvers/CommentResolver";
+import ProjectResolver from "./resolvers/ProjectResolver";
 import UserResolver from "./resolvers/UserResolver";
-import TaskResolver from './resolvers/TaskResolver';
-import { CustomContext } from './custom-context';
-import UserSessionRepository from './resolvers/UserSessionRepository';
+import TaskResolver from "./resolvers/TaskResolver";
+import { CustomContext } from "./custom-context";
+import UserSessionRepository from "./resolvers/UserSessionRepository";
+import UserProjectResolver from "./resolvers/UserProjectResolver";
 
-
-
-const setSessionIdInCookies = (res: Response) => (sessionId: string) => {  
+const setSessionIdInCookies = (res: Response) => (sessionId: string) => {
   res.cookie("sessionId", sessionId, {
     maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
     httpOnly: true,
@@ -21,21 +20,28 @@ const setSessionIdInCookies = (res: Response) => (sessionId: string) => {
   });
 };
 
-const setUpContext = async ( context: ExpressContext ): Promise<CustomContext> => {
+const setUpContext = async (
+  context: ExpressContext
+): Promise<CustomContext> => {
   const { sessionId } = parse(context.req.headers.cookie || "");
 
   return {
     onSessionCreated: setSessionIdInCookies(context.res),
     user: sessionId ? await UserSessionRepository.getUser(sessionId) : null,
-    sessionId
+    sessionId,
   };
 };
-  
-
 
 export default async () => {
   const schema = await buildSchema({
-    resolvers: [UserResolver, TaskResolver, ProjectResolver, CommentResolver, UserResolver]
+    resolvers: [
+      UserResolver,
+      TaskResolver,
+      ProjectResolver,
+      CommentResolver,
+      UserResolver,
+      UserProjectResolver,
+    ],
   });
   const server = new ApolloServer({ schema, context: setUpContext });
   return { server, schema };

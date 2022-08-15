@@ -1,22 +1,31 @@
-import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Entity, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
+/* eslint-disable import/no-cycle */
+import {
+  BaseEntity,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryColumn,
+} from "typeorm";
 import Project from "./Project";
 import User from "./User";
 
 @Entity()
-@ObjectType()
 class UserProject extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  @Field(() => ID)
-  id!: number;
+  @PrimaryColumn()
+  userId!: string;
 
-  @ManyToOne(() => User)
-  @Field(() => User)
-  user!: User;
+  @PrimaryColumn()
+  projectId!: string;
 
-  @ManyToOne(() => Project)
-  @Field(() => Project)
-  project!: Project;
+  @ManyToOne(() => User, (user) => user.projectConnection, { primary: true })
+  @JoinColumn({ name: "userId" })
+  user!: Promise<User>;
+
+  @ManyToOne(() => Project, (project) => project.userConnection, {
+    primary: true,
+  })
+  @JoinColumn({ name: "projectId" })
+  project!: Promise<Project>;
 }
 
 export default UserProject;
