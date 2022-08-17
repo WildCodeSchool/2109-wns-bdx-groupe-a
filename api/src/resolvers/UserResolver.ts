@@ -7,9 +7,8 @@ import SignUpInput from "../inputs/User/Login/SignUpInput";
 import UpdateUserInput from "../inputs/User/UpdateUserInput";
 import User from "../models/User";
 import SignInInput from "../inputs/User/Login/SignInInput";
-import UserRepository from "./UserRepository";
+import UserRepository from "../repositories/UserRepository";
 import Project from "../models/Project";
-import UpdateProjectUsersInput from "../inputs/Project/UpdateProjectUsersInpus";
 
 @Resolver(User)
 export default class UserResolver {
@@ -52,20 +51,19 @@ export default class UserResolver {
     return newUser;
   }
 
-  @Mutation(() => User)
-  async addUserToProject(
-    @Args() { projectId, usersId }: UpdateProjectUsersInput
-  ) {
-    const project = await Project.findOneOrFail({ id: projectId });
-    const user = await this.getUserById(usersId);
+  // @Mutation(() => User)
+  // async addUserToProject(
+  //   @Args() { projectId, usersId }: UpdateProjectUsersInput
+  // ) {
+  //   const project = await Project.findOneOrFail({ id: projectId });
+  //   const user = await this.getUserById(usersId);
 
-    user.projects?.push(project);
+  //   const newUserProject = new UserProject
+  //   newUserProject.project = project
+  //   newUserProject.user = user
 
-    console.log(project);
-    console.log(user);
-
-    return user;
-  }
+  //   return user;
+  // }
 
   @Mutation(() => User)
   async updateUser(

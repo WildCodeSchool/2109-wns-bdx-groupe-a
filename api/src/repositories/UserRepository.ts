@@ -1,14 +1,13 @@
 import { hash, compare } from "bcrypt";
 import User from "../models/User";
-import UserSessionRepository from "./UserSessionRepository";
-
-
+import UserSessionRepository from "../resolvers/UserSessionRepository";
 
 class UserRepository extends User {
-  static findByEmail = ( email: string ): Promise<User | undefined> => User.findOne({ where: { email } });
+  static findByEmail = (email: string): Promise<User | undefined> =>
+    User.findOne({ where: { email } });
 
   static async signUp(
-    firstName: string, 
+    firstName: string,
     lastName: string,
     email: string,
     password: string
@@ -18,9 +17,9 @@ class UserRepository extends User {
     if (existingUser) {
       throw Error("Could not sign up with provided email address.");
     }
-    
+
     await User.insert({
-      firstName, 
+      firstName,
       lastName,
       email,
       password: await hash(password, 10),
@@ -36,9 +35,7 @@ class UserRepository extends User {
     const COULD_NOT_SIGN_IN =
       "Could not sign in with provided email address and password.";
 
-    const existingUser = await UserRepository.findByEmail(
-      email
-    );
+    const existingUser = await UserRepository.findByEmail(email);
 
     if (!existingUser) {
       throw Error(COULD_NOT_SIGN_IN);
@@ -46,7 +43,7 @@ class UserRepository extends User {
     const isPasswordCorrect = await compare(password, existingUser.password);
     if (isPasswordCorrect) {
       const session = await UserSessionRepository.createNew(existingUser);
-      onSessionCreated(session.id)
+      onSessionCreated(session.id);
       return existingUser;
     }
     throw Error(COULD_NOT_SIGN_IN);
@@ -56,7 +53,5 @@ class UserRepository extends User {
     await UserSessionRepository.deleteSession(sessionId);
   }
 }
-
-
 
 export default UserRepository;

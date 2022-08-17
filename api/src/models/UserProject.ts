@@ -1,22 +1,10 @@
 /* eslint-disable import/no-cycle */
-import {
-  BaseEntity,
-  Entity,
-  JoinColumn,
-  ManyToOne,
-  PrimaryColumn,
-} from "typeorm";
+import { BaseEntity, Entity, JoinColumn, ManyToOne } from "typeorm";
 import Project from "./Project";
 import User from "./User";
 
 @Entity()
 class UserProject extends BaseEntity {
-  @PrimaryColumn()
-  userId!: string;
-
-  @PrimaryColumn()
-  projectId!: string;
-
   @ManyToOne(() => User, (user) => user.projectConnection, { primary: true })
   @JoinColumn({ name: "userId" })
   user!: Promise<User>;

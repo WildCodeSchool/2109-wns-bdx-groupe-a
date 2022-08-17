@@ -48,16 +48,13 @@ class User extends BaseEntity {
   @IsNotEmpty({ message: "Ce champ doit être rempli" })
   password!: string;
 
-  @Field()
   @Column({ type: "varchar", default: UserRole.VISITOR, length: 255 })
+  @Field()
   role?: string;
 
   @OneToMany(() => UserProject, (up) => up.user)
   @Field(() => Project)
-  projectConnection?: Promise<UserProject[]>;
-
-  @OneToMany(() => Comment, (comment) => comment.user)
-  comments!: Comment[];
+  projectConnection?: UserProject[];
 
   //   addProject(project: Project) {
   //     if (this.projects == null) {

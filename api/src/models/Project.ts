@@ -59,7 +59,7 @@ class Project extends BaseEntity {
 
   @OneToMany(() => UserProject, (up) => up.project)
   @Field(() => User, { nullable: true })
-  userConnection?: Promise<UserProject[]>;
+  userConnection?: UserProject[];
 }
 
 export default Project;
