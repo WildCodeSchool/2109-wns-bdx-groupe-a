@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { useEffect, useState } from 'react';
 import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
 import { useNavigate } from 'react-router-dom';

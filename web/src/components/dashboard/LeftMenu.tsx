@@ -3,6 +3,7 @@
 // function classNames(...classes: string[]) {
 //   return classes.filter(Boolean).join(' ');
 // }
+import { PlusCircleIcon } from '@heroicons/react/solid';
 
 const LeftMenu = () => {
   return (
@@ -10,25 +11,15 @@ const LeftMenu = () => {
       aria-label='Sidebar'
       className='hidden md:block md:flex-shrink-0 md:bg-gray-800 md:overflow-y-auto'
     >
-      <div className='relative w-20 flex flex-col p-3 space-y-3'>
-        {/* {SIDE_BAR_NAVIGATION.map(
-          (item: { name: string; href: string; current: any; icon: any }) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={classNames(
-                item.current
-                  ? 'bg-gray-900 text-white'
-                  : 'text-gray-400 hover:bg-gray-700',
-                'flex-shrink-0 inline-flex items-center justify-center h-14 w-14 rounded-lg'
-              )}
-            >
-              <span className='sr-only'>{item.name}</span>
-              <item.icon className='h-6 w-6' aria-hidden='true' />
-            </a>
-          )
-        )} */}
-      </div>
+      {/* <div className='relative w-20 flex flex-col p-3 space-y-3'> */}
+
+        <button
+        type="button"
+        className="inline-flex items-center border w-20 border-transparent bg-indigo-600 p-3 text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+      >
+        <PlusCircleIcon className="h-12 w-12" aria-hidden="true" />
+      </button>
+      {/* </div> */}
     </nav>
   );
 };
