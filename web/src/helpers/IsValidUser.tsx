@@ -27,12 +27,12 @@ import { UserSignUp } from '../types/user/UserSignUpTypes';
 
   export const handleIsNotValidUserError = (setError: React.Dispatch<React.SetStateAction<string>>, user: UserSignUp) => {
     if (!isValidEmail(user.email)) {
-      setError('Email is not valid');
+      setError('L\'adresse email n\'est pas valide');
     } else if (!isValidPassword(user.password)) {
-      setError('Password is not valid, 8 caracters minimum, 1 capital letter, 1 number, 1 special caracter');
+      setError('Le mot de passe doit contenir au moins 8 caractères, 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial');
     }   else if (!isValidName(user.firstName)) {
-      setError('Firstname is not valid');
+      setError('Le prénom n\'est pas valide');
     }  else if (!isValidName(user.lastName)) {
-      setError('Lastname is not valid');
+      setError('Le nom n\'est pas valide');
     }
   }

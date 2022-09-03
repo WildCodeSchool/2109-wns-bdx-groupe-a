@@ -14,18 +14,18 @@ const index = ({ userProfile }: { userProfile: UserProfile }) => {
           <div className='sm:ml-6'>
             <div className='sm:border-l sm:border-gray-200 sm:pl-6'>
               <h1 className='text-4xl font-extrabold text-gray-900 tracking-tight sm:text-5xl'>
-                Page not found
+                Page non trouvée
               </h1>
               <p className='mt-1 text-base text-gray-500'>
-                Please check the URL in the address bar and try again.
+                Vous avez peut-être mal tapé l'URL. Si vous pensez que c'est une erreur, contactez-nous.
               </p>
             </div>
             <div className='mt-10 flex space-x-3 sm:border-l sm:border-transparent sm:pl-6'>
               <nav className='inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'>
                 {myProfile ? (
-                  <Link to='/dashboard'>Go to dashboard</Link>
+                  <Link to='/dashboard'>Allez aux projets</Link>
                 ) : (
-                  <Link to='/'>Sign in</Link>
+                  <Link to='/'>Connexion</Link>
                 )}
               </nav>
             </div>

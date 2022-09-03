@@ -101,7 +101,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
         </svg>
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight  sm:text-4xl" style={{color: '#374151'}}>
-            Add ticket
+            Créer un ticket
           </h2>
           <p className="mt-4 text-lg leading-6 text-gray-500"></p>
         </div>
@@ -120,7 +120,8 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Enter Title"
+                placeholder="Ajouter un titre"
+                required
                 value={newTask.title}
                 ref={inputRef}
                 onChange={(e) => onChange(e)}
@@ -129,7 +130,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
               <textarea
                 id="description"
                 name="description"
-                placeholder="Enter description"
+                placeholder="Ajouter une decription"
                 value={newTask.description}
                 onChange={(e) => onChange(e)}
                 className="h-36 mt-2 py-3 px-4 mb-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-indigo-500 rounded-md"
@@ -141,7 +142,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
                     {' '}
                     <i className="fa fa-folder-open fa-4x text-indigo-500"></i>{' '}
                     <span className="block text-gray-400 font-normal">
-                      Attach you files here
+                      + image
                     </span>{' '}
                   </div>
                 </div>{' '}
@@ -161,7 +162,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
                   disabled={newTask.title ? false : true}
                   className={`${newTask.title ? "cursor-pointer" : "cursor-not-allowed bg-gray-700 hover:bg-gray-500"} inline-flex items-center px-4 py-2 mb-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
                 >
-                  Add
+                  Créer
                 </button>
               </div>
             </div>

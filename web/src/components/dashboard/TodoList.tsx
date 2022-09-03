@@ -45,7 +45,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">Active Tasks</span>
+            <span className="todos__heading uppercase font-semibold">À traitre</span>
             {todos?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -69,7 +69,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">In Progress Tasks</span>
+            <span className="todos__heading uppercase font-semibold">En traitement</span>
             {inProgressTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -93,7 +93,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">PR in progress</span>
+            <span className="todos__heading uppercase font-semibold">Traité : PR en cours</span>
             {prInProgress?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -118,7 +118,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">In Test</span>
+            <span className="todos__heading uppercase font-semibold">À tester</span>
             {inTestTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -142,7 +142,7 @@ const TodoList: React.FC<props> = ({
             {...provided.droppableProps}
             className={isDraggingStyle(snapshot.isDraggingOver)}
           >
-            <span className="todos__heading">Completed Tasks</span>
+            <span className="todos__heading uppercase font-semibold">Validé</span>
             {completedTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}

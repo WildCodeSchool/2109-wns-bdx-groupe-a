@@ -43,7 +43,7 @@ export default class CommentResolver {
     }
 
     @Mutation(() => Comment)
-    async deleteTask(@Args() { id } : DeleteCommentInput){
+    async deleteComment(@Args() { id } : DeleteCommentInput){
         const commentToDelete = await Comment.findOneOrFail({ id })
 
         await commentToDelete.remove()

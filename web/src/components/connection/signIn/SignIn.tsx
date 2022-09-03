@@ -31,7 +31,7 @@ const SignIn = () => {
     <div className='rounded-md shadow-sm -space-y-px'>
       <div>
         <label htmlFor='email-address' className='sr-only'>
-          Email address
+          Email
         </label>
         <input
           id='email'
@@ -40,13 +40,13 @@ const SignIn = () => {
           autoComplete='email'
           required
           className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
-          placeholder='Email address'
+          placeholder='Adresse email'
           onChange={(event) => setEmail(event.target.value) }
         />
       </div>
       <div>
         <label htmlFor='password' className='sr-only'>
-          Password
+          Mot de passe
         </label>
         <input
           id='password'
@@ -55,7 +55,7 @@ const SignIn = () => {
           autoComplete='current-password'
           required
           className='appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm'
-          placeholder='Password'
+          placeholder='Mot de passe'
           onChange={(event) => setPassword(event.target.value) }
         />
       </div>
@@ -73,7 +73,7 @@ const SignIn = () => {
           htmlFor='remember-me'
           className='ml-2 block text-sm text-gray-900'
         >
-          Remember me
+          Se souvenir de moi
         </label>
       </div>
 
@@ -82,7 +82,7 @@ const SignIn = () => {
           href='#/'
           className='font-medium text-indigo-600 hover:text-indigo-500'
         >
-          Forgot your password?
+          Mot de passe oublié?
         </a>
       </div>
     </div>
@@ -98,7 +98,7 @@ const SignIn = () => {
             aria-hidden='true'
           />
         </span>
-        Sign in
+        Connexion
       </button>
     </div>
   </form>
