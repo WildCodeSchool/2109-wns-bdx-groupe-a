@@ -8,6 +8,7 @@ import Loader from './components/loader'
 import PageNotFound from './pages/404';
 
 import { GET_MY_PROFILE } from './graphql/queries/QGetMyProfile';
+import { Projects } from './components/projects/Projects';
 
 
 const ContextualRoutes = () => {
@@ -26,6 +27,7 @@ const ContextualRoutes = () => {
           <Route path='/' element={<Connection />} />
           <Route path='dashboard' element={<Dashboard data={data} />} />
           <Route path='404' element={<PageNotFound userProfile={data} />} />
+          <Route path='projects' element={<Projects userProfile={data}/>} />
           <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
     </BrowserRouter>

@@ -6,3 +6,11 @@ export type UserProfile = {
     firstName: string;
   };
 };
+
+export type UserProfileVariables = {
+  id: string;
+  email: string;
+  lastName: string;
+  firstName: string;
+};
+

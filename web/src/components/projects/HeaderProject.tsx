@@ -1,15 +1,10 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { useEffect, useState } from 'react';
-import { SIDE_BAR_NAVIGATION } from './dashboard.constants';
+import {  useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronDownIcon, SearchIcon } from '@heroicons/react/solid';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { gql, useMutation } from '@apollo/client';
-import Modal from 'react-modal';
-import InputField from './InputField';
-import { UserProfile } from '../../types/user/UserProfileTypes';
+
+import {  UserProfileVariables } from '../../types/user/UserProfileTypes';
 import { GET_MY_PROFILE } from '../../graphql/queries/QGetMyProfile';
-import { Link } from 'react-router-dom';
 
 
 export const DELETE_SESSION = gql`
@@ -19,61 +14,30 @@ export const DELETE_SESSION = gql`
 `;
 
 interface props {
-  todo: string;
-  user: UserProfile;
-  searchTerm: string;
-  setTodo: React.Dispatch<React.SetStateAction<string>>;
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
-  handleAdd: (e: React.FormEvent) => void;
+  myProfile: UserProfileVariables;
 }
 
-const Header = ({
-  user,
-  todo,
-  setTodo,
-  handleAdd,
-  setSearchTerm,
-  searchTerm,
+const HeaderProject = ({
+  myProfile,
+
 }: props) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [deleteSession] = useMutation(DELETE_SESSION, {
     refetchQueries: [{ query: GET_MY_PROFILE }],
   });
   const navigate = useNavigate();
-  const { myProfile } = user;
-
-  useEffect(() => {
-    if (isModalOpen === true) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isModalOpen]);
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   const onLogOut = () => {
     deleteSession();
     navigate('/');
   };
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  };
+
 
   return (
-    <header className="flex-shrink-0 relative h-16 bg-white flex items-center">
+    <header className="flex-shrink-0 relative h-16 bg-white flex">
       {/* Logo area */}
-      <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0">
+      <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0 bg-rd">
         <a
           href="#"
           className="flex items-center justify-center h-16 w-16 bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20"
@@ -86,48 +50,10 @@ const Header = ({
         </a>
       </div>
       {/* TODO à changer */}
-      <Modal
-        isOpen={isModalOpen}
-        onRequestClose={closeModal}
-        style={customStyles}
-        contentLabel="Item Modal"
-        ariaHideApp={false}
-      >
-        <div className="w-96">
-        <InputField
-          todo={todo}
-          setTodo={setTodo}
-          handleAdd={handleAdd}
-          onClose={closeModal}
-        />
-        </div>
-      </Modal>
 
-      {/* Picker area */}
-      <div className="mx-auto md:hidden">
-        <div className="relative">
-          <select
-            id="inbox-select"
-            className="rounded-md border-0 bg-none pl-3 pr-8 text-base font-medium text-gray-900 focus:ring-2 focus:ring-indigo-600"
-            defaultValue={
-              SIDE_BAR_NAVIGATION.find((item) => item.current)!.name
-            }
-          >
-            {SIDE_BAR_NAVIGATION.map((item) => (
-              <option key={item.name}>{item.name}</option>
-            ))}
-          </select>
-          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center justify-center pr-2">
-            <ChevronDownIcon
-              className="h-5 w-5 text-gray-500"
-              aria-hidden="true"
-            />
-          </div>
-        </div>
-      </div>
 
       {/* Menu button area */}
-      <div className="absolute inset-y-0 right-0 pr-4 flex items-center sm:pr-6 md:hidden">
+      <div className="absolute inset-y-0 right-0 pr-4 flex items-center sm:pr-6 md:hidden" >
         {/* Mobile menu button */}
         <button
           type="button"
@@ -140,34 +66,7 @@ const Header = ({
       </div>
 
       {/* Desktop nav area */}
-      <div className="hidden md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between">
-        <div className="min-w-0 flex-1 focus:outline-none">
-          <div className="w-96 h-8 border items-center flex justify-center ml-2 rounded border-solid border-gray-300 relative text-gray-400 focus-within:text-gray-500 focus:outline-none">
-            <label htmlFor="desktop-search" className="sr-only">
-              Search
-            </label>
-            <input
-              id="desktop-search"
-              type="search"
-              placeholder="Rechercher"
-              value={searchTerm}
-              onChange={(e) => {
-                setSearchTerm(e.target.value);
-              }}
-              className="focus:outline-none block w-full border-transparent pl-12 placeholder-gray-500 focus:border-transparent sm:text-sm focus:ring-0 text-indigo-600"
-            />
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center justify-center pl-4">
-              <SearchIcon className="h-5 w-5" aria-hidden="true" />
-            </div>
-          </div>
-        </div>
-        <button
-          type="button"
-          onClick={openModal}
-          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          + tâche
-        </button>
+      <div className="hidden md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between" style={{justifyContent: 'end', display: 'flex'}}>
         <div className="ml-10 pr-4 flex-shrink-0 flex items-center space-x-10">
           <nav aria-label="Global" className="flex space-x-10">
             <a href="#" className="text-sm font-medium text-gray-900">
@@ -246,15 +145,6 @@ const Header = ({
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
               </a>
             </div>
-            <div className="mt-3 max-w-8xl mx-auto px-2 space-y-1 sm:px-4">
-              <Link to="/projects">
-              <button
-                className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50"
-              >
-                Projets
-              </button>
-              </Link>
-            </div>
             <div style={{display: 'flex', justifyContent: 'end', marginTop: '18px'}}>
               <button
                 className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50"
@@ -270,4 +160,4 @@ const Header = ({
   );
 };
 
-export default Header;
+export default HeaderProject;
