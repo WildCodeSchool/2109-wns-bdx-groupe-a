@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint src",
     "test": "jest",
-    "test:watch": "jest --watchAll",
-    "coverage": "jest --coverage",
+    "test:watch": "jest --watchAll --runInBand",
+    "coverage": "jest --coverage --runInBand",
     "build": "tsc",
     "build:watch": "tsc -w",
     "start": "node build/.",
