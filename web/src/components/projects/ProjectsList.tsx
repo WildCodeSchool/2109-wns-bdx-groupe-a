@@ -1,9 +1,11 @@
 import { useQuery } from '@apollo/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { GET_PROJECTS_BY_CREATORID } from '../../graphql/queries/QProjectsByCreatorId';
 import { Project } from '../../types/projects/Projects';
 import AddProject from './AddProject';
 import { Link } from 'react-router-dom';
+import { GET_ALL_USER_PROJECTS } from '../../graphql/queries/QGetAllUserProjects';
+// import { GET_ALL_USER_PROJECTS } from '../../graphql/queries/QGetAllUserProjects';
 
 
 interface props {
@@ -13,6 +15,26 @@ interface props {
 const ProjectsList = ({ creatorId }: props) => {
   const [isAddProject, setIsAddProject] = useState(false);
   const { data: projectsByCreatorId } = useQuery(GET_PROJECTS_BY_CREATORID, {variables: {creatorId} });
+  const { data: getUserWithProjects } = useQuery(GET_ALL_USER_PROJECTS, {variables: {getUserWithProjectsId: creatorId} });;
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [createdProjects, setCreatedProjects] = useState<Project[]>([]);
+  const [allProjects, setAllProjects] = useState<Project[]>([]);
+
+
+  useEffect(() => {
+    if (projectsByCreatorId) {
+      setCreatedProjects(projectsByCreatorId.getProjectByCreatorId);
+    }
+
+    if (getUserWithProjects) {
+      setProjects(getUserWithProjects.getUserWithProjects.projects);
+    }
+
+  }, [projectsByCreatorId, getUserWithProjects]);
+
+  useEffect(() => {
+    setAllProjects([...createdProjects, ...projects]);
+  }, [createdProjects, projects]);
 
 
   return (
@@ -42,7 +64,7 @@ const ProjectsList = ({ creatorId }: props) => {
             role="list"
             className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8 overflow-y-auto"
           >
-            {projectsByCreatorId?.getProjectByCreatorId.map((project: Project) => (
+            {allProjects && allProjects.map((project: Project) => (
               <li key={project.id} >
                 <Link to={`/dashboard/${project.id}`}>
 
