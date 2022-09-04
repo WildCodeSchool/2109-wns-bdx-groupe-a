@@ -1,11 +1,12 @@
 
 import { Field, ID, ObjectType } from "type-graphql";
-import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany } from "typeorm";
 import { IsNotEmpty } from "class-validator";
 // eslint-disable-next-line import/no-cycle
 import Task from "./Task";
 // eslint-disable-next-line import/no-cycle
 import Comment from "./Comment";
+import User from './User';
 
 
 @Entity()
@@ -48,6 +49,10 @@ class Project extends BaseEntity {
 
   @OneToMany(() => Comment, comment => comment.project)
     comments?: Comment[];  
+
+  @ManyToMany(() => User, user => user.projects)
+  @Field(() => [User], { nullable : true } )
+  users?: User[];
 }
 
 export default Project;
