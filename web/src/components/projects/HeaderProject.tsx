@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { gql, useMutation } from '@apollo/client';
 
+
 import { UserProfileVariables } from '../../types/user/UserProfileTypes';
 import { GET_MY_PROFILE } from '../../graphql/queries/QGetMyProfile';
 
@@ -32,9 +33,9 @@ const HeaderProject = ({ myProfile }: props) => {
   return (
     <header className="flex-shrink-0 relative h-16 bg-white flex">
       {/* Logo area */}
-      <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0 bg-rd">
+      
+      <div className="absolute inset-y-0 left-0 md:static md:flex-shrink-0 bg-rd" onClick={() => navigate(-1)}>
         <a
-          href="#"
           className="flex items-center justify-center h-16 w-16 bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20"
         >
           <img
@@ -44,7 +45,6 @@ const HeaderProject = ({ myProfile }: props) => {
           />
         </a>
       </div>
-      {/* TODO à changer */}
 
       {/* Menu button area */}
       <div className="absolute inset-y-0 right-0 pr-4 flex items-center sm:pr-6 md:hidden">
