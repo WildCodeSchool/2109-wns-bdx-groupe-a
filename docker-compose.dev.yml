@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  db:
+    platform: linux/x86_64
+    image: mathildevande/wns-deploy-db
+    expose:
+      - 3306
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      timeout: 5s
+      retries: 10
+  api:
+    image: mathildevande/wns-deploy-server
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - 4000
+    command: npm run start:watch
+    
+  web:
+    image: mathildevande/wns-deploy-client
+    command: sh -c "npm run build"
+    volumes:
+      - web-client-build:/app/build
+ 
+  nginx:
+    image: nginx:1.21.3
+    depends_on:
+      - api
+      - web
+    restart: always
+    ports:
+      - ${GATEWAY_PORT:-8000}:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - web-client-build:/web-client-build
+      - ./logs:/var/log/nginx
+volumes:
+  web-client-build:
+  db_data:
+
