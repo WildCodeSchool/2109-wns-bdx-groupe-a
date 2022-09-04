@@ -1,4 +1,4 @@
-import { Args, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Args, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { CustomContext } from "../custom-context";
 
 import CreateUserInput from "../inputs/User/CreateUserInput";
@@ -8,6 +8,7 @@ import UpdateUserInput from "../inputs/User/UpdateUserInput";
 import User from "../models/User";
 import SignInInput from '../inputs/User/Login/SignInInput';
 import UserRepository from "./UserRepository";
+import Project from '../models/Project';
 
 
 @Resolver(User)
@@ -18,6 +19,11 @@ export default class UserResolver {
         return User.find()
     }
 
+    @Query(() => User)
+    getUserWithProjects(@Arg('id') id: string) {
+      return User.findOneOrFail({ id }, { relations: ['projects'] });
+    }
+
     @Mutation(() => User)
     async createUser(@Args() { firstName, lastName, email, password, role}: CreateUserInput){
             const newUser = new User();
@@ -26,23 +32,24 @@ export default class UserResolver {
             newUser.email = email;
             newUser.password = password;
             newUser.role = role;
-
+            
             await newUser.save();
             return newUser;
     }
 
     @Mutation(() => User)
-    async updateUser(@Args() { id, firstName, lastName, email, password, role} : UpdateUserInput){
+    async updateUser(@Args() { id, firstName, lastName, email, password, role, projectId} : UpdateUserInput){
         const userToUpdate = await User.findOneOrFail( { id } )
+        const getProject = await Project.findOneOrFail({ id: projectId })
 
 
         const newData =  {
-
             firstName: firstName ?? userToUpdate.firstName,
             lastName: lastName ?? userToUpdate.lastName,
             email: email ?? userToUpdate.email,
             password: password ?? userToUpdate.password,
-            role: role ?? userToUpdate.role
+            role: role ?? userToUpdate.role,
+            projects: [getProject]
         }
 
         Object.assign(userToUpdate, newData)

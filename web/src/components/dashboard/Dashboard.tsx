@@ -11,7 +11,8 @@ import { TasksData, TaskType } from '../../types/tasks/TaskType';
 import { useMutation, useQuery } from '@apollo/client';
 import { TASK_PROGRESS_STATE } from '../../graphql/mutations/tasks/TaskProgressStateMutation';
 import { GET_TASKS_BY_PROJECT_ID } from '../../graphql/queries/QTaskByProjectId';
-// import Loader from '../loader';
+import { GET_PROJECT_BY_ID } from '../../graphql/queries/QGetProjectById';
+import { ProjectId } from '../../types/projects/ProjectId';
 
 const Dashboard = ({ data }: { data: UserProfile }) => {
   const {projectId} = useParams();
@@ -28,6 +29,14 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const { data: tasksList } = useQuery<TasksData>(GET_TASKS_BY_PROJECT_ID, {
     variables: {projectId}
   });
+  const {data: getProjectById} = useQuery<ProjectId>(GET_PROJECT_BY_ID, {
+    variables: {project: projectId}
+  });
+
+  const projectTitle = getProjectById?.getProjectById?.title
+
+
+
   const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
 
 
@@ -63,11 +72,6 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
 
   const handleAdd = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // if (todo) {
-    //   setTodos([...todos, { id: Date.now(), todo, isDone: false }]);
-    //   setTodo('');
-    // }
   };
 
 
@@ -148,7 +152,9 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
         <LeftMenu />
-            {/* Main area */}
+        <div className='min-h-0 flex-1 flex-centered'>
+            <h1 className='uppercase ml-5 font-semibold h-3 text-2xl text-indigo-800'>{projectTitle}</h1>
+            <div className='w-full mt-8'>
         <DragDropContext onDragEnd={onDragEnd}>
           <div className="w-full flex justify-evenly overflow-y-auto">
             <TodoList
@@ -166,6 +172,8 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
             />
           </div>
         </DragDropContext>
+        </div>
+        </div>
       </div>
     </div>
     </>

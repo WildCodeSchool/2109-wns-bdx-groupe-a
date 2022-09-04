@@ -10,7 +10,8 @@ import { GET_MY_PROFILE } from './graphql/queries/QGetMyProfile';
 import { Projects } from './components/projects/Projects';
 
 const ContextualRoutes = () => {
-  const { data } = useQuery(GET_MY_PROFILE);
+ const { data } = useQuery(GET_MY_PROFILE);
+
   if (!data) {
     return (
       <div className="h-screen flex justify-center items-center">
@@ -19,16 +20,23 @@ const ContextualRoutes = () => {
     );
   }
 
+
+
   return (
     <BrowserRouter>
       <Routes>
+
         <Route path="/" element={<Connection />} />
+        {data.myProfile  && (
+          <>
         <Route path="dashboard">
           <Route path=":projectId" element={<Dashboard data={data} />} />
         </Route>
         <Route path="404" element={<PageNotFound userProfile={data} />} />
         <Route path="projects" element={<Projects userProfile={data} />} />
         <Route path="*" element={<Navigate to="/404" replace />} />
+        </>
+        )}
       </Routes>
     </BrowserRouter>
   );

@@ -22,12 +22,12 @@ const AddProject = ({ creatorId }: { creatorId: string }) => {
   };
 
   return (
-    <div className="mt-12 w-full">
+    <div className="w-full">
       <form
         method="POST"
         action="#"
         className="relative"
-        style={{ width: '400px' }}
+        style={{ width: '400px', height: '300px' }}
         onSubmit={(event) => {
           event.preventDefault();
           createProject({
@@ -38,7 +38,7 @@ const AddProject = ({ creatorId }: { creatorId: string }) => {
           });
         }}
       >
-        <div className="rounded-lg border border-gray-300 shadow-sm">
+        <div className="rounded-lg shadow-sm">
           <label htmlFor="title" className="sr-only">
             Title
           </label>
