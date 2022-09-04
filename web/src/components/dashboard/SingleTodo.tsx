@@ -42,7 +42,6 @@ const SingleTodo: React.FC<{
   //   );
   // };
 
-  // console.log(todo)
 
   return (
     <Draggable draggableId={todo.id.toString()} index={index}>

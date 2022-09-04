@@ -1,11 +1,10 @@
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline';
 import { gql, useMutation } from '@apollo/client';
 
-import {  UserProfileVariables } from '../../types/user/UserProfileTypes';
+import { UserProfileVariables } from '../../types/user/UserProfileTypes';
 import { GET_MY_PROFILE } from '../../graphql/queries/QGetMyProfile';
-
 
 export const DELETE_SESSION = gql`
   mutation DeleteSession {
@@ -17,10 +16,7 @@ interface props {
   myProfile: UserProfileVariables;
 }
 
-const HeaderProject = ({
-  myProfile,
-
-}: props) => {
+const HeaderProject = ({ myProfile }: props) => {
   const [isProfilMenuOpen, setIsProfilMenuOpen] = useState(false);
 
   const [deleteSession] = useMutation(DELETE_SESSION, {
@@ -32,7 +28,6 @@ const HeaderProject = ({
     deleteSession();
     navigate('/');
   };
-
 
   return (
     <header className="flex-shrink-0 relative h-16 bg-white flex">
@@ -51,9 +46,8 @@ const HeaderProject = ({
       </div>
       {/* TODO à changer */}
 
-
       {/* Menu button area */}
-      <div className="absolute inset-y-0 right-0 pr-4 flex items-center sm:pr-6 md:hidden" >
+      <div className="absolute inset-y-0 right-0 pr-4 flex items-center sm:pr-6 md:hidden">
         {/* Mobile menu button */}
         <button
           type="button"
@@ -66,7 +60,10 @@ const HeaderProject = ({
       </div>
 
       {/* Desktop nav area */}
-      <div className="hidden md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between" style={{justifyContent: 'end', display: 'flex'}}>
+      <div
+        className="hidden md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between"
+        style={{ justifyContent: 'end', display: 'flex' }}
+      >
         <div className="ml-10 pr-4 flex-shrink-0 flex items-center space-x-10">
           <nav aria-label="Global" className="flex space-x-10">
             <a href="#" className="text-sm font-medium text-gray-900">
@@ -124,8 +121,7 @@ const HeaderProject = ({
               <XIcon className="block h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="max-w-8xl mx-auto py-3 px-2 sm:px-4">
-          </div>
+          <div className="max-w-8xl mx-auto py-3 px-2 sm:px-4"></div>
           <div className="border-t border-gray-200 pt-4 pb-3">
             <div className="max-w-8xl mx-auto px-4 flex items-center sm:px-6">
               <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 bg-indigo-600 text-white flex justify-center items-center uppercase">
@@ -145,7 +141,13 @@ const HeaderProject = ({
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
               </a>
             </div>
-            <div style={{display: 'flex', justifyContent: 'end', marginTop: '18px'}}>
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'end',
+                marginTop: '18px',
+              }}
+            >
               <button
                 className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50"
                 onClick={() => onLogOut()}

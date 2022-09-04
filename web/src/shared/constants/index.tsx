@@ -11,3 +11,12 @@ export const DEFAULT_NEW_TASK = {
   attachment: '',
   progress_state: '1'
 }
+
+export const DEFAULT_NEW_PROJECT = {
+  title: '',
+  creatorId: '',
+  description: '',
+  picture: '',
+  startDate: '',
+  endDate: ''
+}

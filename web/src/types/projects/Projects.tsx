@@ -1,7 +1,8 @@
 export type Project = {
   id: string;
-  name: string;
+  title: string;
+  picture: string;
   description: string;
-  created_at: string;
-  updated_at: string;
+  start_date: string;
+  end_date: string;
 }
