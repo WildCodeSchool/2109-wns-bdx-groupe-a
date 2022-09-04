@@ -70,6 +70,8 @@ const Header = ({
     },
   };
 
+  //TODO : add user to project
+
   return (
     <header className="flex-shrink-0 relative h-16 bg-white flex items-center">
       {/* Logo area */}
