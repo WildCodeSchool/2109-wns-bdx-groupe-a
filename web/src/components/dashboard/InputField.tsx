@@ -1,7 +1,8 @@
 import { useMutation } from '@apollo/client';
 import React, { ChangeEvent, useRef, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { CREATE_TASK } from '../../graphql/mutations/tasks/CreateTaskMutation';
-import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { GET_TASKS_BY_PROJECT_ID } from '../../graphql/queries/QTaskByProjectId';
 import { DEFAULT_NEW_TASK } from '../../shared/constants';
 import './styles.css';
 
@@ -13,6 +14,7 @@ interface props {
 }
 
 const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
+  const {projectId} = useParams();
   const inputRef = useRef<HTMLInputElement>(null);
   const [newTask, setNewTask] = useState(DEFAULT_NEW_TASK);
   const [createTask, {}] = useMutation(CREATE_TASK);
@@ -27,8 +29,11 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
       name: string;
       value: string;
     };
-    setNewTask({ ...newTask, [name]: value });
+    if (projectId) {
+      setNewTask({ ...newTask, projectId, [name]: value });
+    }
   };
+
 
   return (
     <div className="bg-white py-16 px-4 overflow-hidden sm:px-6">
@@ -110,8 +115,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
             className="input"
             onSubmit={(e) => {
               handleAdd(e);
-              inputRef.current?.blur();
-              createTask({ variables: newTask, refetchQueries: [GET_TASKS] });
+              createTask({ variables: newTask, refetchQueries: [{query: GET_TASKS_BY_PROJECT_ID, variables: {projectId}}] });
               onClose()
             }}
           >

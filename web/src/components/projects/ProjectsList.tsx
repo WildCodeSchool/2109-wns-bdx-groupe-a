@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { GET_PROJECTS_BY_CREATORID } from '../../graphql/queries/QProjectsByCreatorId';
 import { Project } from '../../types/projects/Projects';
 import AddProject from './AddProject';
+import { Link } from 'react-router-dom';
+
 
 interface props {
   creatorId: string;
@@ -12,7 +14,6 @@ const ProjectsList = ({ creatorId }: props) => {
   const [isAddProject, setIsAddProject] = useState(false);
   const { data: projectsByCreatorId } = useQuery(GET_PROJECTS_BY_CREATORID, {variables: {creatorId} });
 
-  console.log(projectsByCreatorId);
 
   return (
     <div className="bg-white overflow-y-auto overflow-x-hidden">
@@ -43,6 +44,8 @@ const ProjectsList = ({ creatorId }: props) => {
           >
             {projectsByCreatorId?.getProjectByCreatorId.map((project: Project) => (
               <li key={project.id} >
+                <Link to={`/dashboard/${project.id}`}>
+
                 <div className="space-y-4">
                   <a
                     href="#"
@@ -61,6 +64,7 @@ const ProjectsList = ({ creatorId }: props) => {
                   </div>
                   </a>
                 </div>
+                </Link>
               </li>
             ))}
 

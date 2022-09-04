@@ -9,7 +9,8 @@ export const DEFAULT_NEW_TASK = {
   title: '',
   description: '',
   attachment: '',
-  progress_state: '1'
+  progress_state: '1',
+  projectId: '0'
 }
 
 export const DEFAULT_NEW_PROJECT = {

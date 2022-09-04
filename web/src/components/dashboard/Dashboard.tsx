@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 
 import { DragDropContext, DropResult } from 'react-beautiful-dnd';
 import Header from './Header';
@@ -8,13 +8,13 @@ import LeftMenu from './LeftMenu';
 import TodoList from './TodoList';
 import { UserProfile } from '../../types/user/UserProfileTypes';
 import { TasksData, TaskType } from '../../types/tasks/TaskType';
-import { GET_TASKS } from '../../graphql/queries/QGetTasks';
 import { useMutation, useQuery } from '@apollo/client';
 import { TASK_PROGRESS_STATE } from '../../graphql/mutations/tasks/TaskProgressStateMutation';
+import { GET_TASKS_BY_PROJECT_ID } from '../../graphql/queries/QTaskByProjectId';
 // import Loader from '../loader';
 
 const Dashboard = ({ data }: { data: UserProfile }) => {
-
+  const {projectId} = useParams();
   const [todo, setTodo] = useState<string>('');
   const [, setTasks] = useState<Array<TaskType>>([]);
   const [todos, setTodos] = useState<Array<TaskType>>([]);
@@ -25,14 +25,16 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
   const [getTaskId, setTaskId] = useState<string>('');
   const [searchTerm, setSearchTerm] = useState('');
   const { myProfile } = data;
-  const { data: tasksList } = useQuery<TasksData>(GET_TASKS);
+  const { data: tasksList } = useQuery<TasksData>(GET_TASKS_BY_PROJECT_ID, {
+    variables: {projectId}
+  });
   const [changeProgressState, {}] = useMutation(TASK_PROGRESS_STATE);
 
 
   useEffect(() => {
 
     if (tasksList) {
-      const { getTasks: tasks } = tasksList;
+      const { getTasksByProjectId: tasks } = tasksList;
       const filteredTask = (progress_state: string) => {
         if (searchTerm) {
           return tasks.filter(task => task.title.toLowerCase().includes(searchTerm.toLowerCase()) && task.progress_state === progress_state);
