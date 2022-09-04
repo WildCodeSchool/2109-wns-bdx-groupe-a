@@ -7,7 +7,7 @@ import getExpressServer from '../../express-server';
 const SECONDS = 1000;
 jest.setTimeout(70 * SECONDS);
 
-describe.skip('ProjectResolver', () => {
+describe('ProjectResolver', () => {
   let testClient: createTestClient.SuperTest<createTestClient.Test>;
 
   beforeAll(async () => {
