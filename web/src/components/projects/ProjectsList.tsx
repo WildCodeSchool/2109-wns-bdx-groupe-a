@@ -95,8 +95,7 @@ const ProjectsList = ({ creatorId }: props) => {
                 <li key={project.id}>
                   <Link to={`/dashboard/${project.id}`}>
                     <div className="space-y-4">
-                      <a
-                        href="#"
+                      <div
                         className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 "
                         style={{
                           backgroundImage: `url(${project.picture})`,
@@ -117,7 +116,7 @@ const ProjectsList = ({ creatorId }: props) => {
                           <p className="mr-4">{project.start_date}</p> {'->'}
                           <p className="ml-4">{project.end_date}</p>
                         </div>
-                      </a>
+                      </div>
                     </div>
                   </Link>
                 </li>
@@ -138,8 +137,7 @@ const ProjectsList = ({ creatorId }: props) => {
                 <li key={project.id}>
                   <Link to={`/dashboard/${project.id}`}>
                     <div className="space-y-4">
-                      <a
-                        href="#"
+                      <div
                         className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 "
                         style={{
                           backgroundImage: `url(${project.picture})`,
@@ -160,7 +158,7 @@ const ProjectsList = ({ creatorId }: props) => {
                           <p className="mr-4">{project.start_date}</p> {'->'}
                           <p className="ml-4">{project.end_date}</p>
                         </div>
-                      </a>
+                      </div>
                     </div>
                   </Link>
                 </li>
