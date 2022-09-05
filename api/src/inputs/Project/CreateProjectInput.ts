@@ -6,16 +6,19 @@ class CreateProjectInput {
   title!: string;
 
   @Field()
+  creatorId! : string;
+
+  @Field()
   description!: string;
 
   @Field()
   picture?: string;
 
   @Field()
-  start_date!: Date;
+  start_date?: string;
 
   @Field()
-  end_date!: Date;
+  end_date?: string;
 }
 
 export default CreateProjectInput;

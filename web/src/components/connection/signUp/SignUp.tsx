@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Switch } from '@headlessui/react';
 import { useMutation } from '@apollo/client';
 import { SIGN_UP } from '../../../graphql/queries/QSignUp';
@@ -27,6 +27,15 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
     };
     setUserInformations({ ...userInformations, [name]: value });
   };
+
+  useEffect(() => {
+    if (!isValidUser(userInformations)) {
+      handleIsNotValidUserError(setError, userInformations);
+    } else {
+      setError("")
+    }
+
+  }, [userInformations])
 
   return (
     <div className='bg-white py-16 px-4 overflow-hidden sm:px-6'>
@@ -99,7 +108,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
         </svg>
         <div className='text-center'>
           <h2 className='text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl'>
-            Sign Up
+            Créer un compte
           </h2>
           <p className='mt-4 text-lg leading-6 text-gray-500'></p>
         </div>
@@ -113,8 +122,6 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
               if (isValidUser(userInformations)) {
                 signUp({ variables: userInformations });
                 onClose();
-              } else {
-                handleIsNotValidUserError(setError, userInformations);
               }
             }}
           >
@@ -123,7 +130,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 htmlFor='firstName'
                 className='block text-sm font-medium text-gray-700'
               >
-                Firstname
+                Prénom
               </label>
               <div className='mt-1'>
                 <input
@@ -143,7 +150,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 htmlFor='lastName'
                 className='block text-sm font-medium text-gray-700'
               >
-                Lastname
+                Nom
               </label>
               <div className='mt-1'>
                 <input
@@ -184,7 +191,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 htmlFor='password'
                 className='block text-sm font-medium text-gray-700'
               >
-                Password
+                Mot de passe
               </label>
               <div className='mt-1'>
                 <input
@@ -211,7 +218,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                       'relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                     )}
                   >
-                    <span className='sr-only'>Agree to policies</span>
+                    <span className='sr-only'>Accepter</span>
                     <span
                       aria-hidden='true'
                       className={classNames(
@@ -223,19 +230,19 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 </div>
                 <div className='ml-3'>
                   <p className='text-base text-gray-500'>
-                    By selecting this, you agree to the{' '}
+                    En sélectionnant cette case, vous acceptez les{' '}
                     <a
                       href='#/'
                       className='font-medium text-gray-700 underline'
                     >
-                      Privacy Policy
+                      conditions d'utilisation
                     </a>{' '}
-                    and{' '}
+                    et{' '}
                     <a
                       href='#/'
                       className='font-medium text-gray-700 underline'
                     >
-                      Cookie Policy
+                      la politique de confidentialité
                     </a>
                     .
                   </p>
@@ -247,7 +254,7 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 type='submit'
                 className='w-full inline-flex items-center justify-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
               >
-                Sign Up
+                S'enregistrer
               </button>
             </div>
           </form>
@@ -269,7 +276,9 @@ const SignUp = ({ onClose }: { onClose: () => void }) => {
                 ></path>
               </svg>
               <div>
+                {error && 
                 <span className='font-medium'>{error}</span>
+                }
               </div>
             </div>
           )}

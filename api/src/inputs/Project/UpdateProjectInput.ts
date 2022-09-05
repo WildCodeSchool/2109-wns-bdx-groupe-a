@@ -4,22 +4,26 @@ import { ArgsType, Field } from 'type-graphql';
 @ArgsType()
 class UpdateProjectInput{
     @Field()
+
     id? : string
 
-    @Field()
+    @Field({ nullable : true })
     title? : string
 
-    @Field()
+    @Field({ nullable : true })
     description? : string
 
-    @Field()
+    @Field({ nullable : true })
     picture? : string
 
-    @Field()
-    start_date? : Date
+    @Field({ nullable : true })
+    start_date? : string
 
-    @Field()
-    end_date? : Date
+    @Field({ nullable : true })
+    end_date? : string
+
+    @Field({ nullable : true })
+    userId? : string
 
 }
 

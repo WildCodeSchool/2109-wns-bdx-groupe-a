@@ -2,7 +2,7 @@
 
 ## 📺 Demo
 
-You can test the application on [staging](https://staging.bordeaux3-0921.wns.wilders.dev/) or [prod](https://bordeaux3-0921.wns.wilders.dev/)
+You can test the application on [staging](https://staging.bordeaux3-0921.wns.wilders.dev/) or [prod](bordeaux3-0921.wns.wilders.dev/)
 
 ## 🚀 Purpose of the Project
 
@@ -62,8 +62,7 @@ docker-compose exec api npm run test:watch
 
 ## 🤖 How's staging / prod works
 
-![image](https://user-images.githubusercontent.com/90702276/165907144-490c67e1-8bf4-4902-8774-5f84bd61f2d8.png)
-
+![My animated logo](assets/cd-ci.png)
 
 The application has a continuous deployment on staging branch, when a PR is review and approved, the github CI do the checks update the new docker image. If any of the docker images changes, they call the webhook who init the script fetch and deploy on the VPS
 
@@ -84,21 +83,4 @@ Webhook config :
     "command-working-directory": "~relativepath/staging"
   }
 ]
-```
-
-Caddyfile : 
-```
-#lie les adresses IP aux noms de domaine grâce au reserve_proxy
-
-bordeaux3-0921.wns.wilders.dev {
-  reverse_proxy localhost:8000
-}
-
-staging.bordeaux3-0921.wns.wilders.dev {
-  reverse_proxy localhost:8001
-}
-
-bordeaux3-0921.wns.wilders.dev {
-  reverse_proxy localhost:9000
-}
 ```

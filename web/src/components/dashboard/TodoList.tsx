@@ -34,7 +34,8 @@ const TodoList: React.FC<props> = ({
   setTaskId
 }) => {
 
-  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
+  // const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
+  const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm rounded-lg border border-gray-200 shadow-md bg-gray-400 border-gray-800" : " w-full rounded-lg border border-gray-200 shadow-md bg-gray-700 border-gray-400 p-6 w-11/12";
   return (
     <div className="container">
       <div className="w-full">
@@ -45,7 +46,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">Active Tasks</span>
+            <p className="flex justify-center"><span className="todos__heading uppercase font-semibold">À traitre</span></p>
             {todos?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -69,7 +70,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">In Progress Tasks</span>
+            <p className="flex justify-center"><span className="todos__heading uppercase font-semibold">En traitement</span></p>
             {inProgressTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -93,7 +94,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">PR in progress</span>
+            <p className="flex justify-center"><span className="todos__heading uppercase font-semibold">Traité : PR en cours</span></p>
             {prInProgress?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -118,7 +119,7 @@ const TodoList: React.FC<props> = ({
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            <span className="todos__heading">In Test</span>
+            <p className="flex justify-center"><span className="todos__heading uppercase font-semibold">À tester</span></p>
             {inTestTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}
@@ -142,7 +143,7 @@ const TodoList: React.FC<props> = ({
             {...provided.droppableProps}
             className={isDraggingStyle(snapshot.isDraggingOver)}
           >
-            <span className="todos__heading">Completed Tasks</span>
+            <p className="flex justify-center"><span className="todos__heading uppercase font-semibold">Validé</span></p>
             {completedTodos?.map((todo, index) => (
               <SingleTodo
                 index={index}

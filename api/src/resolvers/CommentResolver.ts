@@ -13,11 +13,6 @@ export default class CommentResolver {
         return Comment.find()
     }
 
-    @Query(() => String) 
-    getTest2() {
-        return 'si ça fonctionne c\'est champagne PLEASEEEEEEEE'
-    }
-
     @Mutation(() => Comment)
     async createComment(@Args() { title, content, date }: CreateCommentInput){
         
@@ -48,7 +43,7 @@ export default class CommentResolver {
     }
 
     @Mutation(() => Comment)
-    async deleteTask(@Args() { id } : DeleteCommentInput){
+    async deleteComment(@Args() { id } : DeleteCommentInput){
         const commentToDelete = await Comment.findOneOrFail({ id })
 
         await commentToDelete.remove()

@@ -47,9 +47,10 @@ class User extends BaseEntity {
     @Column({type: 'varchar', default: UserRole.VISITOR, length: 255}) 
     role?: string;
 
-    @ManyToMany(() => Project)
+    @ManyToMany(() => Project, project => project.users)
     @JoinTable()
-    projects!: Project[];
+    @Field(() => [Project], { nullable : true } )
+    projects?: Project[];
 
     @OneToMany(() => Comment, comment => comment.user)
     comments!: Comment[]; 

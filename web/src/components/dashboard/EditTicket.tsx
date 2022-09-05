@@ -1,23 +1,15 @@
 import { useMutation } from '@apollo/client';
-import React, { ChangeEvent, useRef, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { CREATE_TASK } from '../../graphql/mutations/tasks/CreateTaskMutation';
-import { GET_TASKS_BY_PROJECT_ID } from '../../graphql/queries/QTaskByProjectId';
-import { DEFAULT_NEW_TASK } from '../../shared/constants';
+import { ChangeEvent, useRef, useState } from 'react';
+import { UPDATE_TASK } from '../../graphql/mutations/tasks/UpdateTaskMutation';
+import { GET_TASKS } from '../../graphql/queries/QGetTasks';
+import { TaskType } from '../../types/tasks/TaskType';
 import './styles.css';
 
-interface props {
-  todo: string;
-  setTodo: React.Dispatch<React.SetStateAction<string>>;
-  handleAdd: (e: React.FormEvent) => void;
-  onClose: () => void;
-}
 
-const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
-  const {projectId} = useParams();
+const EditTicket = ({ task, onClose }: {task: TaskType, onClose: () => void}) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [newTask, setNewTask] = useState(DEFAULT_NEW_TASK);
-  const [createTask, {}] = useMutation(CREATE_TASK);
+  const [updateTask, {}] = useMutation(UPDATE_TASK);
+  const [taskUpdated, setTaskUpdated] = useState(task);
 
   const onChange = (
     e:
@@ -29,11 +21,8 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
       name: string;
       value: string;
     };
-    if (projectId) {
-      setNewTask({ ...newTask, projectId, [name]: value });
-    }
+    setTaskUpdated({ ...taskUpdated, [name]: value });
   };
-
 
   return (
     <div className="bg-white py-16 px-4 overflow-hidden sm:px-6">
@@ -106,16 +95,16 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
         </svg>
         <div className="text-center">
           <h2 className="text-3xl font-extrabold tracking-tight  sm:text-4xl" style={{color: '#374151'}}>
-            Créer un ticket
+            Modifier le ticket n°{task.id}
           </h2>
           <p className="mt-4 text-lg leading-6 text-gray-500"></p>
         </div>
         <div className="mt-12 w-full">
           <form
             className="input"
-            onSubmit={(e) => {
-              handleAdd(e);
-              createTask({ variables: newTask, refetchQueries: [{query: GET_TASKS_BY_PROJECT_ID, variables: {projectId}}] });
+            onSubmit={() => {
+              inputRef.current?.blur();
+              updateTask({ variables: {updateTaskId: task.id, ...taskUpdated}, refetchQueries: [GET_TASKS] });
               onClose()
             }}
           >
@@ -125,8 +114,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
                 id="title"
                 name="title"
                 placeholder="Ajouter un titre"
-                required
-                value={newTask.title}
+                value={taskUpdated.title}
                 ref={inputRef}
                 onChange={(e) => onChange(e)}
                 className="py-3 px-4 mb-2 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-indigo-500 rounded-md"
@@ -134,8 +122,8 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
               <textarea
                 id="description"
                 name="description"
-                placeholder="Ajouter une decription"
-                value={newTask.description}
+                placeholder="Ajouter une description"
+                value={taskUpdated.description}
                 onChange={(e) => onChange(e)}
                 className="h-36 mt-2 py-3 px-4 mb-4 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 border border-indigo-500 rounded-md"
               ></textarea>
@@ -155,7 +143,7 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
                   className=" cursor-copy h-full w-full opacity-0"
                   name="attachment"
                   id="attachment"
-                  value={newTask.attachment}
+                  value={taskUpdated.attachment}
                   ref={inputRef}
                   onChange={(e) => onChange(e)}
                 />
@@ -163,10 +151,9 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
               <div className="flex justify-end mt-12">
                 <button
                   type="submit"
-                  disabled={newTask.title ? false : true}
-                  className={`${newTask.title ? "cursor-pointer" : "cursor-not-allowed bg-gray-700 hover:bg-gray-500"} inline-flex items-center px-4 py-2 mb-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500`}
+                  className="inline-flex items-center px-4 py-2 mb-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 >
-                  Créer
+                  Éditer
                 </button>
               </div>
             </div>
@@ -177,4 +164,4 @@ const InputField: React.FC<props> = ({ handleAdd, onClose }) => {
   );
 };
 
-export default InputField;
+export default EditTicket;
