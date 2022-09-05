@@ -26,8 +26,7 @@ const AddProject = ({ creatorId }: { creatorId: string }) => {
       <form
         method="POST"
         action="#"
-        className="relative"
-        style={{ width: '400px', height: '300px' }}
+        className="relative md:w-[400px] md:h-[300px] w-[350px] h-[300px]"
         onSubmit={(event) => {
           event.preventDefault();
           createProject({

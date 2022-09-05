@@ -8,6 +8,10 @@ export const GET_ALL_USER_PROJECTS = gql`
     projects {
       id
       title
+      description
+      start_date
+      end_date
+      picture
     }
   }
 }

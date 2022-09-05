@@ -1,6 +1,7 @@
 import { useMutation } from '@apollo/client';
 import React, { useState } from 'react';
 import { UPDATE_PROJECT } from '../../graphql/mutations/projects/UpdateProjectMutation';
+import { GET_PROJECTS_BY_CREATORID } from '../../graphql/queries/QProjectsByCreatorId';
 interface props {
   project?: {
     id: string;
@@ -27,8 +28,6 @@ const UpdateProject = ({ project, closeModalProject }: props) => {
 
   const [updateProject, {}] = useMutation(UPDATE_PROJECT);
 
-
-  console.log("projectToUpdate", projectToUpdate);
   return (
     <div className="mt-10 sm:mt-0">
       <div className="md:grid md:grid-cols-3 md:gap-6">
@@ -48,7 +47,7 @@ const UpdateProject = ({ project, closeModalProject }: props) => {
             method="POST"
             onSubmit={(event) => {
               event.preventDefault();
-              updateProject({variables: {updateProjectId: projectToUpdate?.id, ...projectToUpdate}});
+              updateProject({variables: {updateProjectId: projectToUpdate?.id, ...projectToUpdate}, refetchQueries: [GET_PROJECTS_BY_CREATORID]});
               closeModalProject()
             }}
           >

@@ -34,10 +34,9 @@ const TodoList: React.FC<props> = ({
   setTaskId
 }) => {
 
-  // const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-zinc-400 dark:border-gray-800" : "bg-gray-400 w-full rounded-lg border border-gray-200 shadow-md dark:bg-gray-700 dark:border-gray-400 p-6 w-11/12";
   const isDraggingStyle = (snapshot: boolean) => snapshot ? "p-6 w-11/12 max-w-sm rounded-lg border border-gray-200 shadow-md bg-gray-400 border-gray-800" : " w-full rounded-lg border border-gray-200 shadow-md bg-gray-700 border-gray-400 p-6 w-11/12";
   return (
-    <div className="container">
+    <div className="container space-y-4 md:space-y-0 overflow-y-auto">
       <div className="w-full">
       <Droppable droppableId="1">
         {(provided, snapshot) => (

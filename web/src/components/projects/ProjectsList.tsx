@@ -30,6 +30,7 @@ const ProjectsList = ({ creatorId }: props) => {
   const { data: projectsByCreatorId } = useQuery(GET_PROJECTS_BY_CREATORID, {
     variables: { creatorId },
   });
+
   const { data: getUserWithProjects } = useQuery(GET_ALL_USER_PROJECTS, {
     variables: { getUserWithProjectsId: creatorId },
   });
@@ -65,19 +66,19 @@ const ProjectsList = ({ creatorId }: props) => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <div className="space-y-12">
           <div className="space-y-5 sm:space-y-4 md:max-w-xl lg:max-w-3xl xl:max-w-none">
-            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl text-indigo-600 uppercase">
+            <h2 className="md:text-3xl text-2xl font-bold tracking-tight sm:text-4xl text-indigo-600 uppercase">
               Mes projets
             </h2>
             <div className="inline-flex w-full justify-between">
-              <p className="text-xl text-gray-500">
+              <p className="md:text-xl text-base text-gray-500">
                 Liste actuelle de vos projets
               </p>
               <div className="space-y-4">
                 <button
                   onClick={openModal}
-                  className="block p-6 max-w-sm w-36 rounded-lg border  shadow-md bg-indigo-500 border-gray-700 hover:bg-white hover:text-indigo-500 text-white"
+                  className="block md:p-6 md:max-w-sm md:w-36 w-16 h-16 md:h-20 rounded-lg border  shadow-md bg-indigo-500 border-gray-700 hover:bg-white hover:text-indigo-500 text-white"
                 >
-                  <h5 className="mb-2 text-1xl font-bold tracking-tight ">
+                  <h5 className="md:mb-2 md:text-2xl text-sm font-bold tracking-tight ">
                     Ajouter
                   </h5>
                 </button>
@@ -86,8 +87,7 @@ const ProjectsList = ({ creatorId }: props) => {
           </div>
 
           <h3
-            className="text-4xl font-bold tracking-tight sm:text-4xl text-indigo-400"
-            style={{ fontSize: '22px' }}
+            className="md:text-2xl text-xl font-bold tracking-tight text-indigo-400"
           >
             Mes projets créés
           </h3>
@@ -98,7 +98,13 @@ const ProjectsList = ({ creatorId }: props) => {
             {createdProjects &&
               createdProjects.map((project: Project) => (
                 <li key={project.id}>
-                  <div style={{display: 'flex', justifyContent: 'end', marginRight: '10px'}}>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'end',
+                      marginRight: '10px',
+                    }}
+                  >
                     <button
                       onClick={() => {
                         openModalProject();
@@ -118,18 +124,18 @@ const ProjectsList = ({ creatorId }: props) => {
                           backgroundPosition: 'center',
                         }}
                       >
-                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900">
+                        <h5 className="mb-2 md:text-2xl text-lg font-bold tracking-tight text-gray-900">
                           {project.title}
                         </h5>
-                        <p className="font-normal text-gray-700 ">
+                        <p className="font-normal text-gray-700 text-base">
                           {project.description}
                         </p>
                         <div
                           className="inline-flex w-full"
                           style={{ justifyContent: 'end' }}
                         >
-                          <p className="mr-4">{project.start_date}</p> {'->'}
-                          <p className="ml-4">{project.end_date}</p>
+                          <p className="mr-4 text-xs md:text-sm">{project.start_date}</p> {'->'}
+                          <p className="ml-4 text-xs md:text-sm">{project.end_date}</p>
                         </div>
                       </div>
                     </div>
@@ -144,11 +150,13 @@ const ProjectsList = ({ creatorId }: props) => {
             contentLabel="Item Modal"
             ariaHideApp={false}
           >
-            <UpdateProject project={projectToUpdate} closeModalProject={closeModalProject}/>
+            <UpdateProject
+              project={projectToUpdate}
+              closeModalProject={closeModalProject}
+            />
           </Modal>
           <h3
-            className="text-4xl font-bold tracking-tight sm:text-4xl text-indigo-400"
-            style={{ fontSize: '22px' }}
+            className="md:text-2xl text-xl font-bold tracking-tight sm:text-4xl text-indigo-400"
           >
             Mes projets invités
           </h3>
@@ -157,39 +165,41 @@ const ProjectsList = ({ creatorId }: props) => {
             className="space-y-12 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:space-y-0 lg:grid-cols-3 lg:gap-x-8 overflow-y-auto"
           >
             {projects &&
-              projects.map((project: Project) => (
-                <li key={project.id}>
-                  <Link to={`/dashboard/${project.id}`}>
-                    <div className="space-y-4">
-                      <div
-                        className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 "
-                        style={{
-                          backgroundImage: `url(${project.picture})`,
-                          backgroundSize: 'cover',
-                          backgroundPosition: 'center',
-                        }}
-                      >
-                        <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">
-                          {project.title}
-                        </h5>
-                        <p className="font-normal text-gray-700 ">
-                          {project.description}
-                        </p>
+              projects.map((project: Project) => {
+                return (
+                  <li key={project.id} className="w-full">
+                    <Link to={`/dashboard/${project.id}`}>
+                      <div className="space-y-4">
                         <div
-                          className="inline-flex w-full"
-                          style={{ justifyContent: 'end' }}
+                          className="block p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md hover:bg-gray-100 "
+                          style={{
+                            backgroundImage: `url(${project.picture})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                          }}
                         >
-                          <p className="mr-4">{project.start_date}</p> {'->'}
-                          <p className="ml-4">{project.end_date}</p>
+                          <h5 className="mb-2 md:text-2xl text-lg font-bold tracking-tight text-gray-900 ">
+                            {project.title}
+                          </h5>
+                          <p className="font-normal text-gray-700 ">
+                            {project.description}
+                          </p>
+                          <div
+                            className="inline-flex w-full"
+                            style={{ justifyContent: 'end' }}
+                          >
+                            <p className="mr-4 text-xs md:text-sm">{project.start_date}</p> {'->'}
+                            <p className="ml-4 text-xs md:text-sm">{project.end_date}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </Link>
-                </li>
-              ))}
+                    </Link>
+                  </li>
+                );
+              })}
           </ul>
         </div>
-        <div className=" w-screen flex justify-center mt-12">
+        <div className="md:w-screen flex justify-center mt-12">
           <Modal
             isOpen={isModalOpen}
             onRequestClose={closeModal}
