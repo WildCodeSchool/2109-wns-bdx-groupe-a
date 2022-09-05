@@ -10,7 +10,6 @@ import { UserProfile } from '../../types/user/UserProfileTypes';
 import { GET_MY_PROFILE } from '../../graphql/queries/QGetMyProfile';
 import { Link } from 'react-router-dom';
 
-
 export const DELETE_SESSION = gql`
   mutation DeleteSession {
     deleteSession
@@ -95,15 +94,14 @@ const Header = ({
         ariaHideApp={false}
       >
         <div className="w-96">
-        <InputField
-          todo={todo}
-          setTodo={setTodo}
-          handleAdd={handleAdd}
-          onClose={closeModal}
-        />
+          <InputField
+            todo={todo}
+            setTodo={setTodo}
+            handleAdd={handleAdd}
+            onClose={closeModal}
+          />
         </div>
       </Modal>
-
 
       {/* Desktop nav area */}
       <div className="md:min-w-0 md:flex-1 md:flex md:items-center md:justify-between mt-10 md:mt-0 contents">
@@ -174,7 +172,7 @@ const Header = ({
           className="fixed z-40 inset-0 h-full w-full bg-white sm:inset-y-0 sm:left-auto sm:right-0 sm:max-w-sm sm:w-full sm:shadow-lg"
           aria-label="Global"
         >
-          <div className="h-16 flex items-center justify-between px-4 sm:px-6">
+          <div className="h-16 flex items-center justify-between pr-12 pl-4 sm:px-6">
             <a href="#">
               <img
                 className="block h-8 w-auto"
@@ -191,8 +189,7 @@ const Header = ({
               <XIcon className="block h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-          <div className="max-w-8xl mx-auto py-3 px-2 sm:px-4">
-          </div>
+          <div className="max-w-8xl mx-auto py-3 px-2 sm:px-4"></div>
           <div className="border-t border-gray-200 pt-4 pb-3">
             <div className="max-w-8xl mx-auto px-4 flex items-center sm:px-6">
               <div className="flex-shrink-0 w-10 h-10 rounded-full border-2 bg-indigo-600 text-white flex justify-center items-center uppercase">
@@ -214,14 +211,12 @@ const Header = ({
             </div>
             <div className="mt-3 max-w-8xl mx-auto px-2 space-y-1 sm:px-4">
               <Link to="/projects">
-              <button
-                className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50"
-              >
-                Mes projets
-              </button>
+                <button className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50">
+                  Mes projets
+                </button>
               </Link>
             </div>
-            <div style={{display: 'flex', justifyContent: 'end', marginTop: '18px'}}>
+            <div className="flex ml-32 mt-6">
               <button
                 className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50"
                 onClick={() => onLogOut()}

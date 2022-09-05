@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { BellIcon, XIcon } from '@heroicons/react/outline';
 import { gql, useMutation } from '@apollo/client';
 
-
 import { UserProfileVariables } from '../../types/user/UserProfileTypes';
 import { GET_MY_PROFILE } from '../../graphql/queries/QGetMyProfile';
 
@@ -33,11 +32,12 @@ const HeaderProject = ({ myProfile }: props) => {
   return (
     <header className="flex-shrink-0 relative md:h-16 h-12 bg-white flex">
       {/* Logo area */}
-      
-      <div className="absolute invisible md:visible md:inset-y-0 left-0 md:static md:flex-shrink-0 bg-rd" onClick={() => navigate(-1)}>
-        <a
-          className="flex items-center justify-center h-16 w-16 bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20"
-        >
+
+      <div
+        className="absolute invisible md:visible md:inset-y-0 left-0 md:static md:flex-shrink-0 bg-rd"
+        onClick={() => navigate(-1)}
+      >
+        <a className="flex items-center justify-center h-16 w-16 bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-600 md:w-20">
           <img
             className="h-8 w-auto"
             src="https://tailwindui.com/img/logos/workflow-mark.svg?color=white"
@@ -45,7 +45,6 @@ const HeaderProject = ({ myProfile }: props) => {
           />
         </a>
       </div>
-
 
       {/* Desktop nav area */}
       <div
@@ -90,7 +89,7 @@ const HeaderProject = ({ myProfile }: props) => {
           className="fixed z-40 inset-0 h-full w-full bg-white sm:inset-y-0 sm:left-auto sm:right-0 sm:max-w-sm sm:w-full sm:shadow-lg"
           aria-label="Global"
         >
-          <div className="h-16 flex items-center justify-between px-4 sm:px-6">
+          <div className="h-16 flex items-center justify-between pr-12 pl-4 sm:px-6">
             <a href="#">
               <img
                 className="block h-8 w-auto"
@@ -127,13 +126,7 @@ const HeaderProject = ({ myProfile }: props) => {
                 <BellIcon className="h-6 w-6" aria-hidden="true" />
               </a>
             </div>
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'end',
-                marginTop: '18px',
-              }}
-            >
+            <div className="flex ml-32 mt-6">
               <button
                 className="block rounded-md py-2 px-3 text-base font-medium text-gray-900 hover:bg-gray-50"
                 onClick={() => onLogOut()}
