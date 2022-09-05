@@ -19,7 +19,7 @@ export const Projects = ({ userProfile }: { userProfile: UserProfile }) => {
 
       <div className="min-h-0 flex-1 flex">
         <LeftMenu />
-        <div>
+        <div className='w-[89%] md:w-auto'>
           <ProjectsList creatorId={myProfile.id} />
         </div>
       </div>

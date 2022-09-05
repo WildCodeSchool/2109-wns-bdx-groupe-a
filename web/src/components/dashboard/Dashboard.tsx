@@ -152,7 +152,7 @@ const Dashboard = ({ data }: { data: UserProfile }) => {
       <div className='min-h-0 flex-1 flex overflow-hidden'>
         {/* Narrow sidebar*/}
         <LeftMenu />
-        <div className='min-h-0 flex-1 flex-centered'>
+        <div className='min-h-0 flex-1 flex-centered mt-20 md:mt-0 overflow-y-auto'>
             <h1 className='uppercase ml-5 font-semibold h-3 text-2xl text-indigo-800'>{projectTitle}</h1>
             <div className='w-full mt-8'>
         <DragDropContext onDragEnd={onDragEnd}>

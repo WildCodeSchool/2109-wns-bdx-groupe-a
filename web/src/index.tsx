@@ -14,7 +14,7 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <div className='h-screen'>
+    <div className='h-screen w-auto'>
       <Routes />
     </div>
   </ApolloProvider>,
