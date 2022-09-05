@@ -6,6 +6,8 @@ import AddProject from './AddProject';
 import { Link } from 'react-router-dom';
 import { GET_ALL_USER_PROJECTS } from '../../graphql/queries/QGetAllUserProjects';
 import Modal from 'react-modal';
+import UpdateProject from './UpdateProject';
+import { EditTwoTone } from '@ant-design/icons';
 
 interface props {
   creatorId: string;
@@ -24,6 +26,7 @@ const customStyles = {
 
 const ProjectsList = ({ creatorId }: props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpenProject, setIsModalOpenProject] = useState(false);
   const { data: projectsByCreatorId } = useQuery(GET_PROJECTS_BY_CREATORID, {
     variables: { creatorId },
   });
@@ -32,6 +35,7 @@ const ProjectsList = ({ creatorId }: props) => {
   });
   const [projects, setProjects] = useState<Project[]>([]);
   const [createdProjects, setCreatedProjects] = useState<Project[]>([]);
+  const [projectToUpdate, setProjectToUpdate] = useState<Project>();
 
   useEffect(() => {
     if (isModalOpen === true) {
@@ -42,7 +46,9 @@ const ProjectsList = ({ creatorId }: props) => {
   }, [isModalOpen]);
 
   const openModal = () => setIsModalOpen(true);
+  const openModalProject = () => setIsModalOpenProject(true);
   const closeModal = () => setIsModalOpen(false);
+  const closeModalProject = () => setIsModalOpenProject(false);
 
   useEffect(() => {
     if (projectsByCreatorId) {
@@ -68,8 +74,7 @@ const ProjectsList = ({ creatorId }: props) => {
               </p>
               <div className="space-y-4">
                 <button
-                 onClick={openModal}
-
+                  onClick={openModal}
                   className="block p-6 max-w-sm w-36 rounded-lg border  shadow-md bg-indigo-500 border-gray-700 hover:bg-white hover:text-indigo-500 text-white"
                 >
                   <h5 className="mb-2 text-1xl font-bold tracking-tight ">
@@ -93,6 +98,16 @@ const ProjectsList = ({ creatorId }: props) => {
             {createdProjects &&
               createdProjects.map((project: Project) => (
                 <li key={project.id}>
+                  <div style={{display: 'flex', justifyContent: 'end', marginRight: '10px'}}>
+                    <button
+                      onClick={() => {
+                        openModalProject();
+                        setProjectToUpdate(project);
+                      }}
+                    >
+                      <EditTwoTone />
+                    </button>
+                  </div>
                   <Link to={`/dashboard/${project.id}`}>
                     <div className="space-y-4">
                       <div
@@ -122,6 +137,15 @@ const ProjectsList = ({ creatorId }: props) => {
                 </li>
               ))}
           </ul>
+          <Modal
+            isOpen={isModalOpenProject}
+            onRequestClose={closeModalProject}
+            style={customStyles}
+            contentLabel="Item Modal"
+            ariaHideApp={false}
+          >
+            <UpdateProject project={projectToUpdate} closeModalProject={closeModalProject}/>
+          </Modal>
           <h3
             className="text-4xl font-bold tracking-tight sm:text-4xl text-indigo-400"
             style={{ fontSize: '22px' }}
