@@ -5,4 +5,5 @@ export type Project = {
   description: string;
   start_date: string;
   end_date: string;
+  users: [];
 }
