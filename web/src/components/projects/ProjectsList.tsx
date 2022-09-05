@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { GET_ALL_USER_PROJECTS } from '../../graphql/queries/QGetAllUserProjects';
 import Modal from 'react-modal';
 import UpdateProject from './UpdateProject';
+import { EditTwoTone } from '@ant-design/icons';
 
 interface props {
   creatorId: string;
@@ -34,6 +35,7 @@ const ProjectsList = ({ creatorId }: props) => {
   });
   const [projects, setProjects] = useState<Project[]>([]);
   const [createdProjects, setCreatedProjects] = useState<Project[]>([]);
+  const [projectToUpdate, setProjectToUpdate] = useState<Project>();
 
   useEffect(() => {
     if (isModalOpen === true) {
@@ -96,6 +98,16 @@ const ProjectsList = ({ creatorId }: props) => {
             {createdProjects &&
               createdProjects.map((project: Project) => (
                 <li key={project.id}>
+                  <div style={{display: 'flex', justifyContent: 'end', marginRight: '10px'}}>
+                    <button
+                      onClick={() => {
+                        openModalProject();
+                        setProjectToUpdate(project);
+                      }}
+                    >
+                      <EditTwoTone />
+                    </button>
+                  </div>
                   <Link to={`/dashboard/${project.id}`}>
                     <div className="space-y-4">
                       <div
@@ -122,19 +134,18 @@ const ProjectsList = ({ creatorId }: props) => {
                       </div>
                     </div>
                   </Link>
-                  <button onClick={openModalProject}>Inviter</button>
-                  <Modal
-                    isOpen={isModalOpenProject}
-                    onRequestClose={closeModalProject}
-                    style={customStyles}
-                    contentLabel="Item Modal"
-                    ariaHideApp={false}
-                  >
-                    <UpdateProject project={project}/>
-                  </Modal>
                 </li>
               ))}
           </ul>
+          <Modal
+            isOpen={isModalOpenProject}
+            onRequestClose={closeModalProject}
+            style={customStyles}
+            contentLabel="Item Modal"
+            ariaHideApp={false}
+          >
+            <UpdateProject project={projectToUpdate} closeModalProject={closeModalProject}/>
+          </Modal>
           <h3
             className="text-4xl font-bold tracking-tight sm:text-4xl text-indigo-400"
             style={{ fontSize: '22px' }}

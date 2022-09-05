@@ -4,7 +4,6 @@ import { ArgsType, Field } from 'type-graphql';
 @ArgsType()
 class UpdateProjectInput{
     @Field()
-
     id? : string
 
     @Field({ nullable : true })
