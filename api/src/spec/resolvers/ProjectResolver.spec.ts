@@ -209,7 +209,7 @@ describe("ProjectResolver", () => {
       ]);
     });
 
-    it.only("add user to project", async () => {
+    it("add user to project", async () => {
       await testClient.post("/graphql").send({
         query: CREATE_PROJECT,
         variables: {

@@ -10,8 +10,7 @@ import UserProject from "./models/UserProject";
 
 dotenv.config();
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getDatabaseConnection = async (url: string) => {
+const getDatabaseConnection = async () => {
   await createConnection({
     type: "mysql",
     url: process.env.DATABASE_URL,

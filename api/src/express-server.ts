@@ -1,4 +1,3 @@
-
 import express, { Application } from "express";
 import { ApolloServer } from "apollo-server-express";
 import { GraphQLSchema } from "graphql";
@@ -21,3 +20,5 @@ const getExpressServer =  async (): Promise<{
 };
 
 export default getExpressServer
+
+

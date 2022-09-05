@@ -118,7 +118,7 @@ describe("UserResolver", () => {
   describe("UserResolver", () => {
     it("creates and returns user", async () => {
       const result = await testClient.post("/graphql").send({
-        query: CREATE_USER,
+        mutation: CREATE_USER,
         variables: {
           firstName: "Alfred",
           lastName: "Test",

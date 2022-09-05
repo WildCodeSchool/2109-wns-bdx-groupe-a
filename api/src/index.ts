@@ -14,7 +14,7 @@ async function main() {
     throw Error('DATABASE_URL must be set in environment.');
   }
 
-  await getDatabaseConnection(process.env.DATABASE_URL);
+  await getDatabaseConnection();
   console.log('Connected to database');
 
   const { expressServer, apolloServer } = await getExpressServer();

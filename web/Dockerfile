@@ -10,3 +10,6 @@ EXPOSE 3000
 
 FROM common as development
 CMD npm start
+
+
+

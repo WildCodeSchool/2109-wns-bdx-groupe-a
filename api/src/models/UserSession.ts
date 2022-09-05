@@ -1,10 +1,10 @@
-import { BaseEntity, Entity, ManyToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
 import User from "./User";
 
 
 @Entity()
 class UserSession extends BaseEntity {
-  @PrimaryColumn("varchar", { length: 32 })
+  @PrimaryGeneratedColumn()
   id!: string;
 
   @ManyToOne(() => User)
