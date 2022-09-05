@@ -33,8 +33,8 @@ describe('TaskResolver', () => {
   afterAll(() => getConnection().close());
 
   const CREATE_TASK = `
-  mutation($title: String!, $attachment: String!, $progressState: String!, $description: String!) {
-    createTask(title: $title, attachment: $attachment, progress_state: $progressState, description: $description) {
+  mutation($title: String!, $attachment: String!, $progressState: String!, $description: String!, $projectId: String!) {
+    createTask(title: $title, attachment: $attachment, progress_state: $progressState, description: $description, projectId: $projectId) {
       title
       description
       attachment
@@ -89,15 +89,43 @@ describe('TaskResolver', () => {
   }
 }
   `;
+
+  const CREATE_PROJECT = `
+mutation ($title: String!, $creatorId: String!, $description: String!, $picture: String!, $startDate: String!, $endDate: String!) {
+createProject(title: $title, creatorId: $creatorId, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
+  id
+  creatorId
+  title
+  description
+  picture
+  start_date
+  end_date
+}
+}
+`;
   describe('mutation createTask', () => {
     it('creates and returns task', async () => {
+
+      await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'test',
+          creatorId: '1',
+          description: 'test',
+          picture: 'test',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01'
+        }
+      });
+
       const result = await testClient.post('/graphql').send({
         query: CREATE_TASK,
         variables: {
           title: 'Premiere tache',
           attachment: '',
           progressState: 'IN PROGRESS',
-          description: 'En cours'
+          description: 'En cours',
+          projectId: '1'
         }
       });
 
@@ -111,15 +139,28 @@ describe('TaskResolver', () => {
     });
   });
 
-  describe('mutation updateTaskt', () => {
+  describe('mutation updateTask', () => {
     it('update a task', async () => {
+      await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'test',
+          creatorId: '1',
+          description: 'test',
+          picture: 'test',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01'
+        }
+      });
+
       await testClient.post('/graphql').send({
         query: CREATE_TASK,
         variables: {
-          title: 'Premiere tache update',
+          title: 'Premiere tache',
           attachment: '',
           progressState: 'IN PROGRESS',
-          description: 'En cours'
+          description: 'En cours',
+          projectId: '1'
         }
       });
 
@@ -127,7 +168,11 @@ describe('TaskResolver', () => {
         query: UPDATE_TASK,
         variables: {
           updateTaskId: '1',
-          title: 'Premiere tache update v2'
+          title: 'Premiere tache update v2',
+          attachment: '',
+          progressState: 'IN PROGRESS',
+          description: 'En cours',
+          projectId: '1'
         }
       });
 
@@ -166,12 +211,25 @@ describe('TaskResolver', () => {
   describe('query getTaskByTitle', () => {
     it('query a task by title', async () => {
       await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'test',
+          creatorId: '1',
+          description: 'test',
+          picture: 'test',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01'
+        }
+      });
+
+      await testClient.post('/graphql').send({
         query: CREATE_TASK,
         variables: {
           title: 'Ma super tache',
           attachment: '',
           progressState: 'IN PROGRESS',
-          description: 'En cours'
+          description: 'En cours',
+          projectId: '1'
         }
       });
 
@@ -206,12 +264,25 @@ describe('TaskResolver', () => {
   describe('mutation delete task', () => {
     it('delete a task', async () => {
       await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'test',
+          creatorId: '1',
+          description: 'test',
+          picture: 'test',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01'
+        }
+      });
+
+      await testClient.post('/graphql').send({
         query: CREATE_TASK,
         variables: {
           title: 'Ma super tache',
           progressState: 'IN PROGRESS',
           description: 'En cours',
-          attachment: ''
+          attachment: '',
+          projectId: '1'
         }
       });
 
@@ -233,17 +304,28 @@ describe('TaskResolver', () => {
   });
 
   describe('query getTasks', () => {
-    it('should get task by project id', async () => {
-      // TODO
-    });
+
     it('should get task by id', async () => {
+      await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'test',
+          creatorId: '1',
+          description: 'test',
+          picture: 'test',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01'
+        }
+      });
+
       await testClient.post('/graphql').send({
         query: CREATE_TASK,
         variables: {
           title: 'Ma super tache',
           attachment: '',
           progressState: 'IN PROGRESS',
-          description: 'En cours'
+          description: 'En cours',
+          projectId: '1'
         }
       });
 

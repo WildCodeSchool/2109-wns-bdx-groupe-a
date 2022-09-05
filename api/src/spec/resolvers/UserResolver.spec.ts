@@ -45,8 +45,8 @@ describe('UserResolver', () => {
     `;
 
   const UPDATE_USER = `
-  mutation Mutation($updateUserId: String!, $firstName: String!, $lastName: String!, $email: String!, $password: String!, $role: String!) {
-    updateUser(id: $updateUserId, firstName: $firstName, lastName: $lastName, email: $email, password: $password, role: $role) {
+  mutation Mutation($updateUserId: String!, $firstName: String!, $lastName: String!, $email: String!, $password: String!, $role: String!, $projectId: String!) {
+    updateUser(id: $updateUserId, firstName: $firstName, lastName: $lastName, email: $email, password: $password, role: $role, projectId: $projectId) {
       id
       firstName
       lastName
@@ -114,6 +114,20 @@ describe('UserResolver', () => {
     deleteSession
   }
 `;
+
+const CREATE_PROJECT = `
+mutation ($title: String!, $creatorId: String!, $description: String!, $picture: String!, $startDate: String!, $endDate: String!) {
+createProject(title: $title, creatorId: $creatorId, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
+  id
+  creatorId
+  title
+  description
+  picture
+  start_date
+  end_date
+}
+}
+`
 
   describe('UserResolver', () => {
     it('creates and returns user', async () => {
@@ -198,6 +212,19 @@ describe('UserResolver', () => {
           password: 'test33'
         }
       });
+      
+      await testClient.post('/graphql').send({
+        query: CREATE_PROJECT,
+        variables: {
+          title: 'test',
+          creatorId: '1',
+          description: 'test',
+          picture: 'test',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01'
+        }
+      });
+
 
       const result = await testClient.post('/graphql').send({
         query: UPDATE_USER,
@@ -207,7 +234,8 @@ describe('UserResolver', () => {
           lastName: 'Wayne',
           email: 'Gotham@test.fr',
           role: 'Manager',
-          password: 'test33'
+          password: 'test33',
+          projectId: '1'
         }
       });
 

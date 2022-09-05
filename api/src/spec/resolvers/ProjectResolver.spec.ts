@@ -33,30 +33,48 @@ describe('ProjectResolver', () => {
   afterAll(() => getConnection().close());
 
   describe('mutation createProject', () => {
-    const CREATE_PROJECT = `
-        mutation($title: String!, $description: String, $picture: String, $startDate: DateTime, $endDate: DateTime) {
-            createProject(title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
-                title
-                description
-                picture
-                start_date
-                end_date
-            }
-        }
-        `;
 
-    const UPDATE_PROJECT = ` 
-    mutation Mutation($updateProjectId: String!, $title: String, $description: String, $picture: String, $startDate: DateTime, $endDate: DateTime) {
-      updateProject(id: $updateProjectId, title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
-        id
-    title
-    description
-    picture
-    start_date
-    end_date
+    const CREATE_USER = `
+    mutation($firstName: String!, $lastName: String!, $role: String!, $email: String!, $password: String!) {
+      createUser(firstName: $firstName, lastName: $lastName, role: $role, email: $email, password: $password) {
+        firstName
+        lastName
+        role
+        email
       }
     }
     `;
+
+    const CREATE_PROJECT = `
+    mutation ($title: String!, $creatorId: String!, $description: String!, $picture: String!, $startDate: String!, $endDate: String!) {
+    createProject(title: $title, creatorId: $creatorId, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate) {
+      id
+      creatorId
+      title
+      description
+      picture
+      start_date
+      end_date
+    }
+  }
+  `;
+
+    const UPDATE_PROJECT = `
+    mutation ($updateProjectId: String!, $title: String, $description: String, $picture: String, $startDate: String, $endDate: String, $userId: String) {
+      updateProject(id: $updateProjectId, title: $title, description: $description, picture: $picture, start_date: $startDate, end_date: $endDate, userId: $userId) {
+      title
+      description
+      picture
+      start_date
+      end_date
+      users {
+        email
+        firstName
+        lastName
+      }
+    }
+  }
+  `;
 
     const DELETE_PROJECT = `
     mutation Mutation($deleteProjectId: String!) {
@@ -83,7 +101,11 @@ describe('ProjectResolver', () => {
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 1',
-          description: 'Projet sur les tests unitaires'
+          description: 'Projet sur les tests unitaires',
+          creatorId: '1',
+          picture: 'https://www.google.com',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01',
         }
       });
 
@@ -91,18 +113,35 @@ describe('ProjectResolver', () => {
       expect(JSON.parse(result.text).data?.createProject).toEqual({
         title: 'Projet 1',
         description: 'Projet sur les tests unitaires',
-        end_date: null,
-        picture: null,
-        start_date: null
+        end_date: '2020-01-01',
+        picture: 'https://www.google.com',
+        start_date: '2020-01-01',
+        creatorId: '1',
+        id: '1',
       });
     });
 
     it('update a project', async () => {
       await testClient.post('/graphql').send({
+        query: CREATE_USER,
+        variables: {
+          firstName: 'Alfred',
+          lastName: 'Test',
+          email: 'Bordeaux@test.fr',
+          role: 'Manager',
+          password: 'test33'
+        }
+      })
+
+      await testClient.post('/graphql').send({
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 1',
-          description: 'Un projet sur les tests unitaires'
+          description: 'Projet sur les tests unitaires',
+          creatorId: '1',
+          picture: 'https://www.google.com',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01',
         }
       });
 
@@ -111,18 +150,28 @@ describe('ProjectResolver', () => {
         variables: {
           updateProjectId: '1',
           title: 'Projet 1.0',
-          description: 'Update les tests unitaires'
+          description: 'Update les tests unitaires',
+          picture: 'https://www.google.com',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01',
+          userId: '1',
         }
       });
 
       expect(JSON.parse(result.text).errors).toBeUndefined();
       expect(JSON.parse(result.text).data?.updateProject).toEqual({
-        id: '1',
         title: 'Projet 1.0',
         description: 'Update les tests unitaires',
-        end_date: null,
-        picture: null,
-        start_date: null
+        end_date: '2020-01-01',
+        picture: 'https://www.google.com',
+        start_date: '2020-01-01',
+        users: [
+          {
+            email: 'Bordeaux@test.fr',
+            firstName: 'Alfred',
+            lastName: 'Test',
+          },
+        ],
       });
     });
 
@@ -131,7 +180,11 @@ describe('ProjectResolver', () => {
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 1',
-          description: 'Projet sur les tests unitaires'
+          description: 'Projet sur les tests unitaires',
+          creatorId: '1',
+          picture: 'https://www.google.com',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01',
         }
       });
 
@@ -146,9 +199,9 @@ describe('ProjectResolver', () => {
       expect(JSON.parse(result.text).data?.deleteProject).toEqual({
         title: 'Projet 1',
         description: 'Projet sur les tests unitaires',
-        end_date: null,
-        picture: null,
-        start_date: null
+        picture: 'https://www.google.com',
+          start_date: '2020-01-01',
+          end_date: '2020-01-01',
       });
     });
 
@@ -157,14 +210,22 @@ describe('ProjectResolver', () => {
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 1',
-          description: 'Projet sur les tests unitaires'
+          description: 'Projet sur les tests unitaires',
+          creatorId: '1',
+          picture: 'https://www.google.com',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01',
         }
       });
       await testClient.post('/graphql').send({
         query: CREATE_PROJECT,
         variables: {
           title: 'Projet 2',
-          description: 'Projet trello'
+          description: 'Projet 2 sur les tests unitaires',
+          creatorId: '1',
+          picture: 'https://www.wildcodeschool.com',
+          startDate: '2020-01-01',
+          endDate: '2020-01-01',
         }
       });
 
@@ -179,7 +240,7 @@ describe('ProjectResolver', () => {
           id: '1',
           title: 'Projet 1'
         },
-        { description: 'Projet trello', id: '2', title: 'Projet 2' }
+        { description: 'Projet 2 sur les tests unitaires', id: '2', title: 'Projet 2' }
       ]);
     });
   });
